@@ -1,0 +1,299 @@
+@font-face {
+    font-family: 'promo'; 
+    src: url('../ressources/font-family/OhMyBaby-x3nLr.ttf') format('truetype'); /
+}
+/* *{
+    border: 1px solid red;
+} */
+
+body{
+    margin: 0;
+    padding: 0;
+    background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+font-family: 'promo';
+overflow-x: hidden;
+}
+h1{
+    width: 100%;
+    margin: 3% auto;
+    background: linear-gradient(90deg, rgba(238,174,202,1) 18%, rgba(121,174,237,1) 72%);
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        background-clip: text;
+        color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 4em;
+    -webkit-font-smoothing: antialiased;
+    /* background: radial-gradient(circle, rgba(238,174,202,1) 18%, rgba(148,187,233,1) 73%); */
+}
+
+img{
+ width: 58%;
+}
+
+#contain-images{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    width: 100%;
+    /* gap:  10%; */
+    
+}
+
+.image{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    
+}
+
+.flex-start {
+    display: flex;
+    justify-content: flex-start !important;
+    margin-left: 5%;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: flex-end !important;
+    margin-right: 5%;
+}
+/* #contain-images .image:first-child {
+    
+    justify-content: flex-end;
+}
+
+#contain-images .image:nth-child(n+2) {
+    justify-content: flex-start;
+}
+#contain-images .image:nth-child(n+3) {
+    justify-content: flex-end;
+}
+#contain-images .image:nth-child(n+4) {
+    justify-content: flex-start;
+}
+#contain-images .image:nth-child(n+5) {
+    justify-content: flex-end;
+}
+#contain-images .image:nth-child(n+6) {
+    justify-content: flex-start;
+}
+#contain-images .image:nth-child(n+7) {
+    justify-content: flex-end;
+}
+#contain-images .image:nth-child(n+8) {
+    justify-content: flex-start;
+}
+#contain-images .image:nth-child(n+9) {
+    justify-content: flex-end;
+} */
+
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Appliquez l'animation aux images */
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideInFromTop 1s ease-in-out; /* Ajustez la durée selon vos préférences */
+}
+
+/* Animation de mouvement circulaire sur elle-même */
+@keyframes rotateCircular {
+    0%, 50% {
+        transform: rotate(2deg);
+    }
+    0%, 100% {
+        transform: rotate(-2deg); 
+    }
+}
+
+
+/* Applique l'animation aux images après l'apparition */
+.image.circular {
+    width: auto;
+    max-width: 100%;
+    animation: rotateCircular 10s linear infinite; 
+}
+
+#footer{
+    display: flex;
+    background-color: black;
+    justify-content: center;
+    bottom: 10%;
+}
+
+#logo-decaroli{
+    margin:0 auto;
+    width: 13%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+
+
+#fleche{
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    width: 40px;
+    position: fixed;
+    cursor: pointer;
+}
+
+#fleche.active {
+    opacity: 1;
+    
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(-10px); /* Ajustez la distance de l'animation selon vos préférences */
+    }
+}
+#cercle {
+    display: none;
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border-radius: 100px;
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+
+#cercle.active {
+    opacity: 1;
+    animation: bounce 0.5s infinite alternate;
+}
+
+#cercle:hover {
+    opacity: 0.5;
+}
+
+
+
+/* Media query pour les grands écrans mobiles (ex. : iPhone 11 Pro Max, Galaxy S21) */
+@media (min-width: 768px) and (max-width:998px) {
+  h1{
+    font-size:3em;
+    width: 50%;
+  }
+
+  img{
+    width: 80%;
+   }
+   .image.circular {
+    width: auto;
+    max-width: 100%;
+    animation: rotateCircular 4s linear infinite; 
+}
+}
+
+
+
+
+
+/* Media query pour les écrans mobiles de taille moyenne (ex. : iPhone 8, XR) */
+@media (min-width: 321px) and (max-width: 767px) {
+    /* Styles spécifiques aux écrans mobiles de taille moyenne */
+    #contain-images{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); 
+        /* gap: 10%; */
+    }
+    h1{
+        font-size: 2.2em;
+        width: 100%;
+    }
+
+    img{
+        width: 80%;
+       }
+    
+
+    #contain-images .image:first-child {
+    
+        justify-content: center;
+    }
+    
+    #contain-images .image:nth-child(n+2) {
+        justify-content: center;
+    }
+    #contain-images .image:nth-child(n+3) {
+        justify-content: center;
+    }
+    #contain-images .image:nth-child(n+4) {
+        justify-content: center;
+    }
+    #contain-images .image:nth-child(n+5) {
+        justify-content: center;
+    }
+    .image.circular {
+        width: auto;
+        max-width: 100%;
+        animation: rotateCircular 4s linear infinite; 
+    }
+}
+
+
+
+/* Media query pour les petits écrans mobiles (ex. : iPhone SE) */
+@media (max-width: 320px) {
+    #contain-images{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); 
+        /* gap: 10%; */
+    }
+    h1{
+        font-size:2em;
+        width: 100%;
+    }
+
+    img{
+        width: 80%;
+       }
+    
+
+    #contain-images .image:first-child {
+    
+        justify-content: center;
+    }
+    
+    #contain-images .image:nth-child(n+2) {
+        justify-content: center;
+    }
+    #contain-images .image:nth-child(n+3) {
+        justify-content: center;
+    }
+    #contain-images .image:nth-child(n+4) {
+        justify-content: center;
+    }
+    #contain-images .image:nth-child(n+5) {
+        justify-content: center;
+    }
+    .image.circular {
+        width: auto;
+        max-width: 100%;
+        animation: rotateCircular 4s linear infinite; 
+    }
+    #cercle{
+        display: none;
+    }
+}
