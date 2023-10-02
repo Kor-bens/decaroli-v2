@@ -5,7 +5,7 @@
 
 // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
 if (!isset($_SESSION['nom'])) {
-  header("Location: /login/admin");
+  header("Location: /login");
   exit;
 }
  ?>
@@ -38,30 +38,49 @@ if (!isset($_SESSION['nom'])) {
           <div id="container-titre">
               <label for="titre">Modifier le titre:</label><br>
               <input id="input-titre" type="text" name="titre" value="<?= $donneesOrigine[0]['titre'] ?>"><br>
+              <label id="titre-color" for="titre_color">Modifier la couleur du titre:</label>
+              <input id="input-titre-color" type="text" name="titre_color" value="<?= $donneesOrigine[0]['titre_color'] ?>">
           </div>
+
           <div id="container-image">
-                <div id="container-ajout-image">
-                <input id="input-ajouter-image" type="button" value="Ajouter des images" onclick="chooseFile()">
-                <span id="custom-file-label">Aucun fichier sélectionné</span>
-                <input type="file" name="image" accept="image/*" id="image" style="display: none;">
-                </div>
+              <div id="container-ajout-image">
+                  <label for="image" id="label-ajouter-image">Ajouter des images</label>
+                  <button type="button" id="bouton-ajouter-image">Sélectionner des images</button>
+                  <input id="input-ajouter-image" type="file" name="image" accept="image/*" style="display: none;">
+              </div>
+          <!-- Ajoutez un élément img pour afficher l'image sélectionnée -->
+               <img id="image-selectionnee" src="" alt="Image sélectionnée" style="display: none;">
           </div>
+
           <div id="container-background">
               <label for="background">Modifier le body:</label><br>
               <input type="text" name="background" value="<?= $donneesOrigine[0]['bkgd_color'] ?>"><br>
           </div> 
          <button id="bouton-form"type ="submit">Valider</button>
     </form>
-              <form action="/supprimer-image"></form>
+             
                 <div id="container-image-db">
+                <?php
+                // Fonction de comparaison pour trier le tableau par ID croissant
+                function compareById($a, $b) {
+                    return $a['id_image'] - $b['id_image'];
+                }
+                // Tri du tableau $donneesOrigine par ID croissant
+                usort($donneesOrigine, 'compareById'); ?>
                   <?php foreach ($donneesOrigine as $image) : ?>
                       <div class="image">
                           <img src="../../assets/ressources/images/<?=$image['url'] ?>" alt="<?= $image['nom_image'] ?>">
-                          <button class="bouton-supprimer-image" data-id="<?=$image['id_image']?>">Supprimer</button>
-                          <button class="bouton-modifier-image">Modifier</button>
+                            <?php if (isset($image['id_image'])) { ?>
+                              <button class="bouton-supprimer-image" data-id="<?=$image['id_image']?>">Supprimer</button>
+                                <!-- Champ de téléchargement de fichier pour la modification -->
+                              <input type="file" class="champ-modifier-image input-image" data-id="<?=$image['id_image']?>">
+                              <button for="file" class="bouton-modifier-image" data-id="<?=$image['id_image']?>">Modifier</button>
+                            <?php } ?>  
                       </div>
+                      <!-- <?php var_dump($donneesOrigine) ?> -->
                   <?php endforeach; ?>
                   </div>
+                
   </div>
 
 

@@ -18,16 +18,15 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $cntrlAppli = new CntrlAppli();
 
-if      ($method == 'GET'   && $route == '/index')                      $cntrlAppli->afficherPagePromo();
-else if ($method == 'GET'   && $route == '/')                           $cntrlAppli->afficherPagePromo();
-else if ($method == 'GET'   && $route == '/login')                      $cntrlAppli->afficherPageLogin(); 
-else if ($method == 'GET'   && $route == '/admin')                      $cntrlAppli->afficherPageAdmin(); 
-else if ($method == 'POST'  && $route == '/connexion')                  $cntrlAppli->connexion(); 
-else if ($method == 'GET'  && $route == '/deconnexion')                 $cntrlAppli->deconnexion();   
-// else if ($method == 'POST' && $route == '/traitement-titre')        $cntrlAppli->modifTitre(); 
-// else if ($method == 'POST' && $route == '/traitement-background')   $cntrlAppli->modifBackground();  
-else if ($method == 'POST' && $route == '/traitement-formulaire')       $cntrlAppli->traitementFormulaire();    
-else if ($method == 'DELETE' && $route == '/supprimer-image')           $cntrlAppli->supprimerImage();    
+if      ($method == 'GET'    && $route == '/index')                      $cntrlAppli->afficherPagePromo();
+else if ($method == 'GET'    && $route == '/')                           $cntrlAppli->afficherPagePromo();
+else if ($method == 'GET'    && $route == '/login')                      $cntrlAppli->afficherPageLogin(); 
+else if ($method == 'GET'    && $route == '/admin')                      $cntrlAppli->afficherPageAdmin(); 
+else if ($method == 'POST'   && $route == '/connexion')                  $cntrlAppli->connexion(); 
+else if ($method == 'GET'    && $route == '/deconnexion')                 $cntrlAppli->deconnexion();   
+else if ($method == 'POST'   && $route == '/traitement-formulaire')       $cntrlAppli->traitementFormulaire();    
+else if ($method == 'DELETE' && $route == '/supprimer-image')             $cntrlAppli->supprimerImage();    
+else if ($method == 'POST'   && $route == '/modifier-image')               $cntrlAppli->modifierImage($idImageModifier);     
    
 
 

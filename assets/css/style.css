@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'promo'; 
-    src: url('../ressources/font-family/OhMyBaby-x3nLr.ttf') format('truetype'); /
+    font-family: 'montserrat'; 
+    src: url('../ressources/font-family/montserrat/Montserrat-VariableFont_wght.ttf') format('truetype'); /
 }
 /* *{
     border: 1px solid red;
@@ -11,17 +11,17 @@ body{
     padding: 0;
     background: rgb(238,174,202);
 background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
-font-family: 'promo';
+font-family: 'montserrat';
 overflow-x: hidden;
 }
 h1{
     width: 100%;
     margin: 3% auto;
-    background: linear-gradient(90deg, rgba(238,174,202,1) 18%, rgba(121,174,237,1) 72%);
+    /* background: linear-gradient(90deg, rgba(238,174,202,1) 18%, rgba(121,174,237,1) 72%); */
         -webkit-background-clip: text;
         -moz-background-clip: text;
         background-clip: text;
-        color: rgb(255, 255, 255);
+        /* color: rgb(255, 255, 255); */
     text-align: center;
     font-size: 4em;
     -webkit-font-smoothing: antialiased;

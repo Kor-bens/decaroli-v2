@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
  <style>
-        body {
-            background: <?= $donneesOrigine[0]['bkgd_color'] ?>;
-        }
+        body {background: <?= $donneesOrigine[0]['bkgd_color'] ?>;}
+        h1 {background: <?= $donneesOrigine[0]['bkgd_color'] ?>;}
     </style>  
 <body>
     
@@ -19,6 +18,13 @@
     var_dump($donneesOrigine);?> -->
 
     <div id="contain-images">
+    <?php
+    // Fonction de comparaison pour trier le tableau par ID croissant
+    function compareById($a, $b) {
+        return $a['id_image'] - $b['id_image'];
+    }
+    // Tri du tableau $donneesOrigine par ID croissant
+    usort($donneesOrigine, 'compareById');?>
     <?php foreach ($donneesOrigine as $image) : ?>
         <div class="image"><img src="../../assets/ressources/images/<?=$image['url'] ?>" alt="<?= $image['nom_image'] ?>"></div>
     <?php endforeach; ?>

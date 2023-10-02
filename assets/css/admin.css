@@ -23,11 +23,17 @@ a{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin-top: 3%;
     /* background-color: red; */
 }
 label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
+    text-align: center;
+    
 }
 
 #form{
@@ -36,18 +42,19 @@ label{
     align-items: center;
 }
 #container-titre{
-    margin-top: 3%;
+    margin-top: 10%;
+  
 }
 
 #container-image{
-    margin-top: 2%;
+    margin-top: 10%;
+}
+#titre-color{
+    margin-top: 10%;
 }
 
-#container-ajout-image{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+#bouton-ajouter-image{
+  margin-top: 5%;
 }
 input{
     border-radius: 5px;
@@ -62,7 +69,7 @@ input{
 }
 
 #container-background{
-    margin-top: 2%;
+    margin-top: 10%;
     /* margin-bottom: 3%; */
 }
 img{
@@ -86,6 +93,11 @@ img{
     /* justify-content: center;  */
     align-items: center; 
 }
+
+/* Masquer le texte "Choisir un fichier" dans les champs de téléchargement de fichier */
+.input-image {
+    display: none;
+}
 .flex-start {
     display: flex;
     justify-content: flex-start !important;
@@ -98,12 +110,9 @@ img{
     margin-right: 5%;
 }
 
-.bouton-supprimer-image{
-    flex: 0 0 5%; /* Limite la largeur à 5% sans redimensionnement */
-}
-.bouton-modifier-image{
-    flex: 0 0 5%;
-}
+/* #fichier-image{
+    display: none;
+} */
 
 
 

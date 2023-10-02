@@ -65,11 +65,12 @@ class DaoAppli{
 
    
 
-    public function modifBackgroundTitre($nouveauTitre,$nouveauBackground){
+    public function modifBackgroundTitre($nouveauTitre,$nouveauBackground,$nouvelleCouleurTitre){
         $requete    = Requete::REQ_MODIF_BACKGROUND;
         $stmt       = $this->db->prepare($requete);
         $stmt       ->bindParam(':background', $nouveauBackground);
         $stmt       ->bindParam(':titre', $nouveauTitre);
+        $stmt       ->bindParam(':titre_color', $nouvelleCouleurTitre);
         $stmt       ->execute();
     }
 
@@ -82,6 +83,7 @@ class DaoAppli{
         while ($resultat = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $donneesOrigine[] = [
                 'titre'      => $resultat['titre'],
+                'titre_color'=> $resultat['titre_color'],
                 'bkgd_color' => $resultat['bkgd_color'],
                 'nom_image'  => $resultat['nom_image'],
                 'url'        => $resultat['url'],
@@ -110,6 +112,31 @@ class DaoAppli{
     $stmt    ->bindParam(':idImage', $idImage, PDO::PARAM_INT);
     $stmt    ->execute();
   }
+  
+  public function modifierImage($nouveauNomImage, $nouvelleUrl, $idImageModifier){
+   $requete = Requete::REQ_MODIF_IMAGE;
+   $stmt    = $this->db->prepare($requete);
+   $stmt    -> bindParam(':nom_image', $nouveauNomImage, PDO::PARAM_STR);
+   $stmt    -> bindParam(':url',       $nouvelleUrl, PDO::PARAM_STR);
+   $stmt    -> bindParam(':id_image',  $idImageModifier, PDO::PARAM_INT);
+   
+   try {
+        if ($stmt->execute()) {
+            // La modification de l'image a réussi
+            return true;
+                } else {
+                    // La modification de l'image a échoué
+                    return false;
+                }
+                    } catch (PDOException $e) {
+                // Gérer les erreurs de base de données
+                // Vous pouvez enregistrer ou renvoyer l'erreur ici
+                return false;
+         }
+    }
+
 }
+
+
 
     

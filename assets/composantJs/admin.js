@@ -1,23 +1,9 @@
 let images          = document.querySelectorAll("img");
-let boutonSupprimer = document.querySelector(".bouton-supprimer-image");
-let boutonModifier  = document.querySelector(".bouton-modifier-image");
-boutonModifier.style.display="none";
-boutonSupprimer.style.display="none";
-
-images.forEach((img) => {
-    boutonSupprimer.style.display ="flex";
-    boutonModifier.style.display  ="flex";
-   img.appendChild(boutonSupprimer);
-   img.appendChild(boutonModifier);
-});
-
 
 document.addEventListener("DOMContentLoaded", function () {
     // Sélectionnez toutes les images par leur classe CSS
     const images = document.querySelectorAll(".image");
-    // images.style.display = "flex";
-
-  
+   
     // Parcourez chaque image et attribuez une classe en fonction de la position
     images.forEach((image, index) => {
         if (index % 2 === 0) {
@@ -30,21 +16,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function chooseFile() {
-    document.getElementById('image').click(); // Cliquez sur l'élément file input
-}
-
-document.getElementById('image').addEventListener('change', function() {
-    const fileInput = document.getElementById('image');
-    const customFileLabel = document.getElementById('custom-file-label');
+document.addEventListener("DOMContentLoaded", function () {
+    const labelAjouterImage = document.getElementById("label-ajouter-image");
+    const boutonAjouterImage = document.getElementById("bouton-ajouter-image");
+    const inputAjouterImage = document.getElementById("input-ajouter-image");
+    const imageSelectionnee = document.getElementById("image-selectionnee");
     
-    if (fileInput.files.length > 0) {
-        customFileLabel.textContent = fileInput.files[0].name;
-    } else {
-        customFileLabel.textContent = 'Aucun fichier sélectionné';
+    if (labelAjouterImage && boutonAjouterImage && inputAjouterImage && imageSelectionnee) {
+        // Lorsque le bouton est cliqué, déclenchez le champ de fichier
+        boutonAjouterImage.addEventListener("click", function () {
+            inputAjouterImage.click();
+        });
+        
+        // Lorsque l'utilisateur a sélectionné un fichier, lisez-le et affichez-le
+        inputAjouterImage.addEventListener("change", function () {
+            const files = inputAjouterImage.files;
+            if (files.length > 0) {
+                // Lisez le fichier en tant qu'objet Blob
+                const blob = URL.createObjectURL(files[0]);
+                
+                // Mettez à jour l'élément img avec l'URL de l'image
+                imageSelectionnee.src = blob;
+                imageSelectionnee.style.display = "flex"; // Affichez l'image
+                imageSelectionnee.style.margin= "0 auto";
+            } else {
+                // Cachez l'image si aucun fichier n'est sélectionné
+                imageSelectionnee.src = "";
+                imageSelectionnee.style.display = "none";
+            }
+        });
     }
 });
-
-
-
   

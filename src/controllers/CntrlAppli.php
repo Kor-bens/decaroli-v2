@@ -69,13 +69,13 @@ class CntrlAppli {
             $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
             Message::setErrorMessage($errorMessage);
             
-            if (!empty($errorMessage)) {
-                require_once 'src/views/login.php';
-            } else { 
-                // Redirigez l'utilisateur après une connexion réussie
-                header('Location: /admin');
-                exit;
-            }
+          if (!empty($errorMessage)) {
+    require_once 'src/views/login.php';
+} else { 
+    // Redirigez l'utilisateur après une connexion réussie
+    header('Location: /admin');
+    exit; // Assurez-vous d'appeler exit() pour arrêter l'exécution du script après la redirection
+}
         }
 
         public function deconnexion(){
@@ -97,40 +97,40 @@ class CntrlAppli {
         public function traitementFormulaire(){
             $nouveauTitre = $_POST['titre'];
             $nouveauBackground = $_POST['background'];
-        
+            $nouvelleCouleurTitre = $_POST['titre_color'];
+            
             // Mettez à jour le fond d'écran de la page dans DaoAppli
             $dao = new DaoAppli();
-            $dao->modifBackgroundTitre($nouveauTitre,$nouveauBackground);
-            // $dao->modifTitre($nouveauTitre);
-           
+            $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre); 
+            
             $donneesOrigine = $this->getDonneestable();
             // Initialisez le tableau des informations sur les images
-           
+            
             if (isset($_FILES['image'])) {
                 // Informations sur le fichier téléchargé
                 $nomFichier = $_FILES['image']['name']; // Nom du fichier image
                 $typeFichier = $_FILES['image']['type'];
                 $tailleFichier = $_FILES['image']['size'];
                 $fichierTemporaire = $_FILES['image']['tmp_name'];
-        
+                
                 // Vérifier que le fichier est une image ex: le type
                 $extensionsAutorisées = array('image/jpeg', 'image/png', 'image/gif');
                 if (!in_array($typeFichier, $extensionsAutorisées)) {
                     echo "Seules les images au format JPEG, PNG ou GIF sont autorisées."; 
-                    require_once 'src/views/admin.php';
+                    // require_once 'src/views/admin.php';
                 }
-        
+                
                 // Générez un nom unique pour le fichier pour éviter l'écrasement d'image
                 $nomUnique = uniqid() . '_' . $nomFichier;  
                 $cheminStockage = 'assets/ressources/images/' . $nomUnique;
-        
+                
                 // Déplacez le fichier téléchargé vers le répertoire de stockage des images
                 if (move_uploaded_file($fichierTemporaire, $cheminStockage)) {
                     // Le téléchargement a réussi, vous pouvez maintenant insérer le nom du fichier dans la base de données
                     $idPage = 1; // Remplacez par l'ID de la page appropriée
                     $dao->traitementImage($nomUnique, $nomFichier, $idPage); 
                     echo $nomFichier;
-        
+                    
                     // Ajoutez également les informations sur l'image téléchargée à la liste des images
                     $infoImages[] = [
                         'nom_image' => $nomUnique, // Utilisez le nom unique du fichier
@@ -139,14 +139,11 @@ class CntrlAppli {
                 }
             }
             
-            
-           header('Location: /admin');
+            header('Location: /admin');
             exit; // Assurez-vous d'appeler exit() pour arrêter l'exécution du script après la redirection
         }
-
-        public function supprimerImage(){
-            require_once 'src/dao/DaoAppli.php';
         
+        public function supprimerImage() {
             $idImageASupprimer = isset($_GET['idImage']) ? intval($_GET['idImage']) : 0;
             
             if ($idImageASupprimer > 0) {
@@ -154,9 +151,30 @@ class CntrlAppli {
                 $dao->supprimerImage($idImageASupprimer);
             }
             
-            // Redirigez l'utilisateur vers la page admin (ou une autre page appropriée)
-            header("Location: /admin");
+            // Répondez à la requête AJAX
+            http_response_code(200); // OK
             exit();
+        }
+        
+        public function modifierImage($idImageModifier){
+            require_once 'src/dao/DaoAppli.php';
+        
+            // Vous devez obtenir les nouvelles informations de l'image depuis le formulaire de modification
+            $nouveauNomImage = $_POST['nouveau_nom_image']; // Le nom de la nouvelle image
+            $nouvelleUrl = $_POST['nouvelle_url']; // La nouvelle URL de l'image
+            
+            $dao = new DaoAppli();
+            $resultat = $dao->modifierImage($nouveauNomImage, $nouvelleUrl, $idImageModifier);
+        
+            if ($resultat) {
+                // La modification de l'image a réussi
+                // Faites quelque chose en conséquence (par exemple, redirigez l'utilisateur)
+                // Vous pouvez également envoyer une réponse JSON si c'est une requête AJAX
+            } else {
+                // La modification de l'image a échoué
+                // Gérez l'échec (par exemple, affichez un message d'erreur)
+                // Vous pouvez également envoyer une réponse JSON si c'est une requête AJAX
+            }
         }
        
 }
