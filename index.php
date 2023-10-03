@@ -23,11 +23,11 @@ else if ($method == 'GET'    && $route == '/')                           $cntrlA
 else if ($method == 'GET'    && $route == '/login')                      $cntrlAppli->afficherPageLogin(); 
 else if ($method == 'GET'    && $route == '/admin')                      $cntrlAppli->afficherPageAdmin(); 
 else if ($method == 'POST'   && $route == '/connexion')                  $cntrlAppli->connexion(); 
-else if ($method == 'GET'    && $route == '/deconnexion')                 $cntrlAppli->deconnexion();   
-else if ($method == 'POST'   && $route == '/traitement-formulaire')       $cntrlAppli->traitementFormulaire();    
-else if ($method == 'DELETE' && $route == '/supprimer-image')             $cntrlAppli->supprimerImage();    
-else if ($method == 'POST'   && $route == '/modifier-image')               $cntrlAppli->modifierImage($idImageModifier);     
-   
+else if ($method == 'GET'    && $route == '/deconnexion')                $cntrlAppli->deconnexion();   
+else if ($method == 'POST'   && $route == '/traitement-formulaire')      $cntrlAppli->traitementFormulaire();    
+else if ($method == 'DELETE' && $route == '/supprimer-image')            $cntrlAppli->supprimerImage();    
+else if ($method == 'POST'   && $route == '/modifier-image')             $cntrlAppli->modifierImage($idImageModifier);     
+  
 
 
 else{

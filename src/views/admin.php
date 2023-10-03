@@ -59,7 +59,7 @@ if (!isset($_SESSION['nom'])) {
          <button id="bouton-form"type ="submit">Valider</button>
     </form>
              
-                <div id="container-image-db">
+                <div id="container-image-db" class="container-image-db">
                 <?php
                 // Fonction de comparaison pour trier le tableau par ID croissant
                 function compareById($a, $b) {

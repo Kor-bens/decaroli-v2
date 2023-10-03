@@ -1,8 +1,14 @@
-let images          = document.querySelectorAll("img");
-
 document.addEventListener("DOMContentLoaded", function () {
     // Sélectionnez toutes les images par leur classe CSS
     const images = document.querySelectorAll(".image");
+    const containImageDb = document.querySelector(".container-image-db");
+
+    // Appliquez les styles CSS à cet élément
+    containImageDb.style.display = "grid";
+    containImageDb.style.gridTemplateColumns = "repeat(2, 1fr)";
+    containImageDb.style.width = "100%";
+    containImageDb.style.marginBottom = "2%";
+    containImageDb.style.marginTop = "2%";
    
     // Parcourez chaque image et attribuez une classe en fonction de la position
     images.forEach((image, index) => {
