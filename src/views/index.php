@@ -11,8 +11,6 @@
         h1 {background: <?= $donneesOrigine[0]['bkgd_color'] ?>;}
     </style>  
 <body>
-    
-
 <h1><?= $donneesOrigine[0]['titre'] ?></h1>
      <!-- <?php echo $donneesOrigine[0]['titre'];
     var_dump($donneesOrigine);?> -->
@@ -28,9 +26,6 @@
     <?php foreach ($donneesOrigine as $image) : ?>
         <div class="image"><img src="../../assets/ressources/images/<?=$image['url'] ?>" alt="<?= $image['nom_image'] ?>"></div>
     <?php endforeach; ?>
-    
-    
-        
     </div>
 
     <div id="div-fleche">

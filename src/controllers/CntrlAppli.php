@@ -156,7 +156,7 @@ class CntrlAppli {
             exit();
         }
         
-        public function modifierImage($idImageModifier){
+        public function modifierImage(){
             require_once 'src/dao/DaoAppli.php';
         
             // Vous devez obtenir les nouvelles informations de l'image depuis le formulaire de modification

@@ -86,6 +86,6 @@ if (!isset($_SESSION['nom'])) {
 
 
 <script src="../../assets/composantJs/admin.js"></script>
-<script src="../../assets/composantJs/supprimerImage.js"></script>
+<script src="../../assets/composantJs/supprimerModifierImage.js"></script>
 </body>
 </html>

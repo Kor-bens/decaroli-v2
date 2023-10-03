@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Déterminez si le bouton cliqué est un bouton "Supprimer" ou "Modifier"
             const action = bouton.classList.contains("bouton-supprimer-image") ? "supprimer" : "modifier";
-            console.log(action);
+            console.log(action, idImage);
             if (action === "modifier") {
                 // Déclencher le champ de téléchargement de fichier associé
                 const champModifierImage = document.querySelector(`.champ-modifier-image[data-id="${idImage}"]`);
@@ -44,7 +44,9 @@ document.addEventListener("change", function (event) {
 
         if (fichierImage) {
             const formData = new FormData();
-            formData.append("idImage", idImage);
+            formData.append("idImageModifier", idImage); // ID de l'image à modifier
+            formData.append("nouveau_nom_image", fichierImage.name); // Nom du fichier sélectionné
+            formData.append("nouvelle_url", generateUniqueURL(fichierImage.name)); // Générez une URL unique
             formData.append("nouvelleImage", fichierImage);
 
             // Envoyez une requête AJAX pour modifier l'image
@@ -67,3 +69,10 @@ document.addEventListener("change", function (event) {
         }
     }
 });
+
+// Fonction pour générer une URL unique basée sur le nom du fichier
+function generateUniqueURL(fileName) {
+    const timestamp = new Date().getTime(); // Obtenez un horodatage unique
+    const uniqueURL = `${fileName}_${timestamp}`;
+    return uniqueURL;
+}
