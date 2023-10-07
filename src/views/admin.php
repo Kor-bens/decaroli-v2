@@ -2,12 +2,18 @@
 
 // var_dump($_SESSION['nom']);
 // var_dump($_SESSION);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
 if (!isset($_SESSION['nom'])) {
   header("Location: /login");
   exit;
 }
+$messageImageError = $_SESSION['messageImageError'] ?? ''; // Récupérez le message d'erreur depuis la session
+unset($_SESSION['messageImageError']); // Supprimez le message d'erreur de la session
+$message = $_SESSION['message'] ?? '';
+unset($_SESSION['message']);
  ?>
 <link rel="stylesheet" href="../../assets/css/admin.css">
 <title>DECAROLI - ADMIN</title>
@@ -46,6 +52,9 @@ if (!isset($_SESSION['nom'])) {
               <div id="container-ajout-image">
                   <label for="image" id="label-ajouter-image">Ajouter des images</label>
                   <button type="button" id="bouton-ajouter-image">Sélectionner des images</button>
+                  <?php if (!empty($messageImageError)) { ?>
+                      <p id="message-alert-image"><?php echo $messageImageError; ?></p>
+                  <?php } ?>
                   <input id="input-ajouter-image" type="file" name="image" accept="image/*" style="display: none;">
               </div>
           <!-- Ajoutez un élément img pour afficher l'image sélectionnée -->
@@ -72,17 +81,22 @@ if (!isset($_SESSION['nom'])) {
                           <img src="../../assets/ressources/images/<?=$image['url'] ?>" alt="<?= $image['nom_image'] ?>">
                             <?php if (isset($image['id_image'])) { ?>
                               <button class="bouton-supprimer-image" data-id="<?=$image['id_image']?>">Supprimer</button>
-                                <!-- Champ de téléchargement de fichier pour la modification -->
-                              <input type="file" class="champ-modifier-image input-image" data-id="<?=$image['id_image']?>">
-                              <button for="file" class="bouton-modifier-image" data-id="<?=$image['id_image']?>">Modifier</button>
+                                <!-- Champ de téléchargement de fichier pour la modification de l'image -->
+                                <input type="file" class="champ-modifier-image input-image" data-id="<?=$image['id_image']?>">
+                                <!-- Bouton "Modifier" avec l'attribut onclick -->
+                                <button class="bouton-modifier-image" data-id="<?=$image['id_image']?>">Modifier</button>
                             <?php } ?>  
                       </div>
                       <!-- <?php var_dump($donneesOrigine) ?> -->
                   <?php endforeach; ?>
                   </div>
-                
+                 
   </div>
 
+<?php if(isset($idImageModifier)){
+     var_dump($idImageModifier);
+}
+ ?>
 
 
 <script src="../../assets/composantJs/admin.js"></script>

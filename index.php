@@ -1,6 +1,6 @@
 <?php 
-ini_set('display_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 ini_set('session.cookie_secure', 1); // Utiliser des cookies de session uniquement via HTTPS
 ini_set('session.cookie_httponly', 1); // Empêcher l'accès aux cookies de session via JavaScript
@@ -16,7 +16,7 @@ require_once "src/dao/Requete.php";
 $route = htmlspecialchars(explode("?", $_SERVER['REQUEST_URI'])[0]);
 $method = $_SERVER['REQUEST_METHOD'];
 
-$cntrlAppli = new CntrlAppli();
+$cntrlAppli = new CntrlAppli(); 
 
 if      ($method == 'GET'    && $route == '/index')                      $cntrlAppli->afficherPagePromo();
 else if ($method == 'GET'    && $route == '/')                           $cntrlAppli->afficherPagePromo();

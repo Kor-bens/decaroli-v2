@@ -8,7 +8,8 @@
 </head>
  <style>
         body {background: <?= $donneesOrigine[0]['bkgd_color'] ?>;}
-        h1 {background: <?= $donneesOrigine[0]['bkgd_color'] ?>;}
+        h1 {background: <?= $donneesOrigine[0]['titre_color'] ?>;
+            }
     </style>  
 <body>
 <h1><?= $donneesOrigine[0]['titre'] ?></h1>

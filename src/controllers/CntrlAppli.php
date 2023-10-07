@@ -95,9 +95,9 @@ class CntrlAppli {
         }
 
         public function traitementFormulaire(){
-            $nouveauTitre = $_POST['titre'];
-            $nouveauBackground = $_POST['background'];
-            $nouvelleCouleurTitre = $_POST['titre_color'];
+            $nouveauTitre =         htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
+            $nouveauBackground =    htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
+            $nouvelleCouleurTitre = htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
             
             // Mettez à jour le fond d'écran de la page dans DaoAppli
             $dao = new DaoAppli();
@@ -116,8 +116,9 @@ class CntrlAppli {
                 // Vérifier que le fichier est une image ex: le type
                 $extensionsAutorisées = array('image/jpeg', 'image/png', 'image/gif');
                 if (!in_array($typeFichier, $extensionsAutorisées)) {
-                    echo "Seules les images au format JPEG, PNG ou GIF sont autorisées."; 
-                    // require_once 'src/views/admin.php';
+                    $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
+                    header('Location: /admin');
+                    exit;
                 }
                 
                 // Générez un nom unique pour le fichier pour éviter l'écrasement d'image
@@ -130,51 +131,117 @@ class CntrlAppli {
                     $idPage = 1; // Remplacez par l'ID de la page appropriée
                     $dao->traitementImage($nomUnique, $nomFichier, $idPage); 
                     echo $nomFichier;
-                    
-                    // Ajoutez également les informations sur l'image téléchargée à la liste des images
-                    $infoImages[] = [
-                        'nom_image' => $nomUnique, // Utilisez le nom unique du fichier
-                        'url' => $cheminStockage // Utilisez le chemin de stockage complet
-                    ];
                 }
             }
-            
             header('Location: /admin');
             exit; // Assurez-vous d'appeler exit() pour arrêter l'exécution du script après la redirection
         }
         
         public function supprimerImage() {
             $idImageASupprimer = isset($_GET['idImage']) ? intval($_GET['idImage']) : 0;
-            
+        
             if ($idImageASupprimer > 0) {
                 $dao = new DaoAppli();
+                
+                // Récupérez le nom du fichier image à partir de la base de données
+                $nomFichierImage = $dao->getNomFichierImageById($idImageASupprimer); 
+        
+                // Supprimez l'image de la base de données
                 $dao->supprimerImage($idImageASupprimer);
+        
+                // Supprimez le fichier image du répertoire de stockage
+                if (!empty($nomFichierImage)) {
+                    $cheminFichierImage = 'assets/ressources/images/' . $nomFichierImage;
+                    if (file_exists($cheminFichierImage)) {
+                        unlink($cheminFichierImage);
+                    }
+                }
             }
-            
+        
             // Répondez à la requête AJAX
             http_response_code(200); // OK
             exit();
         }
         
-        public function modifierImage(){
+
+        public function modifierImage() {
             require_once 'src/dao/DaoAppli.php';
         
-            // Vous devez obtenir les nouvelles informations de l'image depuis le formulaire de modification
-            $nouveauNomImage = $_POST['nouveau_nom_image']; // Le nom de la nouvelle image
-            $nouvelleUrl = $_POST['nouvelle_url']; // La nouvelle URL de l'image
-            
-            $dao = new DaoAppli();
-            $resultat = $dao->modifierImage($nouveauNomImage, $nouvelleUrl, $idImageModifier);
+            // Vérifiez si la requête est de type POST
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Récupérez l'identifiant de l'image depuis la requête ou le formulaire
+                $idImageModifier = isset($_POST['idImageModifier']) ? intval($_POST['idImageModifier']) : 0;
         
-            if ($resultat) {
-                // La modification de l'image a réussi
-                // Faites quelque chose en conséquence (par exemple, redirigez l'utilisateur)
-                // Vous pouvez également envoyer une réponse JSON si c'est une requête AJAX
-            } else {
-                // La modification de l'image a échoué
-                // Gérez l'échec (par exemple, affichez un message d'erreur)
-                // Vous pouvez également envoyer une réponse JSON si c'est une requête AJAX
+                // Affichez la valeur de $idImageModifier à des fins de débogage
+                echo "Valeur de \$idImageModifier : " . $idImageModifier;
+        
+                // Assurez-vous que l'ID de l'image est valide
+                if ($idImageModifier > 0) {
+                    $dao = new DaoAppli();
+        
+                    // Informations sur le fichier téléchargé
+                    if (!isset($_FILES['nouvelleImage']['error']) || $_FILES['nouvelleImage']['error'] !== UPLOAD_ERR_OK) {
+                        $_SESSION['messageImageError'] = "Erreur lors du téléchargement de la nouvelle image.";
+                        header('Location: /admin');
+                        exit;
+                    }
+        
+                    $extensionsAutorisees = array('jpg', 'jpeg', 'png');
+                    $nomFichier = $_FILES['nouvelleImage']['name'];
+                    $extensionFichier = pathinfo($nomFichier, PATHINFO_EXTENSION);
+        
+                    if (!in_array(strtolower($extensionFichier), $extensionsAutorisees)) {
+                        $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
+                        header('Location: /admin');
+                        exit;
+                    }
+        
+                    $fichierTemporaire = $_FILES['nouvelleImage']['tmp_name'];
+        
+                    // Générez un nom unique pour le fichier pour éviter l'écrasement d'image
+                    $nomUnique = uniqid() . '_' . $nomFichier;
+                    $cheminStockage = 'assets/ressources/images/' . $nomUnique;
+        
+                    // Déplacez le fichier téléchargé vers le répertoire de stockage des images
+                    if (move_uploaded_file($fichierTemporaire, $cheminStockage)) {
+                        // Le téléchargement a réussi, vous pouvez maintenant insérer le nom du fichier dans la base de données
+                        $resultat = $dao->getNomFichierImageById($idImageModifier); // Récupérez le nom actuel du fichier
+                        $ancienNomImage = $resultat['nom_image']; // Nom du fichier actuel dans la base de données
+        
+                        // Affichez les valeurs de $nomUnique et $ancienNomImage à des fins de débogage
+                        echo "Nom unique : " . $nomUnique;
+                        echo "Ancien nom d'image : " . $ancienNomImage;
+        
+                        // Mettez à jour le nom de l'image dans la base de données
+                        $resultat = $dao->modifierImage($nomUnique, $cheminStockage, $idImageModifier);
+        
+                        if ($resultat) {
+                            // La modification de l'image a réussi
+        
+                            // Supprimez l'ancien fichier image s'il existe
+                            if (!empty($ancienNomImage)) {
+                                $cheminAncienFichier = 'assets/ressources/images/' . $ancienNomImage;
+                                if (file_exists($cheminAncienFichier)) {
+                                    unlink($cheminAncienFichier); // Supprimez le fichier
+                                }
+                            }
+        
+                            // Vous pouvez envoyer une réponse JSON si nécessaire
+                        } else {
+                            // La modification de l'image a échoué
+                            // Gérez l'échec (par exemple, affichez un message d'erreur)
+                            // Vous pouvez envoyer une réponse JSON si nécessaire
+                            $_SESSION['messageImageError'] = "La modification de l'image a échoué.";
+                        }
+                    } else {
+                        $_SESSION['messageImageError'] = "Erreur lors du déplacement du fichier.";
+                    }
+                }
+                header('Location: /admin');
+                exit;
             }
+            // Redirigez l'utilisateur vers la page d'origine ou une autre page
+            header('Location: /admin');
+            exit;
         }
-       
 }

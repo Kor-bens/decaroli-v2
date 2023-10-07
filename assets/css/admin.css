@@ -56,9 +56,15 @@ label{
 #titre-color{
     margin-top: 10%;
 }
-
+#container-ajout-image{
+    display: flex;
+    flex-direction: column;
+}
 #bouton-ajouter-image{
-  margin-top: 5%;
+  margin: 5% auto;
+}
+#message-alert-image{
+    color: red;
 }
 input{
     border-radius: 5px;

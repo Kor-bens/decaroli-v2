@@ -134,6 +134,18 @@ class DaoAppli{
                 return false;
          }
     }
+    
+    public function getNomFichierImageById($idImage) {
+        $requete  = "SELECT url FROM image WHERE id_image = :id";
+        $stmt     = $this->db->prepare($requete);
+        $stmt->bindParam(':id', $idImage, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return isset($resultat['url']) ? $resultat['url'] : null;
+       
+    }
 
 }
 
