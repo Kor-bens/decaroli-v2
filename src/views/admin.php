@@ -11,9 +11,9 @@ if (!isset($_SESSION['nom'])) {
   exit;
 }
 $messageImageError = $_SESSION['messageImageError'] ?? ''; // Récupérez le message d'erreur depuis la session
-unset($_SESSION['messageImageError']); // Supprimez le message d'erreur de la session
+
 $message = $_SESSION['message'] ?? '';
-unset($_SESSION['message']);
+
  ?>
 <link rel="stylesheet" href="../../assets/css/admin.css">
 <title>DECAROLI - ADMIN</title>
@@ -93,10 +93,30 @@ unset($_SESSION['message']);
                  
   </div>
 
-<?php if(isset($idImageModifier)){
-     var_dump($idImageModifier);
-}
+<?php
+$idImageModifier = $_SESSION['idImageModifier'] ?? '';
+$nouveauNomImage = $_SESSION['nouveauNomImage'] ?? '';
+$nomUnique       = $_SESSION['nomUnique'] ?? '' ;
+$ancienNomImage  = $_SESSION['ancienNom'] ?? '' ;
+var_dump($idImageModifier);
+var_dump($nouveauNomImage);
+var_dump($nomUnique);
+var_dump($ancienNomImage);
+// Afficher les valeurs où vous le souhaitez dans votre code HTML
+echo "ID de l'image modifiée : " . $idImageModifier;?> </br> <?php
+echo "Nouveau nom de l'image : " . $nouveauNomImage;?> </br> <?php
+echo "nom unique : " . $nomUnique;?> </br> <?php
+echo "ancien nom image : " . $ancienNomImage;
  ?>
+ <p>Nom Unique : <?php echo $nomUnique ?></p>
+
+<?php
+// Récupérer le contenu de la mémoire tampon et le stocker dans une variable
+$contenuTampon = ob_get_clean();
+
+// Maintenant, vous pouvez envoyer le contenu de la mémoire tampon à la sortie (page)
+echo $contenuTampon;
+?>
 
 
 <script src="../../assets/composantJs/admin.js"></script>

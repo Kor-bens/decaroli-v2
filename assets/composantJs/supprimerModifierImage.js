@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         bouton.addEventListener("click", function () {
             const idImage = bouton.getAttribute("data-id");
             const champModifierImage = document.querySelector(`.champ-modifier-image[data-id="${idImage}"]`);
-            console.log("id de l'image ", idImage );
+            console.log("id de l'image :", idImage );
             // Lorsque l'utilisateur clique sur le bouton "Modifier", ouvrez la boîte de dialogue de sélection de fichier
             champModifierImage.click();
 
@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (fichierImage) {
                     modifierImage(idImage, fichierImage);
                 }
+                console.log("champModifierImage : ",champModifierImage)
+                console.log("changement du fichier selectionner :" ,fichierImage);
             });
         });
     });
@@ -62,7 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(function (response) {
             if (response.ok) {
                 // L'image a été modifiée avec succès, alertez l'utilisateur ou effectuez d'autres actions
-                alert("Image modifiée avec succès !");
+                // alert("Image modifiée avec succès !");
+                // location.reload();
             } else {
                 console.error("Erreur lors de la modification de l'image.");
             }

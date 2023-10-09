@@ -2,24 +2,30 @@
 require_once 'src/controllers/Message.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/Message.php';
+require_once 'src/controllers/CheckInactivite.php';
 require_once 'src/dao/Requete.php';
 class CntrlAppli {
-
+ 
             public function afficherPagePromo()
         {
             $dao = new DaoAppli();
             // $infoImages = $dao->getImages();
             $donneesOrigine = $this->getDonneestable();
+            $inactiviteChecker = new CheckInactivite(); // Instanciez la classe CheckInactivite
+            $inactiviteChecker->checkUserInactivity();
             require_once 'src/views/index.php';
         }
 
         public function afficherPageLogin()
         {
             require_once 'src/views/login.php';
+            $inactiviteChecker = new CheckInactivite(); // Instanciez la classe CheckInactivite
+            $inactiviteChecker->checkUserInactivity();
         }
         public function afficherPageAdmin()
         {
-
+            $inactiviteChecker = new CheckInactivite(); // Instanciez la classe CheckInactivite
+            $inactiviteChecker->checkUserInactivity();
               $dao = new DaoAppli();
             $donneesOrigine = $this->getDonneestable();
             // Redirigez l'utilisateur vers la page admin (ou une autre page appropriée)
@@ -86,6 +92,8 @@ class CntrlAppli {
             header("Location: /login");
             exit();
         }
+
+      
 
 
         public function getDonneestable() {
@@ -171,9 +179,11 @@ class CntrlAppli {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Récupérez l'identifiant de l'image depuis la requête ou le formulaire
                 $idImageModifier = isset($_POST['idImageModifier']) ? intval($_POST['idImageModifier']) : 0;
+                $nouveauNomImage = isset($_POST['nouveau_nom_image']) ? $_POST['nouveau_nom_image'] : '';
         
                 // Affichez la valeur de $idImageModifier à des fins de débogage
-                echo "Valeur de \$idImageModifier : " . $idImageModifier;
+                $_SESSION['idImageModifier'] = $idImageModifier;
+                $_SESSION['nouveauNomImage'] = $nouveauNomImage;
         
                 // Assurez-vous que l'ID de l'image est valide
                 if ($idImageModifier > 0) {
@@ -201,19 +211,19 @@ class CntrlAppli {
                     // Générez un nom unique pour le fichier pour éviter l'écrasement d'image
                     $nomUnique = uniqid() . '_' . $nomFichier;
                     $cheminStockage = 'assets/ressources/images/' . $nomUnique;
-        
+                    $_SESSION['nomUnique'] = $nomUnique;
                     // Déplacez le fichier téléchargé vers le répertoire de stockage des images
                     if (move_uploaded_file($fichierTemporaire, $cheminStockage)) {
                         // Le téléchargement a réussi, vous pouvez maintenant insérer le nom du fichier dans la base de données
                         $resultat = $dao->getNomFichierImageById($idImageModifier); // Récupérez le nom actuel du fichier
-                        $ancienNomImage = $resultat['nom_image']; // Nom du fichier actuel dans la base de données
+                        $ancienNomImage = $resultat; // Nom du fichier actuel dans la base de données
         
                         // Affichez les valeurs de $nomUnique et $ancienNomImage à des fins de débogage
-                        echo "Nom unique : " . $nomUnique;
-                        echo "Ancien nom d'image : " . $ancienNomImage;
+                       
+                        $_SESSION['ancienNom'] = $ancienNomImage;
         
                         // Mettez à jour le nom de l'image dans la base de données
-                        $resultat = $dao->modifierImage($nomUnique, $cheminStockage, $idImageModifier);
+                        $resultat = $dao->modifierImage($nouveauNomImage, $nomUnique, $idImageModifier);
         
                         if ($resultat) {
                             // La modification de l'image a réussi
@@ -225,13 +235,16 @@ class CntrlAppli {
                                     unlink($cheminAncienFichier); // Supprimez le fichier
                                 }
                             }
-        
+                            
+                            header('Location: /admin');
+                             exit;
                             // Vous pouvez envoyer une réponse JSON si nécessaire
                         } else {
                             // La modification de l'image a échoué
                             // Gérez l'échec (par exemple, affichez un message d'erreur)
                             // Vous pouvez envoyer une réponse JSON si nécessaire
                             $_SESSION['messageImageError'] = "La modification de l'image a échoué.";
+                            header('Location: /admin?error=1'); // Vous pouvez utiliser un paramètre "error" pour indiquer l'erreur
                         }
                     } else {
                         $_SESSION['messageImageError'] = "Erreur lors du déplacement du fichier.";
@@ -243,5 +256,7 @@ class CntrlAppli {
             // Redirigez l'utilisateur vers la page d'origine ou une autre page
             header('Location: /admin');
             exit;
+             // Affichez la valeur de $idImageModifier à des fins de débogage
+            
         }
 }

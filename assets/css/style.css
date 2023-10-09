@@ -125,11 +125,14 @@ img{
     animation: rotateCircular 10s linear infinite; 
 }
 
-#footer{
-    display: flex;
+#footer {
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: black;
+    display: flex;
     justify-content: center;
-    bottom: 10%;
+    padding: 10px; /* Vous pouvez ajuster la marge selon vos besoins */
 }
 
 #logo-decaroli{

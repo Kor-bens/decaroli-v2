@@ -1,4 +1,5 @@
 <?php 
+ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -7,6 +8,8 @@ ini_set('session.cookie_httponly', 1); // Empêcher l'accès aux cookies de sess
 
 session_start();
 session_regenerate_id(true);
+
+
 
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/CntrlAppli.php';
