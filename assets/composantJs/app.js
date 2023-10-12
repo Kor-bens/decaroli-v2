@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const images = document.querySelectorAll(".image");
     // images.style.display = "flex";
 
+    const containImages = document.getElementById("contain-images");
+    containImages.style.display = "grid";
+    containImages.style.gridTemplateColumns = "repeat(2, 1fr)";
+    containImages.style.width = "100%";
+
     // Fonction pour faire apparaître une image avec une animation
     function fadeInImage(image) {
         setTimeout(function () {
@@ -10,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             image.classList.add("circular");
         }, 1000); // Ajustez la valeur 1000 (en millisecondes) pour ajuster le délai d'apparition
     }
+    
 
     // Faites apparaître chaque image avec un délai
     images.forEach(function (image) {

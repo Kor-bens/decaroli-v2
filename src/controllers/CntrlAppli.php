@@ -2,31 +2,27 @@
 require_once 'src/controllers/Message.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/Message.php';
-require_once 'src/controllers/CheckInactivite.php';
 require_once 'src/dao/Requete.php';
 class CntrlAppli {
  
             public function afficherPagePromo()
         {
             $dao = new DaoAppli();
-            // $infoImages = $dao->getImages();
+            
             $donneesOrigine = $this->getDonneestable();
-            $inactiviteChecker = new CheckInactivite(); // Instanciez la classe CheckInactivite
-            $inactiviteChecker->checkUserInactivity();
+            
             require_once 'src/views/index.php';
         }
 
         public function afficherPageLogin()
         {
             require_once 'src/views/login.php';
-            $inactiviteChecker = new CheckInactivite(); // Instanciez la classe CheckInactivite
-            $inactiviteChecker->checkUserInactivity();
+         
         }
         public function afficherPageAdmin()
         {
-            $inactiviteChecker = new CheckInactivite(); // Instanciez la classe CheckInactivite
-            $inactiviteChecker->checkUserInactivity();
-              $dao = new DaoAppli();
+            
+            $dao = new DaoAppli();
             $donneesOrigine = $this->getDonneestable();
             // Redirigez l'utilisateur vers la page admin (ou une autre page appropriée)
             require_once 'src/views/admin.php';
@@ -36,9 +32,7 @@ class CntrlAppli {
         public function connexion()
         {
             require_once 'src/dao/DaoAppli.php';
-
-            
-            
+     
             $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
             $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
 
@@ -103,10 +97,10 @@ class CntrlAppli {
         }
 
         public function traitementFormulaire(){
-            $nouveauTitre =         htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
-            $nouveauBackground =    htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
-            $nouvelleCouleurTitre = htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
-            $nouvelleFontFamily =  $_POST['titre_font_family'];
+            $nouveauTitre          =     htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
+            $nouveauBackground     =     htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
+            $nouvelleCouleurTitre  =     htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
+            $nouvelleFontFamily    =     htmlspecialchars($_POST['titre_font_family']);
             $nouvelleFontSizeGrand =     htmlspecialchars($_POST['titre_font_size_grand_ecran'], ENT_QUOTES, 'UTF-8');
             $nouvelleFontSizeMoyen =     htmlspecialchars($_POST['titre_font_size_moyen_ecran'], ENT_QUOTES, 'UTF-8');
             $nouvelleFontSizePetit =     htmlspecialchars($_POST['titre_font_size_petit_ecran'], ENT_QUOTES, 'UTF-8');
