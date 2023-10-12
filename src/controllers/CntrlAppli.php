@@ -234,8 +234,11 @@ class CntrlAppli {
                                 }
                             }
                             
-                            header('Location: /admin');
-                             exit;
+ 
+
+    // Redirigez l'utilisateur vers la page admin pour recharger la page
+    header('Location: /admin');
+    exit;
                             // Vous pouvez envoyer une réponse JSON si nécessaire
                         } else {
                             // La modification de l'image a échoué
