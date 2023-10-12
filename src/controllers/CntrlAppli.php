@@ -106,10 +106,12 @@ class CntrlAppli {
             $nouveauTitre =         htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
             $nouveauBackground =    htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
             $nouvelleCouleurTitre = htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
+            $nouvelleFontFamily =  $_POST['titre_font_family'];
+            $nouvelleFontSize =     htmlspecialchars($_POST['titre_font_size'], ENT_QUOTES, 'UTF-8');
             
             // Mettez à jour le fond d'écran de la page dans DaoAppli
             $dao = new DaoAppli();
-            $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre); 
+            $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre, $nouvelleFontFamily, $nouvelleFontSize);  
             
             $donneesOrigine = $this->getDonneestable();
             // Initialisez le tableau des informations sur les images

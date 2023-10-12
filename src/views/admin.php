@@ -46,6 +46,10 @@ $message = $_SESSION['message'] ?? '';
               <input id="input-titre" type="text" name="titre" value="<?= $donneesOrigine[0]['titre'] ?>"><br>
               <label id="titre-color" for="titre_color">Modifier la couleur du titre:</label>
               <input id="input-titre-color" type="text" name="titre_color" value="<?= $donneesOrigine[0]['titre_color'] ?>">
+              <label id="titre_font_family" for="titre_font_family">Modifier la font-family du titre:</label>
+              <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $donneesOrigine[0]['titre_font_family'] ?>">
+              <label id="titre_font_size" for="titre_font_size">Modifier la police du titre:</label>
+              <input id="input-titre-font-size" type="text" name="titre_font_size" value="<?= $donneesOrigine[0]['titre_font_size'] ?>">
           </div>
 
           <div id="container-image">

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(function (response) {
                 if (response.ok) {
                     // L'image a été supprimée avec succès, alerte l'utilisateur
-                    alert("Image supprimée");
+                    // alert("Image supprimée");
                     // Mettez à jour l'affichage
                     bouton.parentElement.remove();
                 } else {

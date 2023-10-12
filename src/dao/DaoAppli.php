@@ -65,12 +65,14 @@ class DaoAppli{
 
    
 
-    public function modifBackgroundTitre($nouveauTitre,$nouveauBackground,$nouvelleCouleurTitre){
+    public function modifBackgroundTitre($nouveauTitre,$nouveauBackground,$nouvelleCouleurTitre,$nouvelleFontFamily,$nouvelleFontSize){
         $requete    = Requete::REQ_MODIF_BACKGROUND;
         $stmt       = $this->db->prepare($requete);
         $stmt       ->bindParam(':background', $nouveauBackground);
         $stmt       ->bindParam(':titre', $nouveauTitre);
         $stmt       ->bindParam(':titre_color', $nouvelleCouleurTitre);
+        $stmt       ->bindParam(':titre_font_family', $nouvelleFontFamily);
+        $stmt       ->bindParam(':titre_font_size', $nouvelleFontSize);
         $stmt       ->execute();
     }
 
@@ -82,12 +84,14 @@ class DaoAppli{
         
         while ($resultat = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $donneesOrigine[] = [
-                'titre'      => $resultat['titre'],
-                'titre_color'=> $resultat['titre_color'],
-                'bkgd_color' => $resultat['bkgd_color'],
-                'nom_image'  => $resultat['nom_image'],
-                'url'        => $resultat['url'],
-                'id_image'   => $resultat['id_image']
+                'titre'             => $resultat['titre'],
+                'titre_color'       => $resultat['titre_color'],
+                'titre_font_family' => $resultat['titre_font_family'],
+                'titre_font_size'   => $resultat['titre_font_size'],
+                'bkgd_color'        => $resultat['bkgd_color'],
+                'nom_image'         => $resultat['nom_image'],
+                'url'               => $resultat['url'],
+                'id_image'          => $resultat['id_image']
             ];
         }
 
