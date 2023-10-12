@@ -43,7 +43,11 @@ label{
 }
 #container-titre{
     margin-top: 2%;
+    display: flex;
+    justify-content: center;
   
+    align-items: center;
+    flex-direction: column;
 }
 
 #container-image{
@@ -53,21 +57,24 @@ label{
     justify-content: center;
     align-items: center;
 }
-#titre-color{
-    margin-top: 10%;
-}
+
 #container-ajout-image{
     display: flex;
     flex-direction: column;
 }
 #bouton-ajouter-image{
-  margin: 5% auto;
+  margin: 1% auto;
 }
 #message-alert-image{
+    margin: 1%;
     color: red;
+    text-align: center;
 }
 input{
     border-radius: 5px;
+    margin-top: 2%;
+    margin-bottom: 4%;
+    /* padding: 0; */
 }
 
 #input-ajouter-image{
@@ -78,8 +85,11 @@ input{
   align-items: center;
   justify-content: center;
 }
+button{
+    cursor: pointer;
+}
 #bouton-ajouter-image:hover{
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
 }
 
 #container-background{

@@ -42,14 +42,18 @@ $message = $_SESSION['message'] ?? '';
 <div id="container-form">
     <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">
           <div id="container-titre">
-              <label for="titre">Modifier le titre:</label><br>
-              <input id="input-titre" type="text" name="titre" value="<?= $donneesOrigine[0]['titre'] ?>"><br>
+              <label for="titre">Modifier le titre:</label>
+              <input id="input-titre" type="text" name="titre" value="<?= $donneesOrigine[0]['titre'] ?>">
               <label id="titre-color" for="titre_color">Modifier la couleur du titre:</label>
               <input id="input-titre-color" type="text" name="titre_color" value="<?= $donneesOrigine[0]['titre_color'] ?>">
               <label id="titre_font_family" for="titre_font_family">Modifier la font-family du titre:</label>
               <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $donneesOrigine[0]['titre_font_family'] ?>">
-              <label id="titre_font_size" for="titre_font_size">Modifier la police du titre:</label>
-              <input id="input-titre-font-size" type="text" name="titre_font_size" value="<?= $donneesOrigine[0]['titre_font_size'] ?>">
+              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Modifier la police du titre pour grand ecran:</label>
+              <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>">
+              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Modifier la police du titre pour moyen ecran:</label>
+              <input id="input-titre_font_size_moyen_ecran" type="text" name="titre_font_size_moyen_ecran" value="<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>">
+              <label id="titre_font_size_petit_ecran" for="titre_font_size_petit_ecran">Modifier la police du titre pour petit ecran:</label>
+              <input id="input-titre_font_size_petit_ecran" type="text" name="titre_font_size_petit_ecran" value="<?= $donneesOrigine[0]['titre_font_size_petit_ecran'] ?>">
           </div>
 
           <div id="container-image">
@@ -66,7 +70,7 @@ $message = $_SESSION['message'] ?? '';
           </div>
 
           <div id="container-background">
-              <label for="background">Modifier le body:</label><br>
+              <label for="background">Modifier le body:</label>
               <input type="text" name="background" value="<?= $donneesOrigine[0]['bkgd_color'] ?>"><br>
           </div> 
          <button id="bouton-form"type ="submit">Valider</button>
@@ -97,7 +101,7 @@ $message = $_SESSION['message'] ?? '';
                  
   </div>
 
-<?php
+<!-- <?php
 $idImageModifier = $_SESSION['idImageModifier'] ?? '';
 $nouveauNomImage = $_SESSION['nouveauNomImage'] ?? '';
 $nomUnique       = $_SESSION['nomUnique'] ?? '' ;
@@ -112,7 +116,7 @@ echo "Nouveau nom de l'image : " . $nouveauNomImage;?> </br> <?php
 echo "nom unique : " . $nomUnique;?> </br> <?php
 echo "ancien nom image : " . $ancienNomImage;
  ?>
- <p>Nom Unique : <?php echo $nomUnique ?></p>
+ <p>Nom Unique : <?php echo $nomUnique ?></p> -->
 
 <?php
 // Récupérer le contenu de la mémoire tampon et le stocker dans une variable

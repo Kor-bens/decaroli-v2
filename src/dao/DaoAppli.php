@@ -65,14 +65,16 @@ class DaoAppli{
 
    
 
-    public function modifBackgroundTitre($nouveauTitre,$nouveauBackground,$nouvelleCouleurTitre,$nouvelleFontFamily,$nouvelleFontSize){
+    public function modifBackgroundTitre($nouveauTitre,$nouveauBackground,$nouvelleCouleurTitre,$nouvelleFontFamily,$nouvelleFontGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit){
         $requete    = Requete::REQ_MODIF_BACKGROUND;
         $stmt       = $this->db->prepare($requete);
         $stmt       ->bindParam(':background', $nouveauBackground);
         $stmt       ->bindParam(':titre', $nouveauTitre);
         $stmt       ->bindParam(':titre_color', $nouvelleCouleurTitre);
         $stmt       ->bindParam(':titre_font_family', $nouvelleFontFamily);
-        $stmt       ->bindParam(':titre_font_size', $nouvelleFontSize);
+        $stmt       ->bindParam(':titre_font_size_grand_ecran', $nouvelleFontGrand);
+        $stmt       ->bindParam(':titre_font_size_moyen_ecran', $nouvelleFontSizeMoyen);
+        $stmt       ->bindParam(':titre_font_size_petit_ecran', $nouvelleFontSizePetit);
         $stmt       ->execute();
     }
 
@@ -84,14 +86,16 @@ class DaoAppli{
         
         while ($resultat = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $donneesOrigine[] = [
-                'titre'             => $resultat['titre'],
-                'titre_color'       => $resultat['titre_color'],
-                'titre_font_family' => $resultat['titre_font_family'],
-                'titre_font_size'   => $resultat['titre_font_size'],
-                'bkgd_color'        => $resultat['bkgd_color'],
-                'nom_image'         => $resultat['nom_image'],
-                'url'               => $resultat['url'],
-                'id_image'          => $resultat['id_image']
+                'titre'                         => $resultat['titre'],
+                'titre_color'                   => $resultat['titre_color'],
+                'titre_font_family'             => $resultat['titre_font_family'],
+                'titre_font_size_grand_ecran'   => $resultat['titre_font_size_grand_ecran'],
+                'titre_font_size_moyen_ecran'   => $resultat['titre_font_size_moyen_ecran'],
+                'titre_font_size_petit_ecran'   => $resultat['titre_font_size_petit_ecran'],
+                'bkgd_color'                    => $resultat['bkgd_color'],
+                'nom_image'                     => $resultat['nom_image'],
+                'url'                           => $resultat['url'],
+                'id_image'                      => $resultat['id_image']
             ];
         }
 
