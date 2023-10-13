@@ -119,7 +119,7 @@ class CntrlAppli {
                 $fichierTemporaire = $_FILES['image']['tmp_name'];
             
                 // Vérifier que le fichier est une image ex: le type
-                $extensionsAutorisées = array('image/jpeg', 'image/png', 'image/gif');
+                $extensionsAutorisées = array('image/jpeg', 'image/gif', 'image/png');
             
                 if (!in_array($typeFichier, $extensionsAutorisées)) {
                     $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";

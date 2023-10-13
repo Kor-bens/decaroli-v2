@@ -67,10 +67,9 @@ $message = $_SESSION['message'] ?? '';
                   <button type="button" id="bouton-ajouter-image">Sélectionner des images</button>
                   <?php if (!empty($messageImageError)) { ?>
                       <p id="message-alert-image"><?php echo $messageImageError; ?></p>
-                     <!-- <?php $imageInfo = getimagesize($fichierTemporaire);
-                        var_dump($imageInfo);?> -->
+                  
                   <?php } ?>
-                  <input id="input-ajouter-image" type="file" name="image" accept="image/*" style="display: none;">
+                  <input id="input-ajouter-image" type="file" name="image" accept="image/*" style="display: none;" multiple>
               </div>
           <!-- Ajoutez un élément img pour afficher l'image sélectionnée -->
                <img id="image-selectionnee" src="" alt="Image sélectionnée" style="display: none;">
