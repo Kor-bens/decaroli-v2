@@ -1,5 +1,8 @@
 <?php require_once "common/head_admin.php";
 
+
+
+
 // var_dump($_SESSION['nom']);
 // var_dump($_SESSION);
 error_reporting(E_ALL);
@@ -11,7 +14,7 @@ if (!isset($_SESSION['nom'])) {
   exit;
 }
 $messageImageError = $_SESSION['messageImageError'] ?? ''; // Récupérez le message d'erreur depuis la session
-
+unset($_SESSION['messageImageError']); // Action réussie, supprimez le message d'erreur de la variable de session
 $message = $_SESSION['message'] ?? '';
 
  ?>
@@ -19,9 +22,9 @@ $message = $_SESSION['message'] ?? '';
 <title>DECAROLI - ADMIN</title>
 </head>
 <style>
-        #container-form {
+        /* #container-form {
          background   : <?= $donneesOrigine[0]['bkgd_color'] ?>;
-        }
+        } */
     </style> 
 <body>
 <div id="navbar">
@@ -38,6 +41,8 @@ $message = $_SESSION['message'] ?? '';
         ?>  
     </ul>
 </div>
+
+<div id="administrateur"><h1>Administrateur decaroli</h1></div>
 
 <div id="container-form">
     <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">
@@ -62,6 +67,8 @@ $message = $_SESSION['message'] ?? '';
                   <button type="button" id="bouton-ajouter-image">Sélectionner des images</button>
                   <?php if (!empty($messageImageError)) { ?>
                       <p id="message-alert-image"><?php echo $messageImageError; ?></p>
+                     <!-- <?php $imageInfo = getimagesize($fichierTemporaire);
+                        var_dump($imageInfo);?> -->
                   <?php } ?>
                   <input id="input-ajouter-image" type="file" name="image" accept="image/*" style="display: none;">
               </div>
@@ -76,28 +83,38 @@ $message = $_SESSION['message'] ?? '';
          <button id="bouton-form"type ="submit">Valider</button>
     </form>
              
-                <div id="container-image-db" >
+                <div id="container-image-db">
                 <?php
                 // Fonction de comparaison pour trier le tableau par ID croissant
                 function compareById($a, $b) {
                     return $a['id_image'] - $b['id_image'];
                 }
+
                 // Tri du tableau $donneesOrigine par ID croissant
-                usort($donneesOrigine, 'compareById'); ?>
-                  <?php foreach ($donneesOrigine as $image) : ?>
-                      <div class="image">
-                          <img src="../../assets/ressources/images/<?=$image['url'] ?>" alt="<?= $image['nom_image'] ?>">
-                            <?php if (isset($image['id_image'])) { ?>
-                              <button class="bouton-supprimer-image" data-id="<?=$image['id_image']?>">Supprimer</button>
-                                <!-- Champ de téléchargement de fichier pour la modification de l'image -->
-                                <input type="file" class="champ-modifier-image input-image" data-id="<?=$image['id_image']?>">
-                                <!-- Bouton "Modifier" avec l'attribut onclick -->
-                                <button class="bouton-modifier-image" data-id="<?=$image['id_image']?>">Modifier</button>
-                            <?php } ?>  
-                      </div>
-                      <!-- <?php var_dump($donneesOrigine) ?> -->
-                  <?php endforeach; ?>
-                  </div>
+                usort($donneesOrigine, 'compareById');
+
+                // Initialisez une variable pour suivre la position de l'image
+                $position = 0;
+
+                foreach ($donneesOrigine as $image) :
+                    // Incrémentez la position à chaque itération
+                    $position++;
+
+                    // Appliquez la classe CSS en fonction de la position
+                    $class = ($position % 2 === 0) ? 'flex-start' : 'flex-end';
+                ?>
+                    <div class="image <?= $class ?>">
+                        <img src="../../assets/ressources/images/<?= $image['url'] ?>" alt="<?= $image['nom_image'] ?>">
+                        <?php if (isset($image['id_image'])) : ?>
+                            <button class="bouton-supprimer-image" data-id="<?= $image['id_image'] ?>">Supprimer</button>
+                            <!-- Champ de téléchargement de fichier pour la modification de l'image -->
+                            <input type="file" class="champ-modifier-image input-image" data-id="<?= $image['id_image'] ?>">
+                            <!-- Bouton "Modifier" avec l'attribut onclick -->
+                            <button class="bouton-modifier-image" data-id="<?= $image['id_image'] ?>">Modifier</button>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
                  
   </div>
 

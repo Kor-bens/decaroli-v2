@@ -1,16 +1,14 @@
-<?php 
-ob_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-ini_set('session.cookie_secure', 1); // Utiliser des cookies de session uniquement via HTTPS
-ini_set('session.cookie_httponly', 1); // Empêcher l'accès aux cookies de session via JavaScript
+<?php
+// Définissez les paramètres de session avant de démarrer la session
+ini_set('session.cookie_secure', 0); // Désactivez l'utilisation de cookies de session uniquement via HTTPS
+ini_set('session.cookie_httponly', 1); // Empêchez l'accès aux cookies de session via JavaScript
 
 session_start();
 session_regenerate_id(true);
-
-
-
+ob_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+//  require_once 'app.init.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/CntrlAppli.php';
 require_once 'src/controllers/Message.php';

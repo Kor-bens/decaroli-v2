@@ -15,6 +15,7 @@
  <style>
         body {background: <?= $donneesOrigine[0]['bkgd_color'] ?>;}
         h1 {background-image: <?= $donneesOrigine[0]['titre_color'] ?>; 
+            color           : <?= $donneesOrigine[0]['titre_color'] ?>;
             font-size: <?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>;
             font-family: <?= $donneesOrigine[0]['titre_font_family']?>;
             }
@@ -26,7 +27,7 @@
             }
             }
             /* Media query pour les écrans mobiles de taille moyenne (ex. : iPhone 8, XR) */
-            @media (min-width: 321px) and (max-width: 767px) {
+            @media (min-width: 321px) and (max-width: 768px) {
                 h1{
                     font-size:<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>;
                 }
@@ -43,18 +44,31 @@
      <!-- <?php echo $donneesOrigine[0]['titre_font_family'];
     var_dump($donneesOrigine);?> -->
 
-    <div id="contain-images">
+<div id="contain-images">
     <?php
     // Fonction de comparaison pour trier le tableau par ID croissant
     function compareById($a, $b) {
         return $a['id_image'] - $b['id_image'];
     }
+
     // Tri du tableau $donneesOrigine par ID croissant
-    usort($donneesOrigine, 'compareById');?>
-    <?php foreach ($donneesOrigine as $image) : ?>
-        <div class="image"><img src="../../assets/ressources/images/<?=$image['url'] ?>" alt="<?= $image['nom_image'] ?>"></div>
+    usort($donneesOrigine, 'compareById');
+
+    // Initialisez une variable pour suivre la position de l'image
+    $position = 0;
+
+    foreach ($donneesOrigine as $image) :
+        // Incrémentez la position à chaque itération
+        $position++;
+
+        // Appliquez la classe CSS en fonction de la position
+        $class = ($position % 2 === 0) ? 'flex-start' : 'flex-end';
+    ?>
+        <div class="image <?= $class ?>">
+            <img src="../../assets/ressources/images/<?= $image['url'] ?>" alt="<?= $image['nom_image'] ?>">
+        </div>
     <?php endforeach; ?>
-    </div>
+</div>
 
     <div id="div-fleche"></div>
 

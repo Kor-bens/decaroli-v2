@@ -1,4 +1,6 @@
 src/dao/Db.php
 src/dao/Requete.php
+src/dao/DaoAppli.php
+assets/ressources/images
 .htaccess
 robots.txt

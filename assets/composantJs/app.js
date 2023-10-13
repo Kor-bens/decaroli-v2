@@ -1,12 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Sélectionnez toutes les images par leur classe CSS
+   
+           // Sélectionnez toutes les images par leur classe CSS
     const images = document.querySelectorAll(".image");
-    // images.style.display = "flex";
-
-    const containImages = document.getElementById("contain-images");
-    containImages.style.display = "grid";
-    containImages.style.gridTemplateColumns = "repeat(2, 1fr)";
-    containImages.style.width = "100%";
 
     // Fonction pour faire apparaître une image avec une animation
     function fadeInImage(image) {
@@ -21,29 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     images.forEach(function (image) {
         fadeInImage(image);
     });
-
-    // Parcourez chaque image et attribuez une classe en fonction de la position
-    images.forEach((image, index) => {
-        if (index % 2 === 0) {
-            // image.style.display = "flex";
-            image.classList.add("flex-end"); 
-        } else {
-            // image.style.display = "flex";
-            image.classList.add("flex-start"); 
-        }
-    });
 });
-
-// let images = document.querySelectorAll(".image");
-
-// Parcourez chaque image et attribuez une classe en fonction de la position
-// images.forEach((image, index) => {
-//     if (index % 2 === 0) {
-//         image.classList.add("flex-start",".image");
-//     } else {
-//         image.classList.add("flex-end");
-//     }
-// });
 
 let divFleche = document.querySelector("#div-fleche");
 

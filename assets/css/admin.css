@@ -5,18 +5,38 @@ body{
     /* background-color: black; */
 }
 
+#navbar{
+    background-color: black;
+    height: 50px;
+    width: 100%;
+    display: flex; /* Utilisez flex pour centrer horizontalement */
+    align-items: center;
+}
 
 ul{
-    display:flex;
+    display: flex;
+    padding: 0;
+    white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
+    margin-left: 2%;
 }
 
 li{
     list-style: none;
-    margin-left: 2%;
-    
+    color: white;
+    display: inline-block; /* Les éléments li prennent la largeur en fonction du contenu */
+    margin-left: 10%; /* Espace entre les éléments li */
 }
 a{
-    text-decoration: none;color: rgb(0, 0, 0);
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+#administrateur{
+    background-color:rgb(172, 158, 158);
+}
+h1{
+    margin: 0;
+    text-align: center;
 }
 
 #container-form{
@@ -25,7 +45,7 @@ a{
     justify-content: center;
     align-items: center;
     margin-top: 3%;
-    /* background-color: red; */
+    background-color: #5b5b5b;
 }
 label{
     display: flex;
@@ -67,7 +87,7 @@ label{
 }
 #message-alert-image{
     margin: 1%;
-    color: red;
+    color: rgb(224, 27, 27);
     text-align: center;
 }
 input{
@@ -87,8 +107,14 @@ input{
 }
 button{
     cursor: pointer;
+    border-radius: 5px;
+    transition: box-shadow 0.3s;
 }
-
+button:hover{
+    border-radius:10px;
+    background-color: rgb(91,91,91); /* Change la couleur de fond */
+      box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5); /* Ajoute une ombre */
+}
 
 #container-background{
     margin-top: 2%;
@@ -103,9 +129,10 @@ img{
     margin-bottom: 1%;
 }
 
-/* #container-image-db{
-    display: none;
-} */
+#container-image-db{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
 .image{
     display: flex;
     align-items: center; 
@@ -127,13 +154,13 @@ img{
     margin-right: 5%;
 }
 
-/* #fichier-image{
+#fichier-image{
     display: none;
-} */
+}
 
 
 
-/* #contain-images .image:first-child {
+#contain-images .image:first-child {
     
     justify-content: flex-end;
 }
@@ -161,4 +188,4 @@ img{
 }
 #contain-images .image:nth-child(n+9) {
     justify-content: flex-end;
-} */
+}

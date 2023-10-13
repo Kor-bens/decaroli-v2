@@ -63,9 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(function (response) {
             if (response.ok) {
-                // L'image a été modifiée avec succès, alertez l'utilisateur ou effectuez d'autres actions
-                // alert("Image modifiée avec succès !");
-                // location.reload();
+                location.reload();
             } else {
                 console.error("Erreur lors de la modification de l'image.");
             }

@@ -34,13 +34,13 @@ img{
  width: 58%;
 }
 
-/* #contain-images{
+#contain-images{
     display: grid;
     grid-template-columns: repeat(2, 1fr); 
     width: 100%;
-    gap:  10%;
+    /* gap:  10%; */
     
-} */
+}
 
 .image{
     display: flex;
@@ -207,6 +207,9 @@ img{
     max-width: 100%;
     animation: rotateCircular 4s linear infinite; 
 }
+   #logo-decaroli{
+    width: 20%;
+   }
 }
 
 
@@ -214,7 +217,7 @@ img{
 
 
 /* Media query pour les écrans mobiles de taille moyenne (ex. : iPhone 8, XR) */
-@media (min-width: 321px) and (max-width: 767px) {
+@media (min-width: 321px) and (max-width: 768px) {
     /* Styles spécifiques aux écrans mobiles de taille moyenne */
     #contain-images{
         display: grid;
@@ -229,9 +232,12 @@ img{
     img{
         width: 80%;
        }
+       #logo-decaroli{
+        width: 20%;
+       }
     
 
-    #contain-images .image:first-child {
+    /* #contain-images .image:first-child {
     
         justify-content: center;
     }
@@ -247,7 +253,7 @@ img{
     }
     #contain-images .image:nth-child(n+5) {
         justify-content: center;
-    }
+    } */
     .image.circular {
         width: auto;
         max-width: 100%;
@@ -272,10 +278,11 @@ img{
     img{
         width: 80%;
        }
-    
+       #logo-decaroli{
+        width: 40%;
+       }
 
-    #contain-images .image:first-child {
-    
+    /* #contain-images .image:first-child {
         justify-content: center;
     }
     
@@ -290,7 +297,11 @@ img{
     }
     #contain-images .image:nth-child(n+5) {
         justify-content: center;
-    }
+    } */
+    /* #contain-images{
+        display: flex;
+    } */
+    
     .image.circular {
         width: auto;
         max-width: 100%;
@@ -299,4 +310,5 @@ img{
     #cercle{
         display: none;
     }
+
 }

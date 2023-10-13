@@ -81,14 +81,11 @@ class CntrlAppli {
         public function deconnexion(){
             session_start();
             session_destroy(); 
-
+         
             // Redirige l'utilisateur vers une page appropriée
             header("Location: /login");
             exit();
         }
-
-      
-
 
         public function getDonneestable() {
             $dao = new DaoAppli();
@@ -112,35 +109,43 @@ class CntrlAppli {
             $donneesOrigine = $this->getDonneestable();
             // Initialisez le tableau des informations sur les images
             
-            if (isset($_FILES['image'])) {
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                // Un fichier a été sélectionné et il n'y a pas d'erreur
+            
                 // Informations sur le fichier téléchargé
                 $nomFichier = $_FILES['image']['name']; // Nom du fichier image
                 $typeFichier = $_FILES['image']['type'];
                 $tailleFichier = $_FILES['image']['size'];
                 $fichierTemporaire = $_FILES['image']['tmp_name'];
-                
+            
                 // Vérifier que le fichier est une image ex: le type
                 $extensionsAutorisées = array('image/jpeg', 'image/png', 'image/gif');
+            
                 if (!in_array($typeFichier, $extensionsAutorisées)) {
                     $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
                     header('Location: /admin');
-                    exit;
+                    exit();
                 }
-                
+            
                 // Générez un nom unique pour le fichier pour éviter l'écrasement d'image
-                $nomUnique = uniqid() . '_' . $nomFichier;  
+                $nomUnique = uniqid() . '_' . $nomFichier;
                 $cheminStockage = 'assets/ressources/images/' . $nomUnique;
-                
+            
                 // Déplacez le fichier téléchargé vers le répertoire de stockage des images
                 if (move_uploaded_file($fichierTemporaire, $cheminStockage)) {
                     // Le téléchargement a réussi, vous pouvez maintenant insérer le nom du fichier dans la base de données
                     $idPage = 1; // Remplacez par l'ID de la page appropriée
-                    $dao->traitementImage($nomUnique, $nomFichier, $idPage); 
+                    $dao->traitementImage($nomUnique, $nomFichier, $idPage);
                     echo $nomFichier;
                 }
+            } else {
+                // Aucun fichier n'a été sélectionné
+                $_SESSION['messageImageError'] = "";
+                header('Location: /admin');
+                exit();
             }
             header('Location: /admin');
-            exit; // Assurez-vous d'appeler exit() pour arrêter l'exécution du script après la redirection
+                exit();
         }
         
         public function supprimerImage() {
@@ -166,6 +171,7 @@ class CntrlAppli {
         
             // Répondez à la requête AJAX
             http_response_code(200); // OK
+            
             exit();
         }
         
@@ -236,9 +242,9 @@ class CntrlAppli {
                             
  
 
-    // Redirigez l'utilisateur vers la page admin pour recharger la page
-    header('Location: /admin');
-    exit;
+                                // Redirigez l'utilisateur vers la page admin pour recharger la page
+                                header('Location: /admin');
+                                exit();
                             // Vous pouvez envoyer une réponse JSON si nécessaire
                         } else {
                             // La modification de l'image a échoué
@@ -252,12 +258,12 @@ class CntrlAppli {
                     }
                 }
                 header('Location: /admin');
-                exit;
+                exit();
             }
             // Redirigez l'utilisateur vers la page d'origine ou une autre page
             header('Location: /admin');
-            exit;
+            exit();
              // Affichez la valeur de $idImageModifier à des fins de débogage
-            
         }
+        
 }
