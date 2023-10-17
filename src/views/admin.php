@@ -34,7 +34,7 @@ $message = $_SESSION['message'] ?? '';
         if (isset($_SESSION['nom'])) {
           $nom = $_SESSION['nom'] ?? "";
             echo "<li><a href='/deconnexion'>Se Déconnexion</a></li>";
-            echo "<li>Bienvenue " . strtoupper($nom) . "</li>";;
+            // echo "<li>Bienvenue ".strtoupper($nom)."</li>";
         } else {
           echo 'Les variables de session ont été supprimées.';
          }
@@ -42,7 +42,7 @@ $message = $_SESSION['message'] ?? '';
     </ul>
 </div>
 
-<div id="administrateur"><h1>Administrateur decaroli</h1></div>
+<div id="administrateur"><h1>Administrateur decaroli <?php echo ucfirst($nom) ?></h1></div>
 
 <div id="container-form">
     <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">

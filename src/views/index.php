@@ -7,6 +7,7 @@
                                      Profitez de remises exclusives sur une large gamme d'articles, des soins pour bébés aux produits minceur. 
                                      Économisez sur des essentiels de santé et de bien-être. Ne manquez pas nos offres exceptionnelles ce mois-ci !" />
     <title>DECAROLI</title>
+    <link rel="icon" type="image/png"  href="../../assets/ressources/images/logoDecaroli-head.png"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $donneesOrigine[0]['titre_font_family']?>">
@@ -23,17 +24,17 @@
             @media (min-width: 768px) and (max-width:998px) {
             h1{
                 font-size:<?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>;
-                width: 50%;
+                /* width: 50%; */
             }
             }
             /* Media query pour les écrans mobiles de taille moyenne (ex. : iPhone 8, XR) */
-            @media (min-width: 321px) and (max-width: 768px) {
+            @media (min-width: 426px) and (max-width: 768px) {
                 h1{
                     font-size:<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>;
                 }
             }
             /* Media query pour les petits écrans mobiles (ex. : iPhone SE) */
-            @media (max-width: 320px) {
+            @media (max-width: 425px) {
             h1{
                 font-size:<?= $donneesOrigine[0]['titre_font_size_petit_ecran'] ?>;
             }

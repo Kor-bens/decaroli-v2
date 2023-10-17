@@ -1,3 +1,6 @@
+/* *{
+    border: 1px solid red;
+} */
 body{
     margin: 0;
     padding: 0;
@@ -17,14 +20,15 @@ ul{
     display: flex;
     padding: 0;
     white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
-    margin-left: 2%;
+    /* margin-left: 2%; */
+    width: 100%;
 }
 
 li{
     list-style: none;
     color: white;
-    display: inline-block; /* Les éléments li prennent la largeur en fonction du contenu */
-    margin-left: 10%; /* Espace entre les éléments li */
+    margin-left: 5%; /* Espace entre les éléments li */
+    width: auto;
 }
 a{
     text-decoration: none;
@@ -121,7 +125,7 @@ button:hover{
    
 }
 img{
-    width: 10%;
+    width: 15%;
    
 }
 
@@ -160,32 +164,110 @@ img{
 
 
 
-#contain-images .image:first-child {
-    
-    justify-content: flex-end;
+@media (min-width: 320px) and (max-width: 425px){
+
+#navbar{
+    justify-content: center;
+    display: flex; /* Utilisez flex pour centrer horizontalement */
 }
 
-#contain-images .image:nth-child(n+2) {
-    justify-content: flex-start;
+ul{
+    display: flex !important;
+    justify-content: center;
+    padding: 0;
+    white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
+    /* margin-left: 2%; */
+    margin: 0;
+   width: 100%;
 }
-#contain-images .image:nth-child(n+3) {
-    justify-content: flex-end;
+
+li{ 
+    text-align: center;
+    margin: 0;
+    width: 100%;
+
 }
-#contain-images .image:nth-child(n+4) {
-    justify-content: flex-start;
+a{
+    font-size: 16px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+  
 }
-#contain-images .image:nth-child(n+5) {
-    justify-content: flex-end;
+#container-image-db{
+    display: flex;
+    flex-direction: column;
 }
-#contain-images .image:nth-child(n+6) {
-    justify-content: flex-start;
+.flex-start {
+    justify-content: center !important;
+    margin: 0;
 }
-#contain-images .image:nth-child(n+7) {
-    justify-content: flex-end;
+
+.flex-end {
+    justify-content: center !important;
+    margin: 0;
+    flex-direction: row-reverse;
 }
-#contain-images .image:nth-child(n+8) {
-    justify-content: flex-start;
+img{
+    width: 30%;
 }
-#contain-images .image:nth-child(n+9) {
-    justify-content: flex-end;
+button{
+    width: auto;
+    font-size: 12px;
+}
+
+}
+
+@media (min-width: 426px) and (max-width: 767px) {
+    #navbar{
+        background-color: black;
+        height: 50px;
+        justify-content: center;
+        display: flex; /* Utilisez flex pour centrer horizontalement */
+        /* align-items: center; */
+    }
+    
+    ul{
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        /* white-space: nowrap; Empêche le texte de se retourner à la ligne */
+        /* margin-left: 2%; */
+        margin: 0;
+       
+    }
+    
+    li{
+        text-align: center;
+        margin: 0;
+        width: 100%;
+    }
+  
+    a{
+        font-size: 16px;
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+      
+    }
+    /* #container-image-db{
+        display: flex;
+        flex-direction: column;
+    } */
+    .flex-start {
+        justify-content: center !important;
+        margin: 0;
+    }
+    
+    .flex-end {
+        justify-content: center !important;
+        margin: 0;
+        flex-direction: row-reverse;
+    }
+    img{
+        width: 30%;
+    }
+    button{
+        width: auto;
+        font-size: 12px;
+    }
+
 }
