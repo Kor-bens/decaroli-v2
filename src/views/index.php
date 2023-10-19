@@ -1,4 +1,3 @@
-<?php ini_set('display_errors', "Off");?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

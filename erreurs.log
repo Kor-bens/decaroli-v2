@@ -2,3 +2,55 @@ Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisate
 Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
 Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
 Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 07:29:47 - Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 07:35:30 - Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+Erreur dans DaoAppli : Erreur PDO dans getAdminByNom : SQLSTATE[42S22]: Column not found: 1054 Champ 'noam' inconnu dans field list
+Erreur dans DaoAppli : Erreur PDO dans getAdminByNom : SQLSTATE[42S22]: Column not found: 1054 Champ 'noam' inconnu dans field list
+2023-10-19 07:38:02 - Erreur dans DaoAppli : Erreur PDO dans getAdminByNom : SQLSTATE[42S22]: Column not found: 1054 Champ 'noam' inconnu dans field list
+2023-10-19 07:38:04 - Erreur dans DaoAppli : Erreur PDO dans getAdminByNom : SQLSTATE[42S22]: Column not found: 1054 Champ 'noam' inconnu dans field list
+2023-10-19 07:49:18 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:50:46 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:50:48 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:50:50 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:50:56 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:51:47 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:51:50 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:51:55 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:52:06 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:52:19 - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 07:55:10 - Erreur dans DaoAppli : Erreur PDO dans modifBackgroundTitre : SQLSTATE[42S22]: Column not found: 1054 Champ 'taitre' inconnu dans field list
+2023-10-19 07:55:30 - Erreur dans DaoAppli : Erreur PDO dans modifBackgroundTitre : SQLSTATE[42S22]: Column not found: 1054 Champ 'taitre' inconnu dans field list
+2023-10-19 07:56:53 - Erreur dans DaoAppli : Erreur PDO dans modifBackgroundTitre : SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+2023-10-19 07:57:29 - Erreur dans DaoAppli : Erreur PDO dans modifBackgroundTitre : SQLSTATE[42S22]: Column not found: 1054 Champ 'abkgd_color' inconnu dans field list
+2023-10-19 08:03:25 - Erreur dans DaoAppli : Erreur PDO dans modifierImage : SQLSTATE[42S22]: Column not found: 1054 Champ 'anom_image' inconnu dans field list
+2023-10-19 09:17:09 - Erreur dans DaoAppli : Erreur PDO dans modifierImage (C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php) : SQLSTATE[42S22]: Column not found: 1054 Champ 'anom_image' inconnu dans field list
+2023-10-19 09:19:15 - Erreur dans DaoAppli : Erreur PDO dans modifierImage (C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php) : SQLSTATE[42S22]: Column not found: 1054 Champ 'anom_image' inconnu dans field list
+2023-10-19 09:23:44 - Erreur dans DaoAppli : Erreur PDO dans modifierImage (C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php) : SQLSTATE[42S22]: Column not found: 1054 Champ 'aanom_image' inconnu dans field list . __FILE__ .  
+2023-10-19 09:24:31 - Erreur dans DaoAppli : Erreur PDO dans modifierImage (C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php) : SQLSTATE[42S22]: Column not found: 1054 Champ 'aanom_image' inconnu dans field listC:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php
+2023-10-19 09:25:42 - Erreur dans DaoAppli : Erreur PDO dans modifierImage (C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php) : SQLSTATE[42S22]: Column not found: 1054 Champ 'aanom_image' inconnu dans field list C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php
+2023-10-19 09:27:27 - Erreur dans DaoAppli : Erreur PDO dans modifierImage  : SQLSTATE[42S22]: Column not found: 1054 Champ 'aanom_image' inconnu dans field list C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php
+2023-10-19 09:28:36 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Erreur PDO dans modifierImage  : SQLSTATE[42S22]: Column not found: 1054 Champ 'aanom_image' inconnu dans field list
+2023-10-19 09:29:36 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Erreur PDO dans modifBackgroundTitre  : SQLSTATE[42S22]: Column not found: 1054 Champ '2bkgd_color' inconnu dans field list
+2023-10-19 09:32:11 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\Db.php - Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 09:50:12 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\Db.php - Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 09:59:27 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\Db.php - PDO Exception: SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 09:59:31 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\Db.php - PDO Exception: SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 09:59:35 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\Db.php - PDO Exception: SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 09:59:35 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\Db.php - PDO Exception: SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 11:09:08 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\Db.php - Erreur de connexion PDO : SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: 'korbens'@'@localhost' (mot de passe: OUI)
+2023-10-19 11:09:40 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:10:38 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:10:48 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:11:39 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Erreur PDO dans modifBackgroundTitre  : SQLSTATE[42S22]: Column not found: 1054 Champ 'abkgd_color' inconnu dans field list
+2023-10-19 11:13:12 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:13:14 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:13:19 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:13:22 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:13:40 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:16:13 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:16:34 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:16:55 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:17:24 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+2023-10-19 11:17:49 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects

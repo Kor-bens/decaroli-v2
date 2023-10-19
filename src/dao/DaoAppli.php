@@ -9,10 +9,17 @@ class DaoAppli{
 
     private PDO $db;
     public function __construct() {
-        $dbObjet  = new Db();
+        $dbObjet  = new Db(); 
         $this->db = $dbObjet->getDb();
         // Activez le mode d'erreur PDO
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } 
+    private function logError($errorMessage) {
+        global $filename;
+        $timestamp = date('Y-m-d H:i:s'); // Obtenez la date et l'heure actuelles au format "Y-m-d H:i:s"
+        $fichier   =  __FILE__ ;
+        $logEntry = "$timestamp $fichier - Erreur dans DaoAppli : $errorMessage"  . PHP_EOL;
+        error_log($logEntry, 3, $filename, FILE_APPEND);
     }
     private function getAdminByNom($nom): array {
         try {
@@ -20,32 +27,29 @@ class DaoAppli{
             $stmt = $this->db->prepare($requete);
             $stmt->bindValue(':nom', $nom, PDO::PARAM_STR);
             $stmt->execute();
-            // echo($requete);
-            // Vérifiez si la requête a renvoyé un résultat
+    
             if ($stmt->rowCount() > 0) {
                 $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-                return $resultat; // Retourne le résultat sous forme de tableau associatif
+                return $resultat;
             } else {
-                // Aucun résultat trouvé, vous pouvez retourner un tableau vide ou générer une exception personnalisée
                 return [];
             }
         } catch (PDOException $e) {
-            echo "Erreur PDO : " . $e->getMessage();
-            // Gérez l'erreur PDO comme vous le souhaitez, par exemple, en enregistrant un message d'erreur.
-            return []; // Retourne un tableau vide en cas d'erreur
+            $this->logError('Erreur PDO dans getAdminByNom : ' . $e->getMessage());
+            return [];
         }
     }
     public function connexionUser($nom, $mdp) {
         // Réinitialisez la variable d'erreur à chaque nouvelle tentative de connexion
-       
         $errorMessage = [];
-        //si il existe et Nettoyez le nom d'utilisateur en supprimant les espaces inutiles et en évitant les caractères spéciaux
-        if (isset($_POST['nom']) && isset($_POST['mdp'])) {
-            $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($_POST['nom']), '\x00..\x1F')) : '';
-            $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($_POST['mdp']), '\x00..\x1F')) : '';
-            $mdp = hash('sha512', $mdp);
+        
+        try {
+            //si il existe et Nettoyez le nom d'utilisateur en supprimant les espaces inutiles et en évitant les caractères spéciaux
+            if (isset($_POST['nom']) && isset($_POST['mdp'])) {
+                $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($_POST['nom']), '\x00..\x1F')) : '';
+                $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($_POST['mdp']), '\x00..\x1F')) : '';
+                $mdp = hash('sha512', $mdp);
     
-            try {
                 $admin = $this->getAdminByNom($nom);
     
                 if ($admin && $admin['mdp'] === $mdp) {
@@ -56,32 +60,48 @@ class DaoAppli{
                     exit; // Assurez-vous de quitter le script après la redirection
                 } else {
                     $errorMessage[] = Message::ERR_LOGIN;
+                    // Enregistrez cette erreur dans le journal
+                    $this->logError('Échec de la connexion utilisateur : identifiants incorrects');
                 }
-            } catch (PDOException $e) {
-                echo "Erreur PDO : " . $e->getMessage(); 
             }
+        } catch (PDOException $e) {
+            $this->logError('Erreur PDO dans connexionUser  : ' . $e->getMessage());
         }
+    
         return $errorMessage;
     }
 
    
 
-    public function modifBackgroundTitre($nouveauTitre,$nouveauBackground,$nouvelleCouleurTitre,$nouvelleFontFamily,$nouvelleFontGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit){
-        $requete    = Requete::REQ_MODIF_BACKGROUND;
-        $stmt       = $this->db->prepare($requete);
-        $stmt       ->bindParam(':background', $nouveauBackground);
-        $stmt       ->bindParam(':titre', $nouveauTitre);
-        $stmt       ->bindParam(':titre_color', $nouvelleCouleurTitre);
-        $stmt       ->bindParam(':titre_font_family', $nouvelleFontFamily);
-        $stmt       ->bindParam(':titre_font_size_grand_ecran', $nouvelleFontGrand);
-        $stmt       ->bindParam(':titre_font_size_moyen_ecran', $nouvelleFontSizeMoyen);
-        $stmt       ->bindParam(':titre_font_size_petit_ecran', $nouvelleFontSizePetit);
-        $stmt       ->execute();
+    public function modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre, $nouvelleFontFamily, $nouvelleFontGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit) {
+        $requete = Requete::REQ_MODIF_BACKGROUND;
+        
+        try {
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':background', $nouveauBackground);
+            $stmt->bindParam(':titre', $nouveauTitre);
+            $stmt->bindParam(':titre_color', $nouvelleCouleurTitre);
+            $stmt->bindParam(':titre_font_family', $nouvelleFontFamily);
+            $stmt->bindParam(':titre_font_size_grand_ecran', $nouvelleFontGrand);
+            $stmt->bindParam(':titre_font_size_moyen_ecran', $nouvelleFontSizeMoyen);
+            $stmt->bindParam(':titre_font_size_petit_ecran', $nouvelleFontSizePetit);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            // En cas d'erreur PDO, enregistrez l'erreur dans le journal
+            $this->logError('Erreur PDO dans modifBackgroundTitre  : ' . $e->getMessage());
+        }
     }
 
     public function getTitreCouleurImage() {
         $requete  = Requete::REQ_TITRE_COULEUR_IMAGE;
-        $stmt     = $this->db->query($requete);
+        
+        try {
+            $stmt = $this->db->query($requete);
+        } catch (PDOException $e) {
+            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
+            $this->logError('Erreur PDO dans getTitreCouleurImage  : ' . $e->getMessage());
+            return [];
+        }
         
         $donneesOrigine = [];
         
@@ -99,63 +119,80 @@ class DaoAppli{
                 'id_image'                      => $resultat['id_image']
             ];
         }
-
+    
         return $donneesOrigine;
     }
-
-
-
-   public function traitementImage($nouvelleImage,$nomFichier, $idPage){
-    $requete = Requete::REQ_AJOUT_IMAGE; 
-    $stmt = $this->db->prepare($requete);
-    $stmt ->bindParam(':url', $nouvelleImage);
-    $stmt ->bindParam(':nom_image', $nomFichier);
-    $stmt ->bindParam(':id_page', $idPage);
-    $stmt ->execute();
-     
-   }
-
-  public function supprimerImage($idImage){
-    $requete = Requete::REQ_SUPPR_IMAGE;
-    $stmt    = $this->db->prepare($requete);
-    $stmt    ->bindParam(':idImage', $idImage, PDO::PARAM_INT);
-    $stmt    ->execute();
-  }
-  
-  public function modifierImage($nouveauNomImage, $nouvelleUrl, $idImageModifier){
-   $requete = Requete::REQ_MODIF_IMAGE;
-   $stmt    = $this->db->prepare($requete);
-   $stmt    -> bindParam(':nom_image', $nouveauNomImage, PDO::PARAM_STR);
-   $stmt    -> bindParam(':url',       $nouvelleUrl, PDO::PARAM_STR);
-   $stmt    -> bindParam(':id_image',  $idImageModifier, PDO::PARAM_INT);
-   
-   try {
-        if ($stmt->execute()) {
-            // La modification de l'image a réussi
-            return true;
-                } else {
-                    // La modification de l'image a échoué
-                    return false;
-                }
-                    } catch (PDOException $e) {
-                // Gérer les erreurs de base de données
-                // Vous pouvez enregistrer ou renvoyer l'erreur ici
+    
+    public function traitementImage($nouvelleImage, $nomFichier, $idPage) {
+        $requete = Requete::REQ_AJOUT_IMAGE;
+        
+        try {
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':url', $nouvelleImage);
+            $stmt->bindParam(':nom_image', $nomFichier);
+            $stmt->bindParam(':id_page', $idPage);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
+            $this->logError('Erreur PDO dans traitementImage  : ' . $e->getMessage());
+        }
+    }
+    
+    public function supprimerImage($idImage) {
+        $requete = Requete::REQ_SUPPR_IMAGE;
+        
+        try {
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':idImage', $idImage, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
+            $this->logError('Erreur PDO dans supprimerImage  :  ' . $e->getMessage());
+        }
+    }
+    
+    public function modifierImage($nouveauNomImage, $nouvelleUrl, $idImageModifier) {
+        $requete = Requete::REQ_MODIF_IMAGE;
+        
+        try {
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':nom_image', $nouveauNomImage, PDO::PARAM_STR);
+            $stmt->bindParam(':url', $nouvelleUrl, PDO::PARAM_STR);
+            $stmt->bindParam(':id_image', $idImageModifier, PDO::PARAM_INT);
+            
+            if ($stmt->execute()) {
+                // La modification de l'image a réussi
+                return true;
+            } else {
+                // La modification de l'image a échoué
                 return false;
-         }
+            }
+        } catch (PDOException $e) {
+            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
+            $this->logError('Erreur PDO dans modifierImage  : ' . $e->getMessage());
+            return false;
+        }
     }
     
     public function getNomFichierImageById($idImage) {
-        $requete  = "SELECT url FROM image WHERE id_image = :id";
-        $stmt     = $this->db->prepare($requete);
-        $stmt->bindParam(':id', $idImage, PDO::PARAM_INT);
-        $stmt->execute();
+        $requete = "SELECT url FROM image WHERE id_image = :id";
         
-        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        return isset($resultat['url']) ? $resultat['url'] : null;
-       
+        try {
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':id', $idImage, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            return isset($resultat['url']) ? $resultat['url'] : null;
+        } catch (PDOException $e) {
+            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
+            $this->logError('Erreur PDO dans getNomFichierImageById  : ' . $e->getMessage());
+            return null;
+        }
     }
 
+   
 }
 
 

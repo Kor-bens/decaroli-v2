@@ -228,7 +228,7 @@ class CntrlAppli {
                         $_SESSION['ancienNom'] = $ancienNomImage;
         
                         // Mettez à jour le nom de l'image dans la base de données
-                        $resultat = $dao->modifierImage($nouveauNomImage, $nomUnique, $idImageModifier);
+                        $resultat = $dao->modifierImage($nouveauNomImage, $nomUnique, $idImageModifier); 
         
                         if ($resultat) {
                             // La modification de l'image a réussi

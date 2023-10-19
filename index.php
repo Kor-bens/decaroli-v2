@@ -1,39 +1,42 @@
 <?php
 
+// Désactivez l'affichage des erreurs
 ini_set('display_errors', "Off");
-// Définissez les paramètres de session avant de démarrer la session
+
+// Configurez les paramètres de session avant de démarrer la session
 ini_set('session.cookie_secure', 0); // Désactivez l'utilisation de cookies de session uniquement via HTTPS
 ini_set('session.cookie_httponly', 1); // Empêchez l'accès aux cookies de session via JavaScript
-error_reporting(E_ALL & ~E_NOTICE);
+
+// Démarrez la session
 session_start();
 session_regenerate_id(true);
 ob_start();
 
+// Incluez les fichiers nécessaires
+require_once 'src/dao/DaoAppli.php';  // Incluez la classe DaoAppli
+require_once 'src/controllers/CntrlAppli.php'; // Incluez la classe CntrlAppli
+require_once 'src/controllers/Message.php'; // Incluez la classe Message
+require_once "src/dao/Requete.php"; // Incluez la classe Requete
 
-//  require_once 'app.init.php';
-require_once 'src/dao/DaoAppli.php';
-require_once 'src/controllers/CntrlAppli.php';
-require_once 'src/controllers/Message.php';
-require_once "src/dao/Requete.php";
-
+// Récupérez la route et la méthode HTTP de la demande
 $route = htmlspecialchars(explode("?", $_SERVER['REQUEST_URI'])[0]);
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Créez une instance du contrôleur CntrlAppli
 $cntrlAppli = new CntrlAppli(); 
 
-if      ($method == 'GET'    && $route == '/index')                      $cntrlAppli->afficherPagePromo();
-else if ($method == 'GET'    && $route == '/')                           $cntrlAppli->afficherPagePromo();
-else if ($method == 'GET'    && $route == '/login')                      $cntrlAppli->afficherPageLogin(); 
-else if ($method == 'GET'    && $route == '/admin')                      $cntrlAppli->afficherPageAdmin(); 
-else if ($method == 'POST'   && $route == '/connexion')                  $cntrlAppli->connexion(); 
-else if ($method == 'GET'    && $route == '/deconnexion')                $cntrlAppli->deconnexion();   
-else if ($method == 'POST'   && $route == '/traitement-formulaire')      $cntrlAppli->traitementFormulaire();    
-else if ($method == 'DELETE' && $route == '/supprimer-image')            $cntrlAppli->supprimerImage();    
-else if ($method == 'POST'   && $route == '/modifier-image')             $cntrlAppli->modifierImage();      
-  
-
-
-else{
+// En fonction de la méthode HTTP et de la route, appelez les méthodes appropriées du contrôleur
+if ($method == 'GET' && $route == '/index')                         {$cntrlAppli->afficherPagePromo();} 
+elseif ($method == 'GET' && $route == '/')                          {$cntrlAppli->afficherPagePromo();} 
+elseif ($method == 'GET' && $route == '/login')                     {$cntrlAppli->afficherPageLogin();} 
+elseif ($method == 'GET' && $route == '/admin')                     {$cntrlAppli->afficherPageAdmin();} 
+elseif ($method == 'POST' && $route == '/connexion')                {$cntrlAppli->connexion();} 
+elseif ($method == 'GET' && $route == '/deconnexion')               {$cntrlAppli->deconnexion();} 
+elseif ($method == 'POST' && $route == '/traitement-formulaire')    {$cntrlAppli->traitementFormulaire();} 
+elseif ($method == 'DELETE' && $route == '/supprimer-image')        {$cntrlAppli->supprimerImage();} 
+elseif ($method == 'POST' && $route == '/modifier-image')           {$cntrlAppli->modifierImage();} 
+else {
+    // Si la route n'est pas gérée, redirigez vers la page d'accueil
     header("Location: /index");
     exit;
 }
