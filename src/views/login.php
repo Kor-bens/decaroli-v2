@@ -1,9 +1,15 @@
 <?php 
+ini_set('display_errors', "Off");
+error_reporting(E_ALL & ~E_NOTICE);
 require_once "common/head_admin.php";
 ?>
+
 <link rel="stylesheet" href="../../assets/css/login.css?v=<?= time(); ?>">
+<head>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lepqa4oAAAAAKaVAUVXUwHI8tNfPI4VvPoawDS_" async defer></script>
 <title>DECAROLI - login</title>
 </head>
+
 <body>
 
 <div id="container-form">        

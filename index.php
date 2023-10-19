@@ -1,13 +1,15 @@
 <?php
+
+ini_set('display_errors', "Off");
 // Définissez les paramètres de session avant de démarrer la session
 ini_set('session.cookie_secure', 0); // Désactivez l'utilisation de cookies de session uniquement via HTTPS
 ini_set('session.cookie_httponly', 1); // Empêchez l'accès aux cookies de session via JavaScript
-
+error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 session_regenerate_id(true);
 ob_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
+
 //  require_once 'app.init.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/CntrlAppli.php';

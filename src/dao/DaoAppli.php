@@ -4,6 +4,7 @@ require_once 'src/dao/Db.php';
 require_once 'src/dao/Requete.php';
 require_once 'src/models/Admin.php';
 
+
 class DaoAppli{
 
     private PDO $db;

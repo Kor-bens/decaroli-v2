@@ -3,6 +3,7 @@ require_once 'src/controllers/Message.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/Message.php';
 require_once 'src/dao/Requete.php';
+error_reporting(E_ALL & ~E_NOTICE);
 class CntrlAppli {
  
             public function afficherPagePromo()
