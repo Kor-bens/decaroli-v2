@@ -1,6 +1,5 @@
-src/dao/
-src/dao/
-src/dao/
+src/dao
+
 assets/ressources/images
 .htaccess
 robots.txt
