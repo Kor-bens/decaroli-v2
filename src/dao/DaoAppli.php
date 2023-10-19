@@ -16,7 +16,9 @@ class DaoAppli{
     } 
     private function logError($errorMessage) {
         global $filename;
-        $timestamp = date('Y-m-d H:i:s'); // Obtenez la date et l'heure actuelles au format "Y-m-d H:i:s"
+        // Spécifiez le fuseau horaire que vous souhaitez utiliser
+        date_default_timezone_set('Europe/Paris'); // Remplacez 'Europe/Paris' par le fuseau horaire de votre choix
+        $timestamp = date('d-m-Y H:i:s'); // Obtenez la date et l'heure actuelles au format "Y-m-d H:i:s"
         $fichier   =  __FILE__ ;
         $logEntry = "$timestamp $fichier - Erreur dans DaoAppli : $errorMessage"  . PHP_EOL;
         error_log($logEntry, 3, $filename, FILE_APPEND);

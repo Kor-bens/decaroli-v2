@@ -3,7 +3,6 @@ require_once 'src/controllers/Message.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/Message.php';
 require_once 'src/dao/Requete.php';
-error_reporting(E_ALL & ~E_NOTICE);
 class CntrlAppli {
  
             public function afficherPagePromo()
@@ -33,50 +32,72 @@ class CntrlAppli {
         public function connexion()
         {
             require_once 'src/dao/DaoAppli.php';
-     
-            $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
-            $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
-
-            // Réinitialisez les messages d'erreur à chaque nouvelle tentative de connexion
-            Message::setErrorMessage([]);
-
-            // Tableau pour stocker les messages d'erreur
-            $errorMessage = [];
-
-            if(empty($nom) || empty($mdp)){
-                $errorMessageVide = Message::INP_ERR_CHAMP_VIDE;
+          // Réinitialisez les messages d'erreur à chaque nouvelle tentative de connexion
+                    Message::setErrorMessage([]);
+        
+                    // Tableau pour stocker les messages d'erreur
+                    $errorMessage = [];
+        
+                    if (empty($nom) || empty($mdp)) {
+                        $errorMessageVide = Message::INP_ERR_CHAMP_VIDE;
+                    }
+                    if (empty($nom) && empty($mdp)) {
+                        $errorMessageVide = Message::INP_ERR_CHAMP_VIDE;
+                    }
+        
+                    // Vérifiez la longueur minimale du nom d'utilisateur
+                    if (empty($nom) || strlen($nom) < 4) {
+                        // $errorMessage[] = Message::INP_ERR_NOM_CHAR;
+                    }
+        
+                    // Vérifiez la complexité du mot de passe
+                    if (empty($mdp) || strlen($mdp) < 8) {
+                        // $errorMessage[] = Message::INP_ERR_MDP_CHAR;
+                    } else {
+                        // Exigez au moins une lettre majuscule, une lettre minuscule et un chiffre
+                        // if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/', $mdp)) {
+                        //     $errorMessage[] = Message::INP_ERR_MDP_CHAR_SPE;
+                        // }
+                    }
+            if (!empty($_POST['nom']) || !empty($_POST['mdp'])) {
+                $secret = "6LfTu7MoAAAAAL_WHGxwfpksXCahoYhz3xiMZ5fH";
+                $response = htmlspecialchars($_POST['g-recaptcha-response']);
+                $remoteip = $_SERVER['REMOTE_ADDR'];
+                $request  = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
+        
+                $get  = file_get_contents($request);
+                $decode = json_decode($get, true);
+        
+                var_dump($decode);
+                // exit;
+            if ($decode['success'] && $decode['score'] >= 0.7) {
+                    // Le score est supérieur ou égal à 0.7, la validation est réussie
+                    // Ajoutez le reste de votre code de traitement de connexion ici
+                    $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
+                    $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
+    
+                    $dao = new DaoAppli();
+                    $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
+        
+                    // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
+                    $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
+        
+                    Message::setErrorMessage($errorMessage);
+        
+                    if (!empty($errorMessage)) {
+                        require_once 'src/views/login.php';
+                    } else {
+                        // Redirigez l'utilisateur après une connexion réussie
+                        header('Location: /admin');
+                        exit; // Assurez-vous d'appeler exit() pour arrêter l'exécution du script après la redirection
+                    }
+                } else {
+                    // Le score est inférieur à 0.7, la validation est rejetée
+                    require_once 'src/views/login.php';
+                }
+                require_once 'src/views/login.php';
             }
-            
-            // Vérifiez la longueur minimale du nom d'utilisateur
-            if (empty($nom) || strlen($nom) < 4) {
-                // $errorMessage[] = Message::INP_ERR_NOM_CHAR;
-            }
-            
-            // Vérifiez la complexité du mot de passe
-            if (empty($mdp) || strlen($mdp) < 8) {
-                // $errorMessage[] = Message::INP_ERR_MDP_CHAR;
-            } else {
-                // Exigez au moins une lettre majuscule, une lettre minuscule et un chiffre
-                // if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/', $mdp)) {
-                //     $errorMessage[] = Message::INP_ERR_MDP_CHAR_SPE;
-                // }
-            }
-
-            
-            $dao = new DaoAppli();
-            $errorMessageFromDao = $dao->connexionUser($nom, $mdp); 
-
-            // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
-            $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
-            Message::setErrorMessage($errorMessage);
-            
-          if (!empty($errorMessage)) {
-    require_once 'src/views/login.php';
-} else { 
-    // Redirigez l'utilisateur après une connexion réussie
-    header('Location: /admin');
-    exit; // Assurez-vous d'appeler exit() pour arrêter l'exécution du script après la redirection
-}
+            require_once 'src/views/login.php';
         }
 
         public function deconnexion(){

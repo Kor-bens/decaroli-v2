@@ -1,5 +1,8 @@
 src/dao
-
+src/dao/DaoAppli.php
+back
+src/controllers/CntrlAppli.php
 assets/ressources/images
 .htaccess
 robots.txt
+erreurs.log
