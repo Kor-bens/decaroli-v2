@@ -59,7 +59,16 @@ class CntrlAppli {
                         //     $errorMessage[] = Message::INP_ERR_MDP_CHAR_SPE;
                         // }
                     }
-            if (!empty($_POST['nom']) || !empty($_POST['mdp'])) {
+                    $dao = new DaoAppli();
+                    $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
+        
+                    // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
+                    $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
+        
+                    Message::setErrorMessage($errorMessage);
+
+
+            if (!empty($_POST['nom']) && !empty($_POST['mdp'])) {
                 $secret = "6LfTu7MoAAAAAL_WHGxwfpksXCahoYhz3xiMZ5fH";
                 $response = htmlspecialchars($_POST['g-recaptcha-response']);
                 $remoteip = $_SERVER['REMOTE_ADDR'];
@@ -76,21 +85,7 @@ class CntrlAppli {
                     $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
                     $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
     
-                    $dao = new DaoAppli();
-                    $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
-        
-                    // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
-                    $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
-        
-                    Message::setErrorMessage($errorMessage);
-        
-                    if (!empty($errorMessage)) {
-                        require_once 'src/views/login.php';
-                    } else {
-                        // Redirigez l'utilisateur après une connexion réussie
-                        header('Location: /admin');
-                        exit; // Assurez-vous d'appeler exit() pour arrêter l'exécution du script après la redirection
-                    }
+                 
                 } else {
                     // Le score est inférieur à 0.7, la validation est rejetée
                     require_once 'src/views/login.php';
