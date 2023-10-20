@@ -1,0 +1,17 @@
+{
+    "name": "tortosa/decaroli-majv2",
+    "autoload": {
+        "psr-4": {
+            "Tortosa\\DecaroliMajv2\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tortosa",
+            "email": "sofianetortosa@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    }
+}

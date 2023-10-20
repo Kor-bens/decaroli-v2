@@ -10,10 +10,7 @@ require_once "common/head_admin.php";
 <body>
 
 <div id="container-form">        
-    <h1>Connexion</h1>
-
- 
-
+<img src="../../assets/ressources/images/logoDecaroli.png" alt="logo-decaroli">
     <!-- <?php 
      echo 'ID de session (récupéré via $_COOKIE) : <br>' . $_COOKIE['PHPSESSID'];
     ?> -->
@@ -29,8 +26,6 @@ require_once "common/head_admin.php";
             <div class="message-alert"><?= $errorMessageVide ?></div>
         <?php endif; ?>
 
-      
-
     <form id="loginForm" action="/connexion" method="post" onsubmit="onClick(event)">
         <label for="nom">Nom d'utilisateur :</label>
         <br>
@@ -40,11 +35,24 @@ require_once "common/head_admin.php";
         <br>
         <input type="password" id="mdp" name="mdp" >
         <br><br>
-        <input type="submit" id="button" value="Se connecter"
+        <input type="submit" class="button" value="Se connecter"
                 class="g-recaptcha" 
                 data-sitekey="6LfTu7MoAAAAABWMtlKV1GSN3cI4-stGVs63-qe8" 
                 data-callback='onSubmit' 
-                data-action='submit'> 
+                data-action='submit'>     
+       <p id="mdp-oublie">Mot de passe oublié</p>         
+    </form>
+
+    
+     
+    <br>
+    <form id="resetPassword" method="post" action="/reset-password">
+    <label for="nom_mail">Adresse e-mail :</label>
+    <br>
+    <input type="text" name="nom_mail" id="nom_mail" required>
+    <br><br>
+    <input type="submit" class="button" value="Réinitialiser le mot de passe">
+    <p id="se-connecter">Se connecter</p>
     </form>
     
 </div>
@@ -57,5 +65,6 @@ require_once "common/head_admin.php";
  </script>
 
 <script src="https://www.google.com/recaptcha/api.js"></script>
+<script src="../../assets/composantJs/login.js"></script>
 </body>
 </html>

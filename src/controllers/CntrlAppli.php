@@ -46,19 +46,19 @@ class CntrlAppli {
                     }
         
                     // Vérifiez la longueur minimale du nom d'utilisateur
-                    if (empty($nom) || strlen($nom) < 4) {
-                        // $errorMessage[] = Message::INP_ERR_NOM_CHAR;
-                    }
+                    // if (empty($nom) || strlen($nom) < 4) {
+                    //     $errorMessage[] = Message::INP_ERR_NOM_CHAR;
+                    // }
         
-                    // Vérifiez la complexité du mot de passe
-                    if (empty($mdp) || strlen($mdp) < 8) {
-                        // $errorMessage[] = Message::INP_ERR_MDP_CHAR;
-                    } else {
-                        // Exigez au moins une lettre majuscule, une lettre minuscule et un chiffre
-                        // if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/', $mdp)) {
-                        //     $errorMessage[] = Message::INP_ERR_MDP_CHAR_SPE;
-                        // }
-                    }
+                    // // Vérifiez la complexité du mot de passe
+                    // if (empty($mdp) || strlen($mdp) < 8) {
+                    //     $errorMessage[] = Message::INP_ERR_MDP_CHAR;
+                    // } else {
+                    //     // Exigez au moins une lettre majuscule, une lettre minuscule et un chiffre
+                    //     if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/', $mdp)) {
+                    //         $errorMessage[] = Message::INP_ERR_MDP_CHAR_SPE;
+                    //     }
+                    // }
                     $dao = new DaoAppli();
                     $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
         
@@ -79,20 +79,47 @@ class CntrlAppli {
         
                 var_dump($decode);
                 // exit;
-            if ($decode['success'] && $decode['score'] >= 0.7) {
-                    // Le score est supérieur ou égal à 0.7, la validation est réussie
-                    // Ajoutez le reste de votre code de traitement de connexion ici
-                    $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
-                    $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
+            // if ($decode['success'] && $decode['score'] >= 0.7) {
+            //         // Le score est supérieur ou égal à 0.7, la validation est réussie
+            //         // Ajoutez le reste de votre code de traitement de connexion ici
+            //         // $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
+            //         // $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
     
                  
-                } else {
-                    // Le score est inférieur à 0.7, la validation est rejetée
-                    require_once 'src/views/login.php';
-                }
+            //     } else {
+            //         // Le score est inférieur à 0.7, la validation est rejetée
+            //         require_once 'src/views/login.php';
+            //     }
                 require_once 'src/views/login.php';
             }
             require_once 'src/views/login.php';
+        }
+
+        public function resetPassword() {
+            if (!empty($_POST['nom_mail'])) {
+                $nomMail = htmlspecialchars($_POST['nom_mail']);
+                $dao = new DaoAppli();
+                
+                // Vérifiez si l'entrée existe dans la base de données
+                $existsInDatabase = $dao->checkUserExists($nomMail);
+                
+                if ($existsInDatabase) {
+                    // L'utilisateur existe dans la base de données, générez le jeton de réinitialisation
+                    $resetResult = $dao->resetMdp($nomMail);  
+                    
+        
+                    if ($resetResult) {
+                        // Réinitialisation réussie, informez l'utilisateur
+                        echo "Un e-mail de réinitialisation a été envoyé. Veuillez vérifier votre boîte de réception.";
+                    } else {
+                        // Échec de la réinitialisation, informez l'utilisateur de l'erreur
+                        echo "La réinitialisation du mot de passe a échoué. Veuillez vérifier les informations fournies.";
+                    }
+                } else {
+                    // L'entrée n'existe pas dans la base de données, affichez un message d'erreur
+                    echo "L'utilisateur n'existe pas dans la base de données. Veuillez vérifier les informations fournies.";
+                }
+            }
         }
 
         public function deconnexion(){

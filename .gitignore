@@ -5,4 +5,6 @@ src/controllers/CntrlAppli.php
 assets/ressources/images
 .htaccess
 robots.txt
+/vendor/
 erreurs.log
+

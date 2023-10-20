@@ -42,7 +42,7 @@ $message = $_SESSION['message'] ?? '';
     </ul>
 </div>
 
-<div id="administrateur"><h1>Administrateur decaroli <?php echo ucfirst($nom) ?></h1></div>
+<!-- <div id="administrateur"><h1>Administrateur decaroli <?php echo ucfirst($nom) ?></h1></div> -->
 
 <div id="container-form">
     <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">

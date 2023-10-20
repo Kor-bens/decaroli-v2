@@ -2,6 +2,8 @@
 
 // Désactivez l'affichage des erreurs
 ini_set('display_errors', "Off");
+// ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 // Configurez les paramètres de session avant de démarrer la session
 ini_set('session.cookie_secure', 0); // Désactivez l'utilisation de cookies de session uniquement via HTTPS
@@ -32,6 +34,7 @@ elseif ($method == 'GET' && $route == '/login')                     {$cntrlAppli
 elseif ($method == 'GET' && $route == '/admin')                     {$cntrlAppli->afficherPageAdmin();} 
 elseif ($method == 'POST' && $route == '/connexion')                {$cntrlAppli->connexion();} 
 elseif ($method == 'GET' && $route == '/deconnexion')               {$cntrlAppli->deconnexion();} 
+elseif ($method == 'POST' && $route == '/reset-password')           {$cntrlAppli->resetPassword();}  
 elseif ($method == 'POST' && $route == '/traitement-formulaire')    {$cntrlAppli->traitementFormulaire();} 
 elseif ($method == 'DELETE' && $route == '/supprimer-image')        {$cntrlAppli->supprimerImage();} 
 elseif ($method == 'POST' && $route == '/modifier-image')           {$cntrlAppli->modifierImage();} 

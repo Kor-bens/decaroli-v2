@@ -3,7 +3,12 @@ require_once 'src/controllers/Message.php';
 require_once 'src/dao/Db.php';
 require_once 'src/dao/Requete.php';
 require_once 'src/models/Admin.php';
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
 
+// require 'path/to/PHPMailer/PHPMailer.php';
+// require 'path/to/PHPMailer/Exception.php';
+// require 'path/to/PHPMailer/SMTP.php';
 
 class DaoAppli{
 
@@ -48,8 +53,10 @@ class DaoAppli{
         try {
             //si il existe et Nettoyez le nom d'utilisateur en supprimant les espaces inutiles et en évitant les caractères spéciaux
             if (isset($_POST['nom']) && isset($_POST['mdp'])) {
-                $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($_POST['nom']), '\x00..\x1F')) : '';
-                $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($_POST['mdp']), '\x00..\x1F')) : '';
+                // $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($_POST['nom']), '\x00..\x1F')) : '';
+                // $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($_POST['mdp']), '\x00..\x1F')) : '';
+                $nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom'], ENT_QUOTES, 'UTF-8') : '';
+                $mdp = isset($_POST['mdp']) ? htmlspecialchars($_POST['mdp'], ENT_QUOTES, 'UTF-8') : '';
                 $mdp = hash('sha512', $mdp);
     
                 $admin = $this->getAdminByNom($nom);
@@ -71,6 +78,79 @@ class DaoAppli{
         }
     
         return $errorMessage;
+    }
+
+    public function resetMdp($nomMail) {
+        try {
+            // Préparez la requête SQL
+            $requete = Requete::REQ_NOM_MAIL_ADMIN;
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+            $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
+        
+            // Exécutez la requête
+            $stmt->execute();
+        
+            // Récupérez le résultat
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            if ($result) {
+                // Le nom d'utilisateur et l'adresse e-mail correspondent à un enregistrement dans la base de données
+                // Vous pouvez générer un jeton de réinitialisation et l'envoyer par e-mail à l'utilisateur ici
+                
+                // Générez un jeton de réinitialisation
+                $resetToken = bin2hex(random_bytes(32));
+                
+                // Définissez la date d'expiration (24 heures à partir de maintenant)
+                $resetTokenExpiration = date('Y-m-d H:i:s', strtotime('+24 hours'));
+                
+                // Mettez à jour la base de données avec le jeton et la date d'expiration
+                $sql = "UPDATE administrateur SET reset_token = :resetToken, reset_token_expiration = :resetTokenExpiration WHERE nom = :nom";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':resetToken', $resetToken, PDO::PARAM_STR);
+                $stmt->bindParam(':resetTokenExpiration', $resetTokenExpiration, PDO::PARAM_STR);
+                $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+                $stmt->execute();
+                
+                // Envoyez un e-mail contenant le lien de réinitialisation à l'adresse e-mail de l'utilisateur
+                $sujet = "Réinitialisation de mot de passe";
+                $message = "Bonjour, vous avez demandé une réinitialisation de mot de passe. Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe : http://votresite.com/reset-password?token=$resetToken";
+                $headers = "From: votreadresse@votresite.com";
+                
+                if (mail($mail, $sujet, $message, $headers)) {
+                    return true; // L'e-mail a été envoyé avec succès
+                } else {
+                    // Gestion des erreurs d'envoi d'e-mail
+                    return false;
+                }
+            }
+        } catch (PDOException $e) {
+            // Gérez les erreurs PDO ici
+            $errorMessage = 'Erreur PDO dans resetMdp : ' . $e->getMessage();
+        $this->logError($errorMessage);
+        error_log($errorMessage);
+        }
+    }
+
+    public function checkUserExists($nomMail) {
+        try {
+            $requete = "SELECT COUNT(*) FROM administrateur WHERE nom = :nom OR mail = :mail";
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':nom', $nomMail, PDO::PARAM_STR);
+            $stmt->bindParam(':mail', $nomMail, PDO::PARAM_STR);
+            $stmt->execute();
+            
+            // Récupérez le nombre d'enregistrements correspondants
+            $count = $stmt->fetchColumn();
+            
+            return $count > 0;
+        } catch (PDOException $e) {
+            // Gérez les erreurs PDO ici
+            $errorMessage = 'Erreur PDO dans checkUserExists : ' . $e->getMessage();
+            $this->logError($errorMessage);
+            error_log($errorMessage);
+            return false;
+        }
     }
 
    
