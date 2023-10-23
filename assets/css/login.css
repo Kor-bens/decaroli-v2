@@ -20,7 +20,7 @@ background: #6d859e;
 /* background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); */
 }
 img{
-    width: 15%;
+    width: 25%;
     margin-top: 5%;
     margin-bottom: 5%;
     text-align: center;
@@ -40,74 +40,141 @@ h1{
 
 #loginForm {
     border: 2px solid #84A5D7;
-    border-radius: 10%;
+    border-radius: 10px;
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
     padding: 50px;
     display: flex;
     flex-direction: column;
     /* background-color: #ffffff; */
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); */
     margin: 0 auto;
     opacity: 1;
-    
+    text-align: center;
+    transition: box-shadow 0.3s; /* Ajoute une transition pour une animation douce sur le box-shadow */
+    background-color: #273648;
 }
+
+#loginForm:hover{
+    box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5);
+
+}
+
 label{
     display: flex;
     justify-content: center;
-    font-size: 1.2em;
+    font-size: 19px;
     font-family: 'montserrat';
     color: #ffffff;
 }
+
 input {
     border-radius: 5px;
-    background-color: transparent;
-   color: rgb(0, 0, 0);
-    font-size: 1em;
-    padding: 5px;
+    color:rgb(136, 133, 133);
+    font-size: 14px;
+    border: 1px solid #a4bbde; /* Set the same color for all borders */
+    padding: 6px;
     font-family: 'montserrat';
-    outline: none; /* Supprime la bordure de mise au focus par défaut */
-    transition: border-color 0.3s; /*Ajoute une transition pour une animation douce*/
+    outline: none;
+    box-shadow: none; /* Remove any shadow */
+    transition: border-color, box-shadow 0.3s;
+    /* background-color: transparent; */
 }
 
 input:focus {
-    border-color: #84A5D7 !important; /* Change la couleur de la bordure lorsqu'un champ de saisie est en focus */
+    border-color:  #84A5D7 !important; /* Change la couleur de la bordure lorsqu'un champ de saisie est en focus */
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
 }
 
+input:hover {
+    border-color:  #84A5D7 !important;
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
+}
 
 .button{
     font-family: 'montserrat';
+    font-size: 14px;
     cursor: pointer;
 background-color: #135E96;
 color: white;
+border: none;
+transition: box-shadow 0.3s,  border-radius 0.3s;
 }
 .button:hover{
     /* background-color: rgb(97, 89, 89); */
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); */
+    border-radius: 8px;
+    box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5);
 }
 
 .message-alert{
     color:red;
     font-family: 'montserrat';
-    font-size: 1.3em;
+    font-size: 19px;
     margin-bottom: 1%;
 }
 
 #mdp-oublie{
+    font-family: "montserrat";
     border-radius: 10px;
     cursor: pointer;
     text-decoration: underline;
+    text-decoration-color: #a4bbde;
+    color: white;
+    transition: text-decoration-color 0.3s;
 }
 
+#mdp-oublie:hover{
+    text-decoration-color:  #84A5D7;
+}
 
 #resetPassword{
     display: none;
     border: 2px solid #84A5D7;
     border-radius: 10px;
     padding:50px;
-    width: 15%;
     text-align: center;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s;
+    background-color:#273648;
 }
+
+#resetPassword:hover{
+box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5);
+}
+
+#nom_mail{
+    width: 100%;
+}
+
+#label_nom_mail{
+    width: 100%;
+}
+
 #se-connecter{
+    font-family: "montserrat";
+    border-radius: 10px;
     cursor: pointer;
     text-decoration: underline;
+    text-decoration-color: #a4bbde;
+    color: white;
+    transition: text-decoration-color 0.3s;
 }
+
+#se-connecter:hover{
+    text-decoration-color:  #84A5D7;
+}
+
+
+@media (min-width: 320px) and (max-width: 425px){
+
+    img{
+        width: 60%;
+    }
+
+    }
+
+    @media (min-width: 426px) and (max-width: 767px) {
+    
+        img{
+            width: 50%;
+        }
+    }

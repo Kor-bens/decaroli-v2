@@ -13,7 +13,8 @@ body{
     background-image: url("../../assets/ressources/body/ZenBG-admin.png"), url("../../assets/ressources/body/ZenBG-admin2.png");
     background-repeat: repeat-x, repeat; */
 
-    background:#878181;
+    background: #6d859e;
+    /* background: #114789; */
 }
 
 #navbar{
@@ -39,26 +40,25 @@ li{
     width: auto;
 }
 a{
+    font-size: 19px;
     text-decoration: none;
     color: rgb(255, 255, 255);
 }
+
 
 #administrateur{
     background-color:rgb(172, 158, 158);
 }
 h1{
-    font-size: 2.5em;
+    font-size: 45px;
     margin: 0;
     text-align: center;
 }
 
 #container-form{
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    /* margin-top: 3%; */
-    /* background-color: #5b5b5b; */
+    height: 100%;
 }
 label{
     display: flex;
@@ -66,16 +66,31 @@ label{
     align-items: center;
     color: white;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 19px;
 }
 
-#form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#form {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* margin-left: 30%; */
+        /* border: 2px solid #84A5D7; */
+        border-right: 2px solid #84A5D7; 
+        /* border-radius: 10px; */
+        /* padding: 50px; */
+        width: 100%;
+        opacity: 1;
+        min-height: 100vh;
+        text-align: center;
+        transition: box-shadow 0.3s;
+    }
+#form:hover{
+    box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5);
 }
 #container-titre{
-    margin-top: 2%;
+    /* margin-top: 2%; */
     display: flex;
     justify-content: center;
   
@@ -84,7 +99,7 @@ label{
 }
 
 #container-image{
-    margin-top: 2%;
+    /* margin-top: 2%; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -97,6 +112,7 @@ label{
 }
 #bouton-ajouter-image{
   margin: 1% auto;
+  margin-top: 2.5%;
 }
 #message-alert-image{
     margin: 1%;
@@ -105,11 +121,26 @@ label{
 }
 input{
     border-radius: 5px;
-    margin-top: 2%;
-    margin-bottom: 4%;
-    font-size: 1em;
-    padding: 5px;
-    /* padding: 0; */
+    margin-top: 2.5%;
+    margin-bottom: 10%;
+    color:rgb(136, 133, 133);
+    font-size: 14px;
+    padding: 6px;
+    font-family: 'montserrat';
+    outline: none;
+    box-shadow: none; /* Remove any shadow */
+    transition: border-color 0.3s;
+    /* background-color: transparent; */
+    border: 1px solid #a4bbde; /* Set the same color for all borders */
+}
+
+input:focus {
+    border-color:  #84A5D7 !important; /* Change la couleur de la bordure lorsqu'un champ de saisie est en focus */
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
+}
+input:hover {
+    border-color:  #84A5D7 !important; /* Change la couleur de la bordure lorsqu'un champ de saisie est en focus */
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
 }
 
 #input-ajouter-image{
@@ -123,44 +154,84 @@ input{
 .bouton-supprimer-image:hover{
 background-color: rgb(227, 39, 39);
 color: white;
+ border-radius: 8px;
+}
+.bouton-modifier-image{
+    margin-right: 1%;
 }
 .bouton-modifier-image:hover{
     background-color: rgb(83, 128, 192);
     color: white;
+    border-radius: 8px;
 }
 button{
     cursor: pointer;
     border-radius: 5px;
-    transition: box-shadow 0.3s;
-    padding: 5px;
+    /* transition: box-shadow 0.3s; */
+    padding: 6px;
+    font-size: 14px;
+border: none;
+font-family: "montserrat";
+transition: border-radius 0.3;
 }
 button:hover{
     border-radius:5px;
     background-color: rgb(83, 128, 192); /* Change la couleur de fond */
-      box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5); /* Ajoute une ombre */
+     border-radius:8px;
       color: white;
+      
+}
+.button:hover{
+    /* background-color: rgb(97, 89, 89); */
+    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); */
+    border-radius: 8px;
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
 }
 
 #container-background{
     margin-top: 2%;
-   
 }
 img{
-    width: 15%;
+    width: 25%;
    
 }
+
 
 #bouton-form{
     margin-bottom: 1%;
 }
-
+#container-representation-page-index{
+    display: grid;
+    align-content: center;
+    grid-template-columns: repeat(1,1fr);
+    row-gap: 10%;
+}
+h1{
+    /* top:10%; */
+    font-size: 45px;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+}
 #container-image-db{
     display: grid;
     grid-template-columns: repeat(2,1fr);
+    align-content: center;
+    gap: 5%;
+    /* border-left: 2px solid #84A5D7; Ajoute une bordure à droite */
 }
+
 .image{
     display: flex;
     align-items: center; 
+    transition: box-shadow 0.3s;
+}
+
+.image:hover{
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5); /* Ajoute une ombre */
+    border-radius: 10px;
 }
 
 /* Masquer le texte "Choisir un fichier" dans les champs de téléchargement de fichier */
@@ -169,14 +240,16 @@ img{
 }
 .flex-start {
     display: flex;
-    justify-content: flex-start !important;
-    margin-left: 5%;
+    justify-content: center !important;
+    justify-content: center;
+    margin-right: 20%;
 }
 
 .flex-end {
     display: flex;
-    justify-content: flex-end !important;
-    margin-right: 5%;
+    justify-content: center !important;
+    justify-content: center;
+    margin-left: 20%;
 }
 
 #fichier-image{
@@ -186,7 +259,9 @@ img{
 
 
 @media (min-width: 320px) and (max-width: 425px){
-
+#container-form{
+    flex-direction: column;
+}
 #navbar{
     justify-content: center;
     display: flex; /* Utilisez flex pour centrer horizontalement */

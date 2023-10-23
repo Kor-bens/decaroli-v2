@@ -37,7 +37,7 @@ require_once "common/head_admin.php";
         <br><br>
         <input type="submit" class="button" value="Se connecter"
                 class="g-recaptcha" 
-                data-sitekey="6LfTu7MoAAAAABWMtlKV1GSN3cI4-stGVs63-qe8" 
+                data-sitekey="6LfFS8IoAAAAAH0O-iZO0vm4pnkc-EHwM7icG-Vi" 
                 data-callback='onSubmit' 
                 data-action='submit'>     
        <p id="mdp-oublie">Mot de passe oublié</p>         
@@ -47,7 +47,7 @@ require_once "common/head_admin.php";
      
     <br>
     <form id="resetPassword" method="post" action="/reset-password">
-    <label for="nom_mail">Adresse e-mail :</label>
+    <label id="label_nom_mail" for="nom_mail">Adresse e-mail :</label>
     <br>
     <input type="text" name="nom_mail" id="nom_mail" required>
     <br><br>

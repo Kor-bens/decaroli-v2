@@ -22,9 +22,14 @@ $message = $_SESSION['message'] ?? '';
 <title>DECAROLI - ADMIN</title>
 </head>
 <style>
-        /* #container-form {
-         background   : <?= $donneesOrigine[0]['bkgd_color'] ?>;
-        } */
+     #container-representation-page-index {
+        background: <?= $donneesOrigine[0]['bkgd_color'] ?>;
+    }
+    h1 {
+        background-image: <?= $donneesOrigine[0]['titre_color'] ?>;
+        color: <?= $donneesOrigine[0]['titre_color'] ?>;
+        font-family: <?= $donneesOrigine[0]['titre_font_family'] ?>;
+    }
     </style> 
 <body>
 <div id="navbar">
@@ -49,15 +54,15 @@ $message = $_SESSION['message'] ?? '';
           <div id="container-titre">
               <label for="titre">Modifier le titre:</label>
               <input id="input-titre" type="text" name="titre" value="<?= $donneesOrigine[0]['titre'] ?>">
-              <label id="titre-color" for="titre_color">Modifier la couleur du titre:</label>
+              <label id="titre-color" for="titre_color">Couleur du titre:</label>
               <input id="input-titre-color" type="text" name="titre_color" value="<?= $donneesOrigine[0]['titre_color'] ?>">
-              <label id="titre_font_family" for="titre_font_family">Modifier la font-family du titre:</label>
+              <label id="titre_font_family" for="titre_font_family">Police du titre:</label>
               <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $donneesOrigine[0]['titre_font_family'] ?>">
-              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Modifier la police du titre pour grand ecran:</label>
+              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version ordinateur:</label>
               <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>">
-              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Modifier la police du titre pour moyen ecran:</label>
+              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version tablette:</label>
               <input id="input-titre_font_size_moyen_ecran" type="text" name="titre_font_size_moyen_ecran" value="<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>">
-              <label id="titre_font_size_petit_ecran" for="titre_font_size_petit_ecran">Modifier la police du titre pour petit ecran:</label>
+              <label id="titre_font_size_petit_ecran" for="titre_font_size_petit_ecran">Taille du titre pour version mobile:</label>
               <input id="input-titre_font_size_petit_ecran" type="text" name="titre_font_size_petit_ecran" value="<?= $donneesOrigine[0]['titre_font_size_petit_ecran'] ?>">
           </div>
 
@@ -76,12 +81,14 @@ $message = $_SESSION['message'] ?? '';
           </div>
 
           <div id="container-background">
-              <label for="background">Modifier le body:</label>
+              <label for="background">Arrière plan de la page:</label>
               <input type="text" name="background" value="<?= $donneesOrigine[0]['bkgd_color'] ?>"><br>
           </div> 
          <button id="bouton-form"type ="submit">Valider</button>
     </form>
              
+    <div id="container-representation-page-index">
+    <h1 id="titre-representation-page-index"><?= $donneesOrigine[0]['titre'] ?></h1>
                 <div id="container-image-db">
                 <?php
                 // Fonction de comparaison pour trier le tableau par ID croissant
@@ -105,18 +112,18 @@ $message = $_SESSION['message'] ?? '';
                     <div class="image <?= $class ?>">
                         <img src="../../assets/ressources/images/<?= $image['url'] ?>" alt="<?= $image['nom_image'] ?>">
                         <?php if (isset($image['id_image'])) : ?>
-                            <button class="bouton-supprimer-image" data-id="<?= $image['id_image'] ?>">Supprimer</button>
+                            <button class="bouton-modifier-image" data-id="<?= $image['id_image'] ?>">Modifier</button>
                             <!-- Champ de téléchargement de fichier pour la modification de l'image -->
                             <input type="file" class="champ-modifier-image input-image" data-id="<?= $image['id_image'] ?>">
                             <!-- Bouton "Modifier" avec l'attribut onclick -->
-                            <button class="bouton-modifier-image" data-id="<?= $image['id_image'] ?>">Modifier</button>
+                            <button class="bouton-supprimer-image" data-id="<?= $image['id_image'] ?>">Supprimer</button>
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             </div>
                  
   </div>
-
+</div>
 <!-- <?php
 $idImageModifier = $_SESSION['idImageModifier'] ?? '';
 $nouveauNomImage = $_SESSION['nouveauNomImage'] ?? '';

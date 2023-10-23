@@ -69,7 +69,7 @@ class CntrlAppli {
 
 
             if (!empty($_POST['nom']) && !empty($_POST['mdp'])) {
-                $secret = "6LfTu7MoAAAAAL_WHGxwfpksXCahoYhz3xiMZ5fH";
+                $secret = "6LfFS8IoAAAAAGv-NyUbPuCwN07K4M-qKX0phMyL";
                 $response = htmlspecialchars($_POST['g-recaptcha-response']);
                 $remoteip = $_SERVER['REMOTE_ADDR'];
                 $request  = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
@@ -79,17 +79,17 @@ class CntrlAppli {
         
                 var_dump($decode);
                 // exit;
-            // if ($decode['success'] && $decode['score'] >= 0.7) {
-            //         // Le score est supérieur ou égal à 0.7, la validation est réussie
-            //         // Ajoutez le reste de votre code de traitement de connexion ici
-            //         // $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
-            //         // $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
+            if ($decode['success'] && $decode['score'] >= 0.7) {
+                    // Le score est supérieur ou égal à 0.7, la validation est réussie
+                    // Ajoutez le reste de votre code de traitement de connexion ici
+                    // $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
+                    // $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
     
                  
-            //     } else {
-            //         // Le score est inférieur à 0.7, la validation est rejetée
-            //         require_once 'src/views/login.php';
-            //     }
+                } else {
+                    // Le score est inférieur à 0.7, la validation est rejetée
+                    require_once 'src/views/login.php';
+                }
                 require_once 'src/views/login.php';
             }
             require_once 'src/views/login.php';
