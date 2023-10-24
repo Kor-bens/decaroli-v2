@@ -3,6 +3,39 @@ require_once 'src/controllers/Message.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/Message.php';
 require_once 'src/dao/Requete.php';
+
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+
+// require_once '../../vendor/autoload.php';
+
+// $mail = new PHPMailer(true);
+
+// try {
+//     $mail->isSMTP();
+//     $mail->Host = 'smtp.live.com';
+//     $mail->SMTPAuth = true;
+//     $mail->Username = ''; // Votre adresse email
+//     $mail->Password = ''; // Votre mot de passe email
+//     $mail->SMTPSecure = 'tls';
+//     $mail->Port = 587;
+
+//     $mail->setFrom('', 'Sofiane Tortosa');
+//     $mail->addAddress('', 'Sofiane Tortosa');
+//     $mail->isHTML(true);
+//     $mail->Subject = "test email";
+//     $mail->Body = "Ceci est un e-mail de test envoyé à moi-même pour vérifier le fonctionnement de PHPMailer.";
+
+//     $mail->SMTPDebug = 2;  // 2 pour afficher les messages d'erreur, 0 pour les désactiver
+
+//     if (!$mail->send()) {
+//         echo "L'email n'a pas été envoyé. Mailer Error: {$mail->ErrorInfo}";
+//     } else {
+//         echo "Email envoyé avec succès!";
+//     }
+// } catch (Exception $e) {
+//     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+// }
 class CntrlAppli {
  
             public function afficherPagePromo()
@@ -93,6 +126,30 @@ class CntrlAppli {
                 require_once 'src/views/login.php';
             }
             require_once 'src/views/login.php';
+        }
+
+        public function handlePasswordReset() {
+            $token = $_GET['token'];
+        
+            // Vérifiez le jeton et la date d'expiration
+            $dao = new DaoAppli(); 
+            $user = $dao->getUserByToken($token);
+        
+            if (!$user) {
+                echo "Jeton invalide.";
+                return;
+            }
+        
+            $currentDate = new DateTime();
+            $tokenExpiration = new DateTime($user['reset_token_expiration']);
+        
+            if ($currentDate > $tokenExpiration) {
+                echo "Le jeton a expiré.";
+                return;
+            }
+        
+            // Affichez un formulaire pour saisir un nouveau mot de passe
+            // Lorsque l'utilisateur soumet le formulaire, mettez à jour le mot de passe dans la base de données
         }
 
         public function resetPassword() {

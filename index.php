@@ -1,7 +1,7 @@
 <?php
 
 // Désactivez l'affichage des erreurs
-ini_set('display_errors', "Off");
+ini_set('display_errors', "On");
 // ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -13,6 +13,7 @@ ini_set('session.cookie_httponly', 1); // Empêchez l'accès aux cookies de sess
 session_start();
 session_regenerate_id(true);
 ob_start();
+require_once 'vendor/autoload.php';
 
 // Incluez les fichiers nécessaires
 require_once 'src/dao/DaoAppli.php';  // Incluez la classe DaoAppli

@@ -1,14 +1,11 @@
 <?php 
+
 require_once 'src/controllers/Message.php';
 require_once 'src/dao/Db.php';
 require_once 'src/dao/Requete.php';
 require_once 'src/models/Admin.php';
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
 
-// require 'path/to/PHPMailer/PHPMailer.php';
-// require 'path/to/PHPMailer/Exception.php';
-// require 'path/to/PHPMailer/SMTP.php';
+
 
 class DaoAppli{
 
@@ -28,7 +25,7 @@ class DaoAppli{
         $logEntry = "$timestamp $fichier - Erreur dans DaoAppli : $errorMessage"  . PHP_EOL;
         error_log($logEntry, 3, $filename, FILE_APPEND);
     }
-    private function getAdminByNom($nom): array {
+    public function getAdminByNom($nom): array {
         try {
             $requete = Requete::REQ_NOM_ADMIN;
             $stmt = $this->db->prepare($requete);
@@ -271,6 +268,22 @@ class DaoAppli{
             // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
             $this->logError('Erreur PDO dans getNomFichierImageById  : ' . $e->getMessage());
             return null;
+        }
+    }
+
+    public function getUserByToken($token) {
+        try {
+            $requete = "SELECT * FROM administrateur WHERE reset_token = :token";
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+            $stmt->execute();
+            
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $errorMessage = 'Erreur PDO dans getUserByToken : ' . $e->getMessage();
+            $this->logError($errorMessage);
+            error_log($errorMessage);
+            return false;
         }
     }
 
