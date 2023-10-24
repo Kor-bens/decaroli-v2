@@ -51,7 +51,7 @@ h1{
     opacity: 1;
     text-align: center;
     transition: box-shadow 0.3s; /* Ajoute une transition pour une animation douce sur le box-shadow */
-    background-color: #273648;
+    background-color: #3f5a7b8a;
 }
 
 #loginForm:hover{
@@ -103,7 +103,7 @@ transition: box-shadow 0.3s,  border-radius 0.3s;
     /* background-color: rgb(97, 89, 89); */
     /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); */
     border-radius: 8px;
-    box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5);
+    box-shadow: 0px 0px 13px rgba(164, 187, 222, 0.5);
 }
 
 .message-alert{
@@ -134,7 +134,7 @@ transition: box-shadow 0.3s,  border-radius 0.3s;
     padding:50px;
     text-align: center;
     transition: box-shadow 0.3s;
-    background-color:#273648;
+    background-color:#3f5a7b8a;
 }
 
 #resetPassword:hover{

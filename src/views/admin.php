@@ -18,17 +18,20 @@ unset($_SESSION['messageImageError']); // Action réussie, supprimez le message 
 $message = $_SESSION['message'] ?? '';
 
  ?>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $donneesOrigine[0]['titre_font_family']?>">
 <link rel="stylesheet" href="../../assets/css/admin.css">
 <title>DECAROLI - ADMIN</title>
 </head>
 <style>
      #container-representation-page-index {
-        background: <?= $donneesOrigine[0]['bkgd_color'] ?>;
+        background: <?= $donneesOrigine[0]['bkgd_color']?>;
     }
     h1 {
-        background-image: <?= $donneesOrigine[0]['titre_color'] ?>;
-        color: <?= $donneesOrigine[0]['titre_color'] ?>;
-        font-family: <?= $donneesOrigine[0]['titre_font_family'] ?>;
+        background-image: <?= $donneesOrigine[0]['titre_color']?>;
+        color: <?= $donneesOrigine[0]['titre_color']?> ;
+        font-family: <?= $donneesOrigine[0]['titre_font_family']?>;
     }
     </style> 
 <body>
@@ -49,20 +52,22 @@ $message = $_SESSION['message'] ?? '';
 
 <!-- <div id="administrateur"><h1>Administrateur decaroli <?php echo ucfirst($nom) ?></h1></div> -->
 
+<div id="container-form-page-representation-index">
+
 <div id="container-form">
     <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">
           <div id="container-titre">
-              <label for="titre">Modifier le titre:</label>
+              <label id="label-titre" for="titre">Titre :</label>
               <input id="input-titre" type="text" name="titre" value="<?= $donneesOrigine[0]['titre'] ?>">
-              <label id="titre-color" for="titre_color">Couleur du titre:</label>
+              <label id="titre-color" for="titre_color">Couleur du titre :</label>
               <input id="input-titre-color" type="text" name="titre_color" value="<?= $donneesOrigine[0]['titre_color'] ?>">
-              <label id="titre_font_family" for="titre_font_family">Police du titre:</label>
+              <label id="titre_font_family" for="titre_font_family">Police du titre :</label>
               <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $donneesOrigine[0]['titre_font_family'] ?>">
-              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version ordinateur:</label>
+              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version ordinateur :</label>
               <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>">
-              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version tablette:</label>
+              <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version tablette :</label>
               <input id="input-titre_font_size_moyen_ecran" type="text" name="titre_font_size_moyen_ecran" value="<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>">
-              <label id="titre_font_size_petit_ecran" for="titre_font_size_petit_ecran">Taille du titre pour version mobile:</label>
+              <label id="titre_font_size_petit_ecran" for="titre_font_size_petit_ecran">Taille du titre pour version mobile :</label>
               <input id="input-titre_font_size_petit_ecran" type="text" name="titre_font_size_petit_ecran" value="<?= $donneesOrigine[0]['titre_font_size_petit_ecran'] ?>">
           </div>
 
@@ -88,7 +93,7 @@ $message = $_SESSION['message'] ?? '';
     </form>
              
     <div id="container-representation-page-index">
-    <h1 id="titre-representation-page-index"><?= $donneesOrigine[0]['titre'] ?></h1>
+    <h1><?= $donneesOrigine[0]['titre'] ?></h1>
                 <div id="container-image-db">
                 <?php
                 // Fonction de comparaison pour trier le tableau par ID croissant
@@ -123,6 +128,7 @@ $message = $_SESSION['message'] ?? '';
             </div>
                  
   </div>
+</div>
 </div>
 <!-- <?php
 $idImageModifier = $_SESSION['idImageModifier'] ?? '';
