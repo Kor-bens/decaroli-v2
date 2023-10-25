@@ -16,6 +16,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+        "testdao": "phpunit -v tests/dao/DaoAppliTest.php"
     }
  
 }

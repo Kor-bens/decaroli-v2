@@ -203,7 +203,7 @@ class DaoAppli{
     }
     
     public function traitementImage($nouvelleImage, $nomFichier, $idPage) {
-        $requete = Requete::REQ_AJOUT_IMAGE;
+        $requete = Requete::REQ_AJOUT_IMAGE; 
         
         try {
             $stmt = $this->db->prepare($requete);

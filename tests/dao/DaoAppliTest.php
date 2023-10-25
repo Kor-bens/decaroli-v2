@@ -42,53 +42,66 @@ class DaoAppliTest extends TestCase
         $this->daoAppli->modifBackgroundTitre('titre', 'background', 'color', 'font-family', 'font-large', 'font-medium', 'font-small');
     }
 
-    public function testGetTitreCouleurImage() {
-        // 1. Création des mocks
+    
+    public function testTraitementImage(){
         $pdoMock = $this->createMock(PDO::class);
         $stmtMock = $this->createMock(PDOStatement::class);
-    
-        // 2. Configuration des mocks
-        // Simuler la récupération des données
-        $mockData = [
-            [
-                'titre' => 'test',
-                'titre_color' => '#FFF',
-                'titre_font_family' => 'montserrat',
-                'titre_font_size_grand_ecran' => '80px',
-                'titre_font_size_moyen_ecran' => '50px',
-                'titre_font_size_petit_ecran' => '30px',
-                'bkgd_color' => 'black',
-                'nom_image' => "bibi",
-                'url' => "123bibi",
-                'id_image' => "320"
-            ],
-            // ... ajouter d'autres données mockées si nécessaire ...
-        ];
-    
+        
         $pdoMock->expects($this->once())
-                ->method('query')
-                ->with(Requete::REQ_TITRE_COULEUR_IMAGE)
+                ->method('prepare')
                 ->willReturn($stmtMock);
-    
-        $stmtMock->expects($this->exactly(count($mockData) + 1))  // +1 pour le dernier appel qui retourne false
-                 ->method('fetch')
-                 ->will($this->onConsecutiveCalls(...$mockData, false));
-    
-        // 3. Injection des mocks dans DaoAppli
-        $daoAppli = new DaoAppli();
-        $reflection = new ReflectionClass(DaoAppli::class);
-        $property = $reflection->getProperty('db');
-        $property->setAccessible(true);
-        $property->setValue($daoAppli, $pdoMock);
-    
-        // 4. Appel de la méthode
-        $result = $daoAppli->getTitreCouleurImage();
-    
-        // 5. Vérification du résultat
-        $this->assertEquals($mockData, $result);
-    }
-    // Continuez avec d'autres méthodes de test pour chaque méthode de DaoAppli
+        
+        $stmtMock->expects($this->once())
+                 ->method('execute')
+                 ->willReturn(true);
+        
+        $daoAppliReflection = new ReflectionClass(DaoAppli::class);
+        $dbProperty = $daoAppliReflection->getProperty('db');
+        $dbProperty->setAccessible(true);
+        $dbProperty->setValue($this->daoAppli, $pdoMock);
 
+        $this->daoAppli->traitementImage('url', 'nom_image', 'id_page');
+    }
+
+    public function testSupprimerImage(){
+        $pdoMock = $this->createMock(PDO::class);
+        $stmtMock = $this->createMock(PDOStatement::class);
+
+        $pdoMock->expects($this->once())
+                ->method('prepare')
+                ->willReturn($stmtMock);
+        
+        $stmtMock->expects($this->once())
+                 ->method('execute')
+                 ->willReturn(true);
+        
+        $daoAppliReflection = new ReflectionClass(DaoAppli::class);
+        $dbProperty = $daoAppliReflection->getProperty('db');
+        $dbProperty->setAccessible(true);
+        $dbProperty->setValue($this->daoAppli, $pdoMock);
+
+        $this->daoAppli->supprimerImage('idImage');
+    }
+
+    public function testModifierImage(){
+        $pdoMock = $this->createMock(PDO::class);
+        $stmtMock = $this->createMock(PDOStatement::class);
+
+        $pdoMock->expects($this->once())
+                ->method('prepare')
+                ->willReturn($stmtMock);
+        
+        $stmtMock->expects($this->once())
+                 ->method('execute')
+                 ->willReturn(true);
+        
+        $daoAppliReflection = new ReflectionClass(DaoAppli::class);
+        $dbProperty = $daoAppliReflection->getProperty('db');
+        $dbProperty->setAccessible(true);
+        $dbProperty->setValue($this->daoAppli, $pdoMock);
+
+        $this->daoAppli->modifierImage('nom_image', 'url' ,'id_image');
+    }
     protected function tearDown(): void
     {
         // Libérez les ressources ou effectuez d'autres opérations de nettoyage si nécessaire.
