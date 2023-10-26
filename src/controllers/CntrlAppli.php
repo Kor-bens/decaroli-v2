@@ -63,70 +63,54 @@ class CntrlAppli {
         }
 
         public function connexion()
-        {
-            require_once 'src/dao/DaoAppli.php';
-          // Réinitialisez les messages d'erreur à chaque nouvelle tentative de connexion
-                    Message::setErrorMessage([]);
-        
-                    // Tableau pour stocker les messages d'erreur
-                    $errorMessage = [];
-        
-                    if (empty($nom) || empty($mdp)) {
-                        $errorMessageVide = Message::INP_ERR_CHAMP_VIDE;
-                    }
-                    if (empty($nom) && empty($mdp)) {
-                        $errorMessageVide = Message::INP_ERR_CHAMP_VIDE;
-                    }
-        
-                    // Vérifiez la longueur minimale du nom d'utilisateur
-                    // if (empty($nom) || strlen($nom) < 4) {
-                    //     $errorMessage[] = Message::INP_ERR_NOM_CHAR;
-                    // }
-        
-                    // // Vérifiez la complexité du mot de passe
-                    // if (empty($mdp) || strlen($mdp) < 8) {
-                    //     $errorMessage[] = Message::INP_ERR_MDP_CHAR;
-                    // } else {
-                    //     // Exigez au moins une lettre majuscule, une lettre minuscule et un chiffre
-                    //     if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/', $mdp)) {
-                    //         $errorMessage[] = Message::INP_ERR_MDP_CHAR_SPE;
-                    //     }
-                    // }
-                    $dao = new DaoAppli();
-                    $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
-        
-                    // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
-                    $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
-        
-                    Message::setErrorMessage($errorMessage);
+{
+    require_once 'src/dao/DaoAppli.php';
 
+    // Réinitialisez les messages d'erreur à chaque nouvelle tentative de connexion
+    Message::setErrorMessage([]);
 
-            if (!empty($_POST['nom']) && !empty($_POST['mdp'])) {
-                $secret = "6LfFS8IoAAAAAGv-NyUbPuCwN07K4M-qKX0phMyL";
-                $response = htmlspecialchars($_POST['g-recaptcha-response']);
-                $remoteip = $_SERVER['REMOTE_ADDR'];
-                $request  = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
+    // Tableau pour stocker les messages d'erreur
+    $errorMessage = [];
+
+    $nom = $_POST['nom'] ?? null;
+    $mdp = $_POST['mdp'] ?? null;
+
+    if (empty($nom) || empty($mdp)) {
+        $errorMessage[] = Message::INP_ERR_CHAMP_VIDE;
+    }
+
+    $dao = new DaoAppli();
+    $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
+
+    // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
+     $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
+
+    // Message::setErrorMessage($errorMessage);
+
+    if (!empty($_POST['nom']) && !empty($_POST['mdp'])) {
+        $secret = "6Lfkds8oAAAAACgUwWz39ekeIDucyKmPvKfuerP5";
+        $response = htmlspecialchars($_POST['g-recaptcha-response']);
+        $remoteip = $_SERVER['REMOTE_ADDR'];
+        $request  = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
+
+        $get  = file_get_contents($request);
+        $decode = json_decode($get, true);
         
-                $get  = file_get_contents($request);
-                $decode = json_decode($get, true);
-        
-                var_dump($decode);
-                // exit;
-            if ($decode['success'] && $decode['score'] >= 0.7) {
-                    // Le score est supérieur ou égal à 0.7, la validation est réussie
-                    // Ajoutez le reste de votre code de traitement de connexion ici
-                    // $nom = isset($_POST['nom']) ? trim(addcslashes(strip_tags($nom), '\x00..\x1F')) : '';
-                    // $mdp = isset($_POST['mdp']) ? trim(addcslashes(strip_tags($mdp), '\x00..\x1F')) : '';
-    
-                 
-                } else {
-                    // Le score est inférieur à 0.7, la validation est rejetée
-                    require_once 'src/views/login.php';
-                }
-                require_once 'src/views/login.php';
-            }
-            require_once 'src/views/login.php';
+        if ($decode['success'] && $decode['score'] >= 1) {
+            // Le score est supérieur ou égal à 0.7, la validation est réussie
+            // Redirigez l'utilisateur vers la page admin
+            header('Location: admin.php'); // Assurez-vous que le chemin soit correct
+            
+            exit; // Assurez-vous de terminer le script ici
+        } else {
+            // Le score est inférieur à 0.7, la validation est rejetée
+            $errorMessage[] = "Votre tentative de connexion a été rejetée en raison d'une activité suspecte détectée";var_dump($decode);
         }
+    }
+
+    // Restez dans la même vue pour afficher les messages d'erreur
+    require_once 'src/views/login.php';
+}
 
         public function handlePasswordReset() {
             $token = $_GET['token'];
