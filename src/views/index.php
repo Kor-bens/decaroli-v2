@@ -7,7 +7,7 @@
                                      Profitez de remises exclusives sur une large gamme d'articles, des soins pour bébés aux produits minceur. 
                                      Économisez sur des essentiels de santé et de bien-être. Ne manquez pas nos offres exceptionnelles ce mois-ci !" />
     <title>DECAROLI</title>
-    <link rel="icon" type="image/png"  href="../../assets/ressources/images/logoDecaroli-head.png"/>
+    <link rel="icon" type="image/png"  href="../../assets/ressources/images/logoDecaroli.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $donneesOrigine[0]['titre_font_family']?>">

@@ -1,4 +1,4 @@
-src/dao
+src/dao/
 src/dao/DaoAppli.php
 back
 src/controllers/CntrlAppli.php
