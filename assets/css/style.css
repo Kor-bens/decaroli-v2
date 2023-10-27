@@ -52,13 +52,13 @@ img{
 .flex-start {
     display: flex !important;
     justify-content: flex-start !important;
-    margin-left: 5%;
+    
 }
 
 .flex-end {
     display: flex;
     justify-content: flex-end !important;
-    margin-right: 5%;
+   
 }
 
 

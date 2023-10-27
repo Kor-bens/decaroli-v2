@@ -1,4 +1,5 @@
 <?php
+
 require_once 'src/controllers/Message.php';
 require_once 'src/dao/DaoAppli.php';
 require_once 'src/controllers/Message.php';
@@ -63,54 +64,60 @@ class CntrlAppli {
         }
 
         public function connexion()
-{
-    require_once 'src/dao/DaoAppli.php';
-
-    // Réinitialisez les messages d'erreur à chaque nouvelle tentative de connexion
-    Message::setErrorMessage([]);
-
-    // Tableau pour stocker les messages d'erreur
-    $errorMessage = [];
-
-    $nom = $_POST['nom'] ?? null;
-    $mdp = $_POST['mdp'] ?? null;
-
-    if (empty($nom) || empty($mdp)) {
-        $errorMessage[] = Message::INP_ERR_CHAMP_VIDE;
-    }
-
-    $dao = new DaoAppli();
-    $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
-
-    // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
-     $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
-
-    // Message::setErrorMessage($errorMessage);
-
-    if (!empty($_POST['nom']) && !empty($_POST['mdp'])) {
-        $secret = "6Lfkds8oAAAAACgUwWz39ekeIDucyKmPvKfuerP5";
-        $response = htmlspecialchars($_POST['g-recaptcha-response']);
-        $remoteip = $_SERVER['REMOTE_ADDR'];
-        $request  = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
-
-        $get  = file_get_contents($request);
-        $decode = json_decode($get, true);
+        {
+            require_once 'src/dao/DaoAppli.php';
         
-        if ($decode['success'] && $decode['score'] >= 1) {
-            // Le score est supérieur ou égal à 0.7, la validation est réussie
-            // Redirigez l'utilisateur vers la page admin
-            header('Location: admin.php'); // Assurez-vous que le chemin soit correct
-            
-            exit; // Assurez-vous de terminer le script ici
-        } else {
-            // Le score est inférieur à 0.7, la validation est rejetée
-            $errorMessage[] = "Votre tentative de connexion a été rejetée en raison d'une activité suspecte détectée";var_dump($decode);
+            // Réinitialisez les messages d'erreur à chaque nouvelle tentative de connexion
+            Message::setErrorMessage([]);
+        
+            // Tableau pour stocker les messages d'erreur
+            $errorMessage = [];
+            $_SESSION['errorMessage'] = $errorMessage;
+            $nom = $_POST['nom'] ?? null;
+            $mdp = $_POST['mdp'] ?? null;
+        
+            if (empty($nom) || empty($mdp)) {
+                $errorMessage[] = Message::INP_ERR_CHAMP_VIDE;
+                $_SESSION['errorMessage'] = $errorMessage;
+                header('Location: /login');
+            }
+        
+            $dao = new DaoAppli();
+            $errorMessageFromDao = $dao->connexionUser($nom, $mdp);
+        
+            // Ajoutez les messages d'erreur du DaoAppli aux messages d'erreur existants
+             $errorMessage = array_merge($errorMessage, $errorMessageFromDao);
+             $_SESSION['errorMessage'] = $errorMessage;
+            // Message::setErrorMessage($errorMessage);
+        
+            if (!empty($_POST['nom']) && !empty($_POST['mdp'])) {
+                $secret = "6Lfkds8oAAAAACgUwWz39ekeIDucyKmPvKfuerP5";
+                $response = htmlspecialchars($_POST['g-recaptcha-response']);
+                $remoteip = $_SERVER['REMOTE_ADDR'];
+                $request  = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
+        
+                $get  = file_get_contents($request);
+                $decode = json_decode($get, true);
+                
+                if ($decode['success'] && $decode['score'] >= 0.7) {
+                    // Le score est supérieur ou égal à 0.7, la validation est réussie
+                    // Redirigez l'utilisateur vers la page admin
+                    var_dump($decode);
+                    header('Location: /admin');
+                    exit; // Assurez-vous de terminer le script ici
+                } else {
+                    // Le score est inférieur à 0.7, la validation est rejetée
+                    $errorMessage[] = "Votre tentative de connexion a été rejetée en raison d'une activité suspecte détectée";
+                    var_dump($decode);
+                    $_SESSION['errorMessage'] = $errorMessage;  // Stockez les messages d'erreur dans la session
+                    header('Location: /login');
+                }
+                require_once 'src/views/login.php';
+            }
+        
+            // Restez dans la même vue pour afficher les messages d'erreur
+            require_once 'src/views/login.php';
         }
-    }
-
-    // Restez dans la même vue pour afficher les messages d'erreur
-    require_once 'src/views/login.php';
-}
 
         public function handlePasswordReset() {
             $token = $_GET['token'];
