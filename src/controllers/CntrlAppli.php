@@ -99,12 +99,12 @@ class CntrlAppli {
                 $get  = file_get_contents($request);
                 $decode = json_decode($get, true);
                 
-                if ($decode['success'] && $decode['score'] >= 0.7) {
+                if ($decode['success'] && $decode['score'] >= 0.9) {
                     // Le score est supérieur ou égal à 0.7, la validation est réussie
                     // Redirigez l'utilisateur vers la page admin
                     var_dump($decode);
                     header('Location: /admin');
-                    exit; // Assurez-vous de terminer le script ici
+                    exit; 
                 } else {
                     // Le score est inférieur à 0.7, la validation est rejetée
                     $errorMessage[] = "Votre tentative de connexion a été rejetée en raison d'une activité suspecte détectée";

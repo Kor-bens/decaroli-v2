@@ -58,7 +58,7 @@ require_once "common/head_admin.php";
 
 
 
-<script>
+<!-- <script>
     function initiateRecaptcha(resetPassword) {
         grecaptcha.ready(function() {
             grecaptcha.execute('6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon', {action: 'submit'}).then(function(token) {
@@ -93,7 +93,7 @@ require_once "common/head_admin.php";
         });
     });
 }
-</script>
+</script> -->
 
 <script src="../../assets/composantJs/login.js"></script>
 </body>
