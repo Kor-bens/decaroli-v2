@@ -52,7 +52,7 @@ $message = $_SESSION['message'] ?? '';
 
 <!-- <div id="administrateur"><h1>Administrateur decaroli <?php echo ucfirst($nom) ?></h1></div> -->
 
-<div id="container-form-page-representation-index">
+<!-- <div id="container-form-page-representation-index"> -->
 
 <div id="container-form">
     <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">
@@ -117,11 +117,13 @@ $message = $_SESSION['message'] ?? '';
                     <div class="image <?= $class ?>">
                         <img src="../../assets/ressources/images/<?= $image['url'] ?>" alt="<?= $image['nom_image'] ?>">
                         <?php if (isset($image['id_image'])) : ?>
+                            <div class="container-button">
                             <button class="bouton-modifier-image" data-id="<?= $image['id_image'] ?>">Modifier</button>
                             <!-- Champ de téléchargement de fichier pour la modification de l'image -->
                             <input type="file" class="champ-modifier-image input-image" data-id="<?= $image['id_image'] ?>">
                             <!-- Bouton "Modifier" avec l'attribut onclick -->
                             <button class="bouton-supprimer-image" data-id="<?= $image['id_image'] ?>">Supprimer</button>
+                        </div>
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
@@ -129,7 +131,7 @@ $message = $_SESSION['message'] ?? '';
                  
   </div>
 </div>
-</div>
+<!-- </div> -->
 <!-- <?php
 $idImageModifier = $_SESSION['idImageModifier'] ?? '';
 $nouveauNomImage = $_SESSION['nouveauNomImage'] ?? '';

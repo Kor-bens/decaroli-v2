@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     // L'image a été supprimée avec succès, alerte l'utilisateur
                     // alert("Image supprimée");
                     // Mettez à jour l'affichage
-                    bouton.parentElement.remove();
+                    // bouton.parentElement.remove();
+                    location.reload();
                 } else {
                     console.error("Erreur lors de la suppression de l'image.");
                 }

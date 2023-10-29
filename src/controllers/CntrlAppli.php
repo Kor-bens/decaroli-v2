@@ -185,59 +185,164 @@ class CntrlAppli {
             return $donneesOrigine;
         }
 
-        public function traitementFormulaire(){
-            $nouveauTitre          =     htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
-            $nouveauBackground     =     htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
-            $nouvelleCouleurTitre  =     htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
-            $nouvelleFontFamily    =     htmlspecialchars($_POST['titre_font_family']);
-            $nouvelleFontSizeGrand =     htmlspecialchars($_POST['titre_font_size_grand_ecran'], ENT_QUOTES, 'UTF-8');
-            $nouvelleFontSizeMoyen =     htmlspecialchars($_POST['titre_font_size_moyen_ecran'], ENT_QUOTES, 'UTF-8');
-            $nouvelleFontSizePetit =     htmlspecialchars($_POST['titre_font_size_petit_ecran'], ENT_QUOTES, 'UTF-8');
+        // function redimensionnerImage($cheminSource, $cheminCible, $largeurMax, $hauteurMax) {
+        //     // Récupérez les dimensions originales de l'image
+        //     list($largeurOrig, $hauteurOrig) = getimagesize($cheminSource);
+        
+        //     // Calculez le ratio pour redimensionner l'image
+        //     $ratio = min($largeurMax / $largeurOrig, $hauteurMax / $hauteurOrig);
+        //     $nouvelleLargeur = round($largeurOrig * $ratio);
+        //     $nouvelleHauteur = round($hauteurOrig * $ratio);
+        
+        //     // Créez une nouvelle image avec les nouvelles dimensions
+        //     $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+        
+        //     // Récupérez l'image source
+        //     $imageSource = imagecreatefromjpeg($cheminSource); // Changez cette fonction en fonction du type d'image
+        
+        //     // Redimensionnez l'image
+        //     imagecopyresampled($nouvelleImage, $imageSource, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $largeurOrig, $hauteurOrig);
+        
+        //     // Sauvegardez l'image redimensionnée
+        //     imagejpeg($nouvelleImage, $cheminCible, 100); // Vous pouvez changer la qualité si nécessaire
+        
+        //     // Libérez la mémoire
+        //     imagedestroy($nouvelleImage);
+        //     imagedestroy($imageSource);
+        // }
+
+        public function traitementFormulaire() {
+            // Fonction pour redimensionner une image
+            function redimensionnerImage($cheminSource, $cheminCible, $largeurMax, $hauteurMax) {
+                if (file_exists($cheminSource)) {
+                    list($largeurOrig, $hauteurOrig, $typeOrig) = getimagesize($cheminSource);
+                    
+                    switch ($typeOrig) {
+                        case IMAGETYPE_JPEG:
+                            $imageSource = imagecreatefromjpeg($cheminSource);
+                            break;
+                        case IMAGETYPE_PNG:
+                            $imageSource = imagecreatefrompng($cheminSource);
+                            break;
+                        case IMAGETYPE_GIF:
+                            $imageSource = imagecreatefromgif($cheminSource);
+                            break;
+                        default:
+                            echo "Type d'image non pris en charge : " . $typeOrig;
+                            return;
+                    }
+                    
+                    $ratio = min($largeurMax / $largeurOrig, $hauteurMax / $hauteurOrig);
+                    $nouvelleLargeur = round($largeurOrig * $ratio);
+                    $nouvelleHauteur = round($hauteurOrig * $ratio);
+
+                    $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+
+                    if ($typeOrig === IMAGETYPE_PNG) {
+                    // Créez une image avec fond transparent
+                    $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+                    imagealphablending($nouvelleImage, false);
+                    imagesavealpha($nouvelleImage, true);
+                    $transparent = imagecolorallocatealpha($nouvelleImage, 255, 255, 255, 127);
+                    imagefilledrectangle($nouvelleImage, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $transparent);
+                    } else {
+                    // Créez une image avec fond blanc pour les autres formats
+                    $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+                    $blanc = imagecolorallocate($nouvelleImage, 255, 255, 255);
+                    imagefill($nouvelleImage, 0, 0, $blanc);
+                        }
+ 
+                    imagecopyresampled($nouvelleImage, $imageSource, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $largeurOrig, $hauteurOrig);
+                    
+                    if ($typeOrig === IMAGETYPE_JPEG) {
+                        imagejpeg($nouvelleImage, $cheminCible, 100);
+                    } elseif ($typeOrig === IMAGETYPE_PNG) {
+                        imagepng($nouvelleImage, $cheminCible);
+                    } elseif ($typeOrig === IMAGETYPE_GIF) {
+                        imagegif($nouvelleImage, $cheminCible);
+                    }
+
+                    imagejpeg($nouvelleImage, $cheminCible, 100);
+                    
+                    switch ($typeOrig) {
+                        case IMAGETYPE_JPEG:
+                            imagejpeg($nouvelleImage, $cheminCible, 100);
+                            break;
+                        case IMAGETYPE_PNG:
+                            imagepng($nouvelleImage, $cheminCible);
+                            break;
+                        case IMAGETYPE_GIF:
+                            imagegif($nouvelleImage, $cheminCible);
+                            break;
+                    }
+
+                    imagedestroy($nouvelleImage);
+                    imagedestroy($imageSource);
+                } else {
+                    echo "Le fichier source n'existe pas : " . $cheminSource;
+                }
+            }
+            
+            $nouveauTitre          = htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
+            $nouveauBackground     = htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
+            $nouvelleCouleurTitre  = htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
+            $nouvelleFontFamily    = htmlspecialchars($_POST['titre_font_family']);
+            $nouvelleFontSizeGrand = htmlspecialchars($_POST['titre_font_size_grand_ecran'], ENT_QUOTES, 'UTF-8');
+            $nouvelleFontSizeMoyen = htmlspecialchars($_POST['titre_font_size_moyen_ecran'], ENT_QUOTES, 'UTF-8');
+            $nouvelleFontSizePetit = htmlspecialchars($_POST['titre_font_size_petit_ecran'], ENT_QUOTES, 'UTF-8');
             
             // Mettez à jour le fond d'écran de la page dans DaoAppli
             $dao = new DaoAppli();
             $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre, $nouvelleFontFamily, $nouvelleFontSizeGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit);   
             
             $donneesOrigine = $this->getDonneestable();
-            // Initialisez le tableau des informations sur les images
             
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                // Un fichier a été sélectionné et il n'y a pas d'erreur
-            
-                // Informations sur le fichier téléchargé
-                $nomFichier = $_FILES['image']['name']; // Nom du fichier image
+                $nomFichier = $_FILES['image']['name'];
                 $typeFichier = $_FILES['image']['type'];
-                $tailleFichier = $_FILES['image']['size'];
                 $fichierTemporaire = $_FILES['image']['tmp_name'];
-            
-                // Vérifier que le fichier est une image ex: le type
+                
                 $extensionsAutorisées = array('image/jpeg', 'image/gif', 'image/png');
-            
+                
                 if (!in_array($typeFichier, $extensionsAutorisées)) {
                     $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
                     header('Location: /admin');
                     exit();
                 }
-            
-                // Générez un nom unique pour le fichier pour éviter l'écrasement d'image
+                
                 $nomUnique = uniqid() . '_' . $nomFichier;
                 $cheminStockage = 'assets/ressources/images/' . $nomUnique;
-            
-                // Déplacez le fichier téléchargé vers le répertoire de stockage des images
-                if (move_uploaded_file($fichierTemporaire, $cheminStockage)) {
-                    // Le téléchargement a réussi, vous pouvez maintenant insérer le nom du fichier dans la base de données
-                    $idPage = 1; // Remplacez par l'ID de la page appropriée
-                    $dao->traitementImage($nomUnique, $nomFichier, $idPage);
-                    echo $nomFichier;
+                
+                // Ici, vous devriez utiliser $fichierTemporaire pour créer l'image plutôt que $cheminStockage
+                $largeurMax = 800;
+                $hauteurMax = 600;
+                
+                
+                if ($typeFichier === 'image/jpeg') {
+                    $imageSource = imagecreatefromjpeg($fichierTemporaire);
+                    header('Location: /admin');
+                    
+                } elseif ($typeFichier === 'image/png') {
+                    $imageSource = imagecreatefrompng($fichierTemporaire);
+                    header('Location: /admin');
+                    
+                } elseif ($typeFichier === 'image/gif') {
+                    $imageSource = imagecreatefromgif($fichierTemporaire);
+                    header('Location: /admin');
+                    
+                } else {
+                    $_SESSION['messageImageError'] = "Type d'image non pris en charge.";
+                    header('Location: /admin');
+                    exit();
                 }
-            } else {
-                // Aucun fichier n'a été sélectionné
-                $_SESSION['messageImageError'] = "";
-                header('Location: /admin');
-                exit();
+                var_dump($typeFichier);
+                redimensionnerImage($fichierTemporaire, $cheminStockage, $largeurMax, $hauteurMax);
+                
+                $idPage = 1; // Remplacez par l'ID de la page appropriée
+                $dao->traitementImage($nomUnique, $nomFichier, $idPage);
+                echo $nomFichier;
             }
             header('Location: /admin');
-                exit();
         }
         
         public function supprimerImage() {
@@ -271,9 +376,68 @@ class CntrlAppli {
         public function modifierImage() {
             require_once 'src/dao/DaoAppli.php';
         
-            // Vérifiez si la requête est de type POST
+            // Fonction pour redimensionner une image
+            function redimensionnerImageModifier($cheminSource, $cheminCible, $largeurMax, $hauteurMax) {
+                if (file_exists($cheminSource)) {
+                    list($largeurOrig, $hauteurOrig, $typeOrig) = getimagesize($cheminSource);
+                    
+                            switch ($typeOrig) {
+                                case IMAGETYPE_JPEG:
+                                    $imageSource = imagecreatefromjpeg($cheminSource);
+                                    break;
+                                case IMAGETYPE_PNG:
+                                    $imageSource = imagecreatefrompng($cheminSource);
+                                    break;
+                                case IMAGETYPE_GIF:
+                                    $imageSource = imagecreatefromgif($cheminSource);
+                                    break;
+                                default:
+                                    echo "Type d'image non pris en charge : " . $typeOrig;
+                                    return;
+                            }
+                    
+                                $ratio = min($largeurMax / $largeurOrig, $hauteurMax / $hauteurOrig);
+                                $nouvelleLargeur = round($largeurOrig * $ratio);
+                                $nouvelleHauteur = round($hauteurOrig * $ratio);
+                    
+                                $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+        
+                            if ($typeOrig === IMAGETYPE_PNG) {
+                                // Créez une image avec fond transparent
+                                $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+                                imagealphablending($nouvelleImage, false);
+                                imagesavealpha($nouvelleImage, true);
+                                $transparent = imagecolorallocatealpha($nouvelleImage, 255, 255, 255, 127);
+                                imagefilledrectangle($nouvelleImage, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $transparent);
+                            } else {
+                                // Créez une image avec fond blanc pour les autres formats
+                                $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+                                $blanc = imagecolorallocate($nouvelleImage, 255, 255, 255);
+                                imagefill($nouvelleImage, 0, 0, $blanc);
+                            }
+        
+                                 imagecopyresampled($nouvelleImage, $imageSource, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $largeurOrig, $hauteurOrig);
+        
+                                if ($typeOrig === IMAGETYPE_JPEG) {
+                                    imagejpeg($nouvelleImage, $cheminCible, 100);
+                                } elseif ($typeOrig === IMAGETYPE_PNG) {
+                                    imagepng($nouvelleImage, $cheminCible);
+                                } elseif ($typeOrig === IMAGETYPE_GIF) {
+                                    imagegif($nouvelleImage, $cheminCible);
+                                }
+        
+                                imagedestroy($nouvelleImage);
+                                imagedestroy($imageSource);
+                } else {
+                    echo "Le fichier source n'existe pas : " . $cheminSource;
+                }
+            }
+        
+            // Votre code de traitement du formulaire ici...
+            // ...
+        
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Récupérez l'identifiant de l'image depuis la requête ou le formulaire
+                // Récupérez les données du formulaire...
                 $idImageModifier = isset($_POST['idImageModifier']) ? intval($_POST['idImageModifier']) : 0;
                 $nouveauNomImage = isset($_POST['nouveau_nom_image']) ? $_POST['nouveau_nom_image'] : '';
         
@@ -315,7 +479,7 @@ class CntrlAppli {
                         $ancienNomImage = $resultat; // Nom du fichier actuel dans la base de données
         
                         // Affichez les valeurs de $nomUnique et $ancienNomImage à des fins de débogage
-                       
+        
                         $_SESSION['ancienNom'] = $ancienNomImage;
         
                         // Mettez à jour le nom de l'image dans la base de données
@@ -331,13 +495,16 @@ class CntrlAppli {
                                     unlink($cheminAncienFichier); // Supprimez le fichier
                                 }
                             }
-                            
- 
-
-                                // Redirigez l'utilisateur vers la page admin pour recharger la page
-                                header('Location: /admin');
-                                exit();
-                            // Vous pouvez envoyer une réponse JSON si nécessaire
+        
+                            // Redimensionnez l'image après le téléchargement
+                            $cheminImageRedimensionnee = 'assets/ressources/images/' . $nomUnique; // Remplacez par le chemin de votre répertoire
+                            $largeurMax = 800; // Remplacez par la largeur maximale souhaitée
+                            $hauteurMax = 600; // Remplacez par la hauteur maximale souhaitée
+                            redimensionnerImage($cheminStockage, $cheminImageRedimensionnee, $largeurMax, $hauteurMax);
+        
+                            // Redirigez l'utilisateur vers la page admin pour recharger la page
+                            header('Location: /admin');
+                            exit();
                         } else {
                             // La modification de l'image a échoué
                             // Gérez l'échec (par exemple, affichez un message d'erreur)
@@ -355,7 +522,6 @@ class CntrlAppli {
             // Redirigez l'utilisateur vers la page d'origine ou une autre page
             header('Location: /admin');
             exit();
-             // Affichez la valeur de $idImageModifier à des fins de débogage
+            // Affichez la valeur de $idImageModifier à des fins de débogage
         }
-        
-}
+    }

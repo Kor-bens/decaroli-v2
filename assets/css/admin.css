@@ -5,6 +5,11 @@
     font-family: 'montserrat'; 
     src: url('../ressources/font-family/montserrat/Montserrat-VariableFont_wght.ttf') format('truetype'); /
 }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 body{
     margin: 0;
     padding: 0;
@@ -13,7 +18,7 @@ body{
     background-image: url("../../assets/ressources/body/ZenBG-admin.png"), url("../../assets/ressources/body/ZenBG-admin2.png");
     background-repeat: repeat-x, repeat; */
 
-    background: #6d859e;
+    background: #325070;
     /* background: #114789; */
 }
 
@@ -61,14 +66,23 @@ h1{
     color: transparent;
 }
 
+html, body, #container-form-page-representation-index {
+    /* min-height: 100vh; */
+
+}
 #container-form-page-representation-index {
-    min-height: 100vh; /* Définit la hauteur minimale à 100% de la hauteur de la fenêtre */
+    /* min-height: 100%; */
+    /* display: flex;
+    width: 100vh;
+    flex-direction: column; */
+    
+    
 }
 
 #container-form{
     display: flex;
     justify-content: center;
-    height: 100%;
+    /* height: 100vh; */
 }
 #label-titre{
     margin-top: 5%;
@@ -83,20 +97,22 @@ label{
 }
 
 #form {
-
+        
+        /* flex-grow: 1;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: center; */
         border-right: 2px solid #84A5D7; 
+        z-index: 2;
         padding: 1%;
-        width: 100%;
+        width: 30%;
         opacity: 1;
-        min-height: 100vh;
+        max-height: 100%;
         text-align: center;
         transition: box-shadow 0.3s;
     }
 #form:hover{
-    box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5);
+    box-shadow: 5px 0 10px rgba(164, 187, 222, 0.5);
 }
 #container-titre{
     /* margin-top: 2%; */
@@ -113,6 +129,7 @@ label{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* height: 100vh; */
 }
 
 #container-ajout-image{
@@ -165,8 +182,13 @@ background-color: rgb(227, 39, 39);
 color: white;
  border-radius: 8px;
 }
+.container-button{
+    display: flex;
+    flex-direction: column;
+}
 .bouton-modifier-image{
     margin-right: 1%;
+    margin-bottom: 3%;
 }
 .bouton-modifier-image:hover{
     background-color: rgb(83, 128, 192);
@@ -182,6 +204,7 @@ button{
 border: none;
 font-family: "montserrat";
 transition: border-radius 0.3;
+
 }
 button:hover{
     border-radius:5px;
@@ -201,27 +224,28 @@ button:hover{
     margin-top: 2%;
 }
 img{
-    width: 25%;
+    width: 60%;
    
 }
 
 
 #bouton-form{
-    margin-bottom: 1%;
+    margin-bottom: 5%;
 }
 #container-representation-page-index{
+    /* flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-content: center;
+    align-content: center; */
     grid-template-columns: repeat(1,1fr);
-    row-gap: 10%;
+    
 }
 
 #container-image-db{
+    margin-top: 3%;
     display: grid;
     grid-template-columns: repeat(2,1fr);
     align-content: center;
-    gap: 5%;
     /* border-left: 2px solid #84A5D7; Ajoute une bordure à droite */
 }
 
@@ -229,6 +253,8 @@ img{
     display: flex;
     align-items: center; 
     transition: box-shadow 0.3s;
+    max-width: 100%;
+    height: auto;
 }
 
 .image:hover{
@@ -260,9 +286,10 @@ img{
 
 
 
-@media (min-width: 320px) and (max-width: 425px){
+@media (min-width: 320px) and (max-width: 431px){
 #container-form{
     flex-direction: column;
+    height: auto;
 }
 #navbar{
     justify-content: center;
@@ -291,6 +318,17 @@ a{
     color: rgb(255, 255, 255);
   
 }
+#container-representation-page-index {
+width: 100%;
+}
+#form{
+    width: 100%;
+    border-right: none;
+    padding: 0;
+}
+input{
+    width: 50%;
+}
 #container-image-db{
     display: flex;
     flex-direction: column;
@@ -303,10 +341,17 @@ a{
 .flex-end {
     justify-content: center !important;
     margin: 0;
-    flex-direction: row-reverse;
 }
 img{
-    width: 30%;
+    width: 40%;
+}
+.container-button{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+}
+.bouton-modifier-image{
+    margin-bottom: 10%;
 }
 button{
     width: auto;
@@ -315,7 +360,7 @@ button{
 
 }
 
-@media (min-width: 426px) and (max-width: 767px) {
+@media (min-width: 431px) and (max-width: 767px) {
     #navbar{
         background-color: black;
         height: 50px;
@@ -346,22 +391,15 @@ button{
         color: rgb(255, 255, 255);
       
     }
-    /* #container-image-db{
-        display: flex;
-        flex-direction: column;
-    } */
-    .flex-start {
-        justify-content: center !important;
-        margin: 0;
-    }
     
-    .flex-end {
-        justify-content: center !important;
-        margin: 0;
-        flex-direction: row-reverse;
-    }
+        
+        
+    
     img{
-        width: 30%;
+        width: 50%;
+    }
+    .button-modifier-image{
+     margin-bottom: 10%;
     }
     button{
         width: auto;

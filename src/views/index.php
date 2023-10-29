@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Découvrez les meilleures offres du mois sur les produits pharmaceutiques de Decaroli.
                                      Profitez de remises exclusives sur une large gamme d'articles, des soins pour bébés aux produits minceur. 
@@ -21,20 +21,20 @@
             font-family: <?= $donneesOrigine[0]['titre_font_family']?>;
             }
             /* Media query pour les grands écrans mobiles (ex. : iPhone 11 Pro Max, Galaxy S21) */
-            @media (min-width: 768px) and (max-width:998px) {
+            @media (min-width: 768px)  {
             h1{
                 font-size:<?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>;
                 /* width: 50%; */
             }
             }
             /* Media query pour les écrans mobiles de taille moyenne (ex. : iPhone 8, XR) */
-            @media (min-width: 426px) and (max-width: 768px) {
+            @media (min-width: 431px) and (max-width: 768px) {
                 h1{
                     font-size:<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>;
                 }
             }
             /* Media query pour les petits écrans mobiles (ex. : iPhone SE) */
-            @media (max-width: 425px) {
+            @media (max-width: 431px) {
             h1{
                 font-size:<?= $donneesOrigine[0]['titre_font_size_petit_ecran'] ?>;
             }
@@ -66,12 +66,13 @@
         $class = ($position % 2 === 0) ? 'flex-start' : 'flex-end';
     ?>
         <div class="image <?= $class ?>">
-            <img src="../../assets/ressources/images/<?= $image['url'] ?>" alt="<?= $image['nom_image'] ?>">
+        <?php $nom_image_sans_extension = pathinfo($image['nom_image'], PATHINFO_FILENAME); ?>
+            <img src="../../assets/ressources/images/<?= $image['url'] ?>" alt="<?=$nom_image_sans_extension ?>">
         </div>
     <?php endforeach; ?>
 </div>
 
-    <div id="div-fleche"></div>
+    <div id="div-fleche" alt="fleche"></div>
 
     <div id="footer">
         <img id="logo-decaroli" src="../../assets/ressources/images/logoDecaroli.png" alt="logoDecaroli">
