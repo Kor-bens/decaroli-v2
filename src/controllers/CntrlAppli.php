@@ -154,7 +154,7 @@ class CntrlAppli {
                 if ($existsInDatabase) {
                     // L'utilisateur existe dans la base de données, générez le jeton de réinitialisation
                     $resetResult = $dao->resetMdp($nomMail);  
-                    
+                    echo "id existant";
         
                     if ($resetResult) {
                         // Réinitialisation réussie, informez l'utilisateur

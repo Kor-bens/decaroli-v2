@@ -131,9 +131,9 @@ class DaoAppli{
 
     public function checkUserExists($nomMail) {
         try {
-            $requete = "SELECT COUNT(*) FROM administrateur WHERE nom = :nom OR mail = :mail";
+            $requete = "SELECT COUNT(*) FROM administrateur WHERE mail = :mail";
             $stmt = $this->db->prepare($requete);
-            $stmt->bindParam(':nom', $nomMail, PDO::PARAM_STR);
+            // $stmt->bindParam(':nom', $nomMail, PDO::PARAM_STR);
             $stmt->bindParam(':mail', $nomMail, PDO::PARAM_STR);
             $stmt->execute();
             

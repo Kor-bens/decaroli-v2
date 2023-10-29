@@ -66,19 +66,6 @@ h1{
     color: transparent;
 }
 
-html, body, #container-form-page-representation-index {
-    /* min-height: 100vh; */
-
-}
-#container-form-page-representation-index {
-    /* min-height: 100%; */
-    /* display: flex;
-    width: 100vh;
-    flex-direction: column; */
-    
-    
-}
-
 #container-form{
     display: flex;
     justify-content: center;
