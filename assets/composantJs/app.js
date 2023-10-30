@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
    
-           // Sélectionnez toutes les images par leur classe CSS
+           // Sélectionnez toutes les images 
     const images = document.querySelectorAll(".image");
 
     // Fonction pour faire apparaître une image avec une animation
@@ -17,23 +17,27 @@ document.addEventListener("DOMContentLoaded", function () {
         fadeInImage(image);
     });
 });
-
+/*selectionne l'id*/
 let divFleche = document.querySelector("#div-fleche");
 
-
+/*creation d'une div*/ 
 let cercle = document.createElement("div");
 cercle.id="cercle";
 divFleche.appendChild(cercle);
 
+/*ajout d'interaction defilement vers le haut sur le cercle au click*/
 cercle.addEventListener("click", scrollTop);
 
+/*creation d'une image qui represente la fleche*/
 let fleche = document.createElement("img");
 fleche.src = "../../assets/ressources/images/fleche.png";
 fleche.id ="fleche";
 cercle.appendChild(fleche);
 
+/*ajout d'interaction defilement vers le haut sur la flèche au click*/
 fleche.addEventListener("click", scrollTop);
 
+/*ecouteur d'evenement sur le scroll de la page*/ 
 window.addEventListener('scroll', toggleScrollTop);
 console.log(window.scrollY);
 // Fonction pour faire défiler vers le haut de la page

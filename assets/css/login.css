@@ -19,17 +19,19 @@ background-repeat: repeat-x, repeat; */
 background: #6d859e;
 /* background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); */
 }
+/*logo en haut de page*/
 img{
     width: 25%;
     margin-top: 5%;
     margin-bottom: 5%;
     text-align: center;
 }
+
 h1{
     font-size: 2.5em;
     font-family: 'montserrat';
 }
-
+/*container qui contient le logo + formulaire*/
 #container-form {
     display: flex;
     flex-direction: column;
@@ -37,7 +39,7 @@ h1{
     justify-content: center;
     /* height: 100vh; Ajustez la hauteur en fonction de vos besoins */
 }
-
+/*formulaire de connexion*/
 #loginForm {
     border: 2px solid #84A5D7;
     border-radius: 10px;
@@ -54,12 +56,12 @@ h1{
     background-color: #3f5a7b8a;
     align-items: center;
 }
-
+/*ombre crée au passage de la souris sur le formulaire de connexion*/
 #loginForm:hover{
     box-shadow: 0px 0px 10px rgba(164, 187, 222, 0.5);
 
 }
-
+/*noms des champs*/
 label{
     display: flex;
     justify-content: center;
@@ -68,7 +70,7 @@ label{
     color: #ffffff;
     margin-bottom: 2%;
 }
-
+/*champs de saisie*/
 input {
     border-radius: 5px;
     color:rgb(136, 133, 133);
@@ -137,7 +139,7 @@ transition: box-shadow 0.3s,  border-radius 0.3s;
 #mdp-oublie:hover{
     text-decoration-color:  #84A5D7;
 }
-
+/*formulaire de reinitialisation de mot de passe*/
 #resetPassword{
     display: none;
     border: 2px solid #84A5D7;

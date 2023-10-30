@@ -35,7 +35,7 @@ elseif ($method == 'GET' && $route == '/login')                     {$cntrlAppli
 elseif ($method == 'GET' && $route == '/admin')                     {$cntrlAppli->afficherPageAdmin();} 
 elseif ($method == 'POST' && $route == '/connexion')                {$cntrlAppli->connexion();} 
 elseif ($method == 'GET' && $route == '/deconnexion')               {$cntrlAppli->deconnexion();} 
-elseif ($method == 'POST' && $route == '/reset-password')           {$cntrlAppli->resetPassword();}  
+// elseif ($method == 'POST' && $route == '/reset-password')           {$cntrlAppli->resetPassword();}  
 elseif ($method == 'POST' && $route == '/traitement-formulaire')    {$cntrlAppli->traitementFormulaire();} 
 elseif ($method == 'DELETE' && $route == '/supprimer-image')        {$cntrlAppli->supprimerImage();} 
 elseif ($method == 'POST' && $route == '/modifier-image')           {$cntrlAppli->modifierImage();} 

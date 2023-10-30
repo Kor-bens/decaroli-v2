@@ -13,12 +13,11 @@ overflow-x: hidden;
 display: flex;
 flex-direction: column;
 min-height: 100vh;
-
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
+/*titre page index*/
 h1{
     width: 100%;
     margin: 3% auto;
@@ -29,11 +28,11 @@ h1{
     -webkit-font-smoothing: antialiased;
     color: transparent;
 }
-
+/*taille des images*/
 img{
  width: 58%;
 }
-
+/*positionnement des colonnes du bloc qui contient les images généré*/
 #contain-images{
     display: grid;
     grid-template-columns: repeat(2, 1fr); 
@@ -41,27 +40,27 @@ img{
     flex: 1; /* Remplit l'espace restant entre le haut et le bas */
 }
 
-/* Appliquez l'animation aux images */
+/* positionnement des images avec animation */
 .image {
     display: flex;
     justify-content: center;
     align-items: center;
     animation: slideInFromTop 1s ease-in-out; /* Ajustez la durée selon vos préférences */
 }
-
+/*positionnement de l'image par rapport a son id*/
 .flex-start {
     display: flex !important;
     justify-content: flex-start !important;
     
 }
-
+/*positionnement de l'image par rapport a son id*/
 .flex-end {
     display: flex;
     justify-content: flex-end !important;
    
 }
 
-
+/*animation apparition des images du haut au positionnement defini*/
 @keyframes slideInFromTop {
     0% {
         transform: translateY(-100%);
@@ -92,7 +91,7 @@ img{
     max-width: 100%;
     animation: rotateCircular 10s linear infinite; 
 }
-
+/*bloc footer bas de page*/
 #footer {
     background-color: black;
     display: flex;
@@ -102,7 +101,7 @@ img{
     bottom: 0 !important;
     
 }
-
+/*logo dans le footer*/
 #logo-decaroli{
     margin:0 auto;
     width: 13%;
@@ -111,7 +110,7 @@ img{
 }
 
 
-
+/*fleche*/
 #fleche{
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
@@ -124,7 +123,7 @@ img{
     opacity: 1;
     
 }
-
+/*animation de la fleche*/
 @keyframes bounce {
     0% {
         transform: translateY(10px);
@@ -133,6 +132,7 @@ img{
         transform: translateY(-10px); /* Ajustez la distance de l'animation selon vos préférences */
     }
 }
+/*cercle qui contient la fleche*/
 #cercle {
     display: none;
     width: 100px;
@@ -159,6 +159,7 @@ img{
 }
 
 @media (max-width: 431px){
+    /*positionnement des images en colonne*/
     #contain-images{
         display: grid;
         grid-template-columns: repeat(1, 1fr); 
@@ -181,7 +182,7 @@ img{
 
 /* Styles pour les petits écrans (mobiles) */
 @media (min-width: 431px) and (max-width: 767px) {
-   
+
     #contain-images {
         display: grid;
         grid-template-columns: repeat(2, 1fr);

@@ -3,12 +3,14 @@
 class Admin{
     protected int       $id_admin;
     protected string    $nom;
+    protected string    $mail;
     protected string    $mdp;
 
-    public function __construnt($id_admin,$nom,$mdp){
-        $this-> id_admin        = $id_admin;
-        $this-> nom             = $nom;
-        $this-> mdp             = $mdp;
+    public function __construct($id_admin,$nom,$mail,$mdp){
+        // $this-> id_admin        = $id_admin;
+        // $this-> nom             = $nom;
+        // $this-> mail            = $mail;
+        // $this-> mdp             = $mdp;
     }
     
 
