@@ -19,6 +19,8 @@ require_once 'vendor/autoload.php';
 require_once 'src/dao/DaoAppli.php';  // Incluez la classe DaoAppli
 require_once 'src/controllers/CntrlAppli.php'; // Incluez la classe CntrlAppli
 require_once 'src/controllers/Message.php'; // Incluez la classe Message
+require_once 'src/models/page.php'; // Incluez la classe Message
+require_once 'src/models/image.php'; // Incluez la classe Message
 require_once "src/dao/Requete.php"; // Incluez la classe Requete
 
 // Récupérez la route et la méthode HTTP de la demande

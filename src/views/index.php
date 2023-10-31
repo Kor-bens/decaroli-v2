@@ -10,40 +10,40 @@
     <link rel="icon" type="image/png"  href="../../assets/ressources/images/logoDecaroli.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $donneesOrigine[0]['titre_font_family']?>">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $DetailPage[0]['titre_font_family']?>">
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
  <style>
-        body {background: <?= $donneesOrigine[0]['bkgd_color'] ?>;}
-        h1 {background-image: <?= $donneesOrigine[0]['titre_color'] ?>; 
-            color           : <?= $donneesOrigine[0]['titre_color'] ?>;
-            font-size: <?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>;
-            font-family: <?= $donneesOrigine[0]['titre_font_family']?>;
+        body {background: <?= $DetailPage[0]['bkgd_color'] ?>;}
+        h1 {background-image: <?= $DetailPage[0]['titre_color'] ?>; 
+            color           : <?= $DetailPage[0]['titre_color'] ?>;
+            font-size: <?= $DetailPage[0]['titre_font_size_grand_ecran'] ?>;
+            font-family: <?= $DetailPage[0]['titre_font_family']?>;
             }
             /* Media query pour les grands écrans mobiles (ex. : iPhone 11 Pro Max, Galaxy S21) */
             @media (min-width: 768px)  {
             h1{
-                font-size:<?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>;
+                font-size:<?= $DetailPage[0]['titre_font_size_grand_ecran'] ?>;
                 /* width: 50%; */
             }
             }
             /* Media query pour les écrans mobiles de taille moyenne (ex. : iPhone 8, XR) */
             @media (min-width: 431px) and (max-width: 768px) {
                 h1{
-                    font-size:<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>;
+                    font-size:<?= $DetailPage[0]['titre_font_size_moyen_ecran'] ?>;
                 }
             }
             /* Media query pour les petits écrans mobiles (ex. : iPhone SE) */
             @media (max-width: 431px) {
             h1{
-                font-size:<?= $donneesOrigine[0]['titre_font_size_petit_ecran'] ?>;
+                font-size:<?= $DetailPage[0]['titre_font_size_petit_ecran'] ?>;
             }
             }
     </style>  
 <body>
-<h1><?= $donneesOrigine[0]['titre'] ?></h1>
-     <!-- <?php echo $donneesOrigine[0]['titre_font_family'];
-    var_dump($donneesOrigine);?> -->
+<h1><?= $DetailPage[0]['titre'] ?></h1>
+     <!-- <?php echo $DetailPage[0]['titre_font_family'];
+    var_dump($DetailPage);?> -->
 
 <div id="contain-images">
     <?php
@@ -53,12 +53,12 @@
     }
 
     // Tri du tableau $donneesOrigine par ID croissant
-    usort($donneesOrigine, 'compareById');
+    usort($DetailPage, 'compareById');
 
     // Initialisez une variable pour suivre la position de l'image
     $position = 0;
 
-    foreach ($donneesOrigine as $image) :
+    foreach ($DetailPage as $image) :
         // Incrémentez la position à chaque itération
         $position++;
 

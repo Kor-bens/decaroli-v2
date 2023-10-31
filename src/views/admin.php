@@ -20,18 +20,18 @@ $message = $_SESSION['message'] ?? '';
  ?>
   <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $donneesOrigine[0]['titre_font_family']?>">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $page->getTitrefontfamily()?>">
 <link rel="stylesheet" href="../../assets/css/admin.css">
 <title>DECAROLI - ADMIN</title>
 </head>
 <style>
      #container-representation-page-index {
-        background: <?= $donneesOrigine[0]['bkgd_color']?>;
+        background: <?= $page->getBkgdColor()?>;
     }
     h1 {
-        background-image: <?= $donneesOrigine[0]['titre_color']?>;
-        color: <?= $donneesOrigine[0]['titre_color']?> ;
-        font-family: <?= $donneesOrigine[0]['titre_font_family']?>;
+        background-image: <?= $page->getTitreColor()?>;
+        color: <?= $page->getTitreColor()?> ;
+        font-family: <?= $page->getTitreFontFamily()?>;
     }
     </style> 
 <body>
@@ -58,17 +58,17 @@ $message = $_SESSION['message'] ?? '';
     <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">
           <div id="container-titre">
               <label id="label-titre" for="titre">Titre :</label>
-              <input id="input-titre" type="text" name="titre" value="<?= $donneesOrigine[0]['titre'] ?>">
+              <input id="input-titre" type="text" name="titre" value="<?= $page->getTitre() ?>">
               <label id="titre-color" for="titre_color">Couleur du titre :</label>
-              <input id="input-titre-color" type="text" name="titre_color" value="<?= $donneesOrigine[0]['titre_color'] ?>">
+              <input id="input-titre-color" type="text" name="titre_color" value="<?= $page->getTitreColor() ?>">
               <label id="titre_font_family" for="titre_font_family">Police du titre :</label>
-              <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $donneesOrigine[0]['titre_font_family'] ?>">
+              <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $page->getTitreColor() ?>">
               <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version ordinateur :</label>
-              <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $donneesOrigine[0]['titre_font_size_grand_ecran'] ?>">
+              <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $page->getTitreFontSizeGrandEcran() ?>">
               <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version tablette :</label>
-              <input id="input-titre_font_size_moyen_ecran" type="text" name="titre_font_size_moyen_ecran" value="<?= $donneesOrigine[0]['titre_font_size_moyen_ecran'] ?>">
+              <input id="input-titre_font_size_moyen_ecran" type="text" name="titre_font_size_moyen_ecran" value="<?= $page->getTitreFontSizeMoyenEcran() ?>">
               <label id="titre_font_size_petit_ecran" for="titre_font_size_petit_ecran">Taille du titre pour version mobile :</label>
-              <input id="input-titre_font_size_petit_ecran" type="text" name="titre_font_size_petit_ecran" value="<?= $donneesOrigine[0]['titre_font_size_petit_ecran'] ?>">
+              <input id="input-titre_font_size_petit_ecran" type="text" name="titre_font_size_petit_ecran" value="<?= $page->getTitreFontSizePetitEcran() ?>">
           </div>
 
           <div id="container-image">
@@ -87,27 +87,27 @@ $message = $_SESSION['message'] ?? '';
 
           <div id="container-background">
               <label for="background">Arrière plan de la page:</label>
-              <input type="text" name="background" value="<?= $donneesOrigine[0]['bkgd_color'] ?>"><br>
+              <input type="text" name="background" value="<?= $page->getBkgdColor() ?>"><br>
           </div> 
          <button id="bouton-form"type ="submit">Valider</button>
     </form>
              
     <div id="container-representation-page-index">
-    <h1><?= $donneesOrigine[0]['titre'] ?></h1>
+    <h1><?= $page->getTitre() ?></h1>
                 <div id="container-image-db">
                 <?php
                 // Fonction de comparaison pour trier le tableau par ID croissant
                 function compareById($a, $b) {
-                    return $a['id_image'] - $b['id_image'];
+                    return $a->getIdImage() - $b->getIdImage();
                 }
 
                 // Tri du tableau $donneesOrigine par ID croissant
-                usort($donneesOrigine, 'compareById');
+                // usort($DetailPage, 'compareById');
 
                 // Initialisez une variable pour suivre la position de l'image
                 $position = 0;
 
-                foreach ($donneesOrigine as $image) :
+                foreach ($images as $image) :
                     // Incrémentez la position à chaque itération
                     $position++;
 
@@ -115,16 +115,16 @@ $message = $_SESSION['message'] ?? '';
                     $class = ($position % 2 === 0) ? 'flex-start' : 'flex-end';
                 ?>
                     <div class="image <?= $class ?>">
-                        <img src="../../assets/ressources/images/<?= $image['url'] ?>" alt="<?= $image['nom_image'] ?>">
-                        <?php if (isset($image['id_image'])) : ?>
+                        <img src="../../assets/ressources/images/<?= $image->getUrl() ?>" alt="<?= $image->getNomImage() ?>">
+                       
                             <div class="container-button">
-                            <button class="bouton-modifier-image" data-id="<?= $image['id_image'] ?>">Modifier</button>
+                            <button class="bouton-modifier-image" data-id="<?= $image->getIdImage() ?>">Modifier</button>
                             <!-- Champ de téléchargement de fichier pour la modification de l'image -->
-                            <input type="file" class="champ-modifier-image input-image" data-id="<?= $image['id_image'] ?>">
+                            <input type="file" class="champ-modifier-image input-image" data-id="<?= $image->getIdImage() ?>">
                             <!-- Bouton "Modifier" avec l'attribut onclick -->
-                            <button class="bouton-supprimer-image" data-id="<?= $image['id_image'] ?>">Supprimer</button>
+                            <button class="bouton-supprimer-image" data-id="<?= $image->getIdImage() ?>">Supprimer</button>
                         </div>
-                        <?php endif; ?>
+                        
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -1,16 +1,15 @@
 <?php 
 
-class Image extends Page{
+class Image {
     protected int       $id_image;
     protected string    $nom_image;
     protected string    $url;
     protected Page      $id_page;
 
-    public function __construct($id_image,$nom_image,$url,$id_page){
+    public function __construct($id_image,$nom_image,$url){
         $this-> id_image        = $id_image;
         $this-> nom_image       = $nom_image;
         $this-> url             = $url;
-        $this-> id_page         = $id_page; 
     }
 
     public function getIdImage(): int {
