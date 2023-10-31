@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../../src/dao/DaoAppli.php';
 use PHPUnit\Framework\TestCase;
-
 class DaoAppliTest extends TestCase
 {
     private $daoAppli;
@@ -16,7 +15,7 @@ class DaoAppliTest extends TestCase
     public function testGetAdminByNom()
     {
         // Ici, vous pouvez simuler une entrée et tester la sortie
-        $result = $this->daoAppli->getAdminByNom('nom_test');
+        $result = $this->daoAppli->recuperationUser('nom_test','dzadazd'); 
         $this->assertIsArray($result);
         // Autres assertions selon vos besoins...
     }

@@ -35,8 +35,8 @@ require_once "common/head_admin.php";
 <?php endif; ?>
 
     <form id="loginForm" action="/connexion" method="post">
-        <label for="nom">Nom d'utilisateur :</label>
-        <input type="text" id="nom" name="nom" autocomplete="nom" >
+        <label for="nom">Identifiant :</label>
+        <input type="text" id="nom" name="identifiant" autocomplete="identifiant" >
         <label for="mdp" id="label-mdp">Mot de passe :</label>
         <input type="password" id="input-mdp" name="mdp" autocomplete="mdp" >
         <input type="button" class="button" value="Se connecter" onclick="initiateRecaptcha('loginForm')">   
