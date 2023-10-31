@@ -6,7 +6,7 @@ class Image {
     protected string    $url;
     protected Page      $id_page;
 
-    public function __construct($id_image,$nom_image,$url){
+    public function __construct($id_image, $nom_image = "", $url = ""){
         $this-> id_image        = $id_image;
         $this-> nom_image       = $nom_image;
         $this-> url             = $url;

@@ -525,3 +525,4 @@ Erreur dans DaoAppli : Erreur PDO dans getAdminByNom : SQLSTATE[42S22]: Column n
 31-10-2023 10:43:46 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
 31-10-2023 10:43:56 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
 31-10-2023 11:16:55 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+31-10-2023 14:34:46 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Erreur PDO dans modifBackgroundTitre  : SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens

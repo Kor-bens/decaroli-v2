@@ -18,6 +18,7 @@ unset($_SESSION['messageImageError']); // Action réussie, supprimez le message 
 $message = $_SESSION['message'] ?? '';
 
  ?>
+ 
   <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $page->getTitrefontfamily()?>">
@@ -102,7 +103,7 @@ $message = $_SESSION['message'] ?? '';
                 }
 
                 // Tri du tableau $donneesOrigine par ID croissant
-                // usort($DetailPage, 'compareById');
+                usort($images, 'compareById');
 
                 // Initialisez une variable pour suivre la position de l'image
                 $position = 0;

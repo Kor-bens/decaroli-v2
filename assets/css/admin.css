@@ -188,9 +188,9 @@ button{
     /* transition: box-shadow 0.3s; */
     padding: 6px;
     font-size: 14px;
-border: none;
-font-family: "montserrat";
-transition: border-radius 0.3;
+    border: none;
+    font-family: "montserrat";
+    transition: border-radius 0.3;
 
 }
 button:hover{
@@ -220,12 +220,7 @@ img{
     margin-bottom: 5%;
 }
 #container-representation-page-index{
-    /* flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-content: center; */
-    grid-template-columns: repeat(1,1fr);
-    
+    width: 100%;
 }
 
 #container-image-db{
