@@ -20,3 +20,5 @@ class Message {
     public const INP_ERR_MDP_CHAR_SPE = "Le mot de passe doit contenir au moins 8 caractères.";
 
 }
+
+//zefezfezfezfezfezfe//
