@@ -36,7 +36,7 @@
             /* Media query pour les petits écrans mobiles (ex. : iPhone SE) */
             @media (max-width: 431px) {
             h1{
-                font-size:<?= $page->getTitreFontSizeMoyenEcran() ?>;
+                font-size:<?= $page->getTitreFontSizePetitEcran() ?>;
             }
             }
     </style>  
