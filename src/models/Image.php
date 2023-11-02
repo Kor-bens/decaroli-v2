@@ -1,4 +1,6 @@
 <?php 
+namespace DECAROLI\models;
+use DECAROLI\models\Page;   
 
 class Image {
     protected int       $id_image;

@@ -1,1 +1,0 @@
-{"version":1,"defects":{"DaoAppliTest::testGetAdminByNom":4},"times":{"DaoAppliTest::testGetAdminByNom":0.029,"DaoAppliTest::testModifBackgroundTitre":0.076,"DaoAppliTest::testTraitementImage":0.005,"DaoAppliTest::testSupprimerImage":0.006,"DaoAppliTest::testModifierImage":0.005}}

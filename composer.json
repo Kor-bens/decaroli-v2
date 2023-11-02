@@ -2,7 +2,7 @@
     "name": "tortosa/decaroli-majv2",
     "autoload": {
         "psr-4": {
-            "Tortosa\\DecaroliMajv2\\": "src/dao/"
+            "Decaroli\\": "src/"
         }
     },
     "authors": [

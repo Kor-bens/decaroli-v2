@@ -1,5 +1,5 @@
 <?php
-
+use DECAROLI\controllers\CntrlAppli;
 // Désactivez l'affichage des erreurs
 ini_set('display_errors', "On");
 // ini_set('display_errors', 1);
@@ -28,7 +28,7 @@ $route = htmlspecialchars(explode("?", $_SERVER['REQUEST_URI'])[0]);
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Créez une instance du contrôleur CntrlAppli
-$cntrlAppli = new CntrlAppli(); 
+$cntrlAppli = new CntrlAppli();  
 
 // En fonction de la méthode HTTP et de la route, appelez les méthodes appropriées du contrôleur
 if ($method == 'GET' && $route == '/index')                         {$cntrlAppli->afficherPagePromo();} 

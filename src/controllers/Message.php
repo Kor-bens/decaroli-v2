@@ -1,6 +1,6 @@
 <?php  
-
-class Message {
+namespace DECAROLI\controllers;
+class Messages {
     private static $errorMessage = "";
 
     public static function setErrorMessage($message) {

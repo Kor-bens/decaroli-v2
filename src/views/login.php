@@ -1,10 +1,11 @@
 <?php 
+use DECAROLI\controllers\Messages;
 require_once "common/head.php";
 ?>
 <?php if (isset($_SESSION['errorMessage'])) {
     $errorMessage = $_SESSION['errorMessage'];
    } ?>
-   
+
 <link rel="stylesheet" href="../../assets/css/login.css">
 <head>
 <script src="https://www.google.com/recaptcha/api.js?render=6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon"></script>
@@ -19,9 +20,9 @@ require_once "common/head.php";
      echo 'ID de session (récupéré via $_COOKIE) : ' . $_COOKIE['PHPSESSID'];
     ?> -->
 
-<!-- <?php if (!empty(Message::getErrorMessage())): ?>
+<!-- <?php if (!empty(Messages::getErrorMessage())): ?>
         <div id="container-message">
-            <?php foreach (Message::getErrorMessage() as $err): ?>
+            <?php foreach (Messages::getErrorMessage() as $err): ?>
                 <div class="message-alert"><?= $err ?></div>
             <?php endforeach; ?>
         </div>
@@ -41,7 +42,6 @@ require_once "common/head.php";
         <input type="password" id="input-mdp" name="mdp" autocomplete="mdp" >
         <input type="button" class="button" value="Se connecter" onclick="initiateRecaptcha('loginForm')">   
        <p id="mdp-oublie">Mot de passe oublié</p>     
-         
     </form>
 
     
@@ -56,44 +56,6 @@ require_once "common/head.php";
 
 </div>
 
-
-
-<!-- <script>
-    function initiateRecaptcha(resetPassword) {
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon', {action: 'submit'}).then(function(token) {
-                // Ajouter le token à un champ caché
-                var form = document.getElementById(resetPassword);
-                var hiddenField = document.createElement('input');
-                hiddenField.setAttribute('type', 'hidden');
-                hiddenField.setAttribute('name', 'g-recaptcha-response');
-                hiddenField.setAttribute('value', token);
-                form.appendChild(hiddenField);
-
-                // Soumettez le formulaire
-                form.submit();
-            });
-        });
-    }
-
-    function initiateRecaptcha(formId) {
-    grecaptcha.ready(function() {
-        grecaptcha.execute('6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon', {action: 'submit'}).then(function(token) {
-            console.log('Token generated:', token); 
-            // Ajouter le token à un champ caché
-            var form = document.getElementById(formId);  // Utilisation de getElementById avec formId
-            var hiddenField = document.createElement('input');
-            hiddenField.setAttribute('type', 'hidden');
-            hiddenField.setAttribute('name', 'g-recaptcha-response');
-            hiddenField.setAttribute('value', token);
-            form.appendChild(hiddenField);
-
-            // Soumettez le formulaire
-            form.submit();
-        });
-    });
-}
-</script> -->
 
 <script src="../../assets/composantJs/login.js"></script>
 </body>

@@ -1,16 +1,17 @@
 <?php
-
+namespace DECAROLI\models;
+use       DECAROLI\models\Admin; 
 class Page
 {
     protected int       $id_page;
-    protected string    $titre;
+     protected string    $titre;
     protected string    $titre_font_size_grand_ecran;
     protected string    $titre_font_size_moyen_ecran;
     protected string    $titre_font_size_petit_ecran;
     protected string    $titre_font_family;
     protected string    $titre_color;
     protected string    $bkgd_color;
-    protected Admin     $id_admin;
+    protected Admin     $id_admin; 
 
     public function __construct($id_page, $titre, $titre_font_size_grand_ecran, $titre_font_size_moyen_ecran, $titre_font_size_petit_ecran, $titre_font_family, $titre_color, $bkgd_color)
     {
@@ -79,7 +80,7 @@ class Page
     {
         return $this->id_admin;
     }
-    public function setIdAdmin(Admin $id_admin)
+    public function setIdAdmin(Admin $id_admin) 
     {
         $this->id_admin = $id_admin;
     }

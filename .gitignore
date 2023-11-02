@@ -3,3 +3,4 @@ src/dao
 assets/ressources/images
 robots.txt
 .htaccess
+vendor/

@@ -1,5 +1,5 @@
 <?php
-
+namespace DECAROLI\models;
 class Admin
 {
     protected int       $id_admin;
