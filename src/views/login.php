@@ -20,13 +20,13 @@ require_once "common/head.php";
      echo 'ID de session (récupéré via $_COOKIE) : ' . $_COOKIE['PHPSESSID'];
     ?> -->
 
-<!-- <?php if (!empty(Messages::getErrorMessage())): ?>
+ <!-- <?php if (!empty(Messages::getErrorMessage())): ?>
         <div id="container-message">
             <?php foreach (Messages::getErrorMessage() as $err): ?>
                 <div class="message-alert"><?= $err ?></div>
             <?php endforeach; ?>
         </div>
-        <?php endif; ?>  -->
+        <?php endif; ?>   -->
         <?php if (!empty($errorMessage)): ?>
    
         <?php foreach ($errorMessage as $error): ?>
