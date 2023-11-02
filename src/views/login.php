@@ -1,13 +1,13 @@
 <?php 
-require_once "common/head_admin.php";
+require_once "common/head.php";
 ?>
 <?php if (isset($_SESSION['errorMessage'])) {
     $errorMessage = $_SESSION['errorMessage'];
    } ?>
-<link rel="stylesheet" href="../../assets/css/login.css?v=<?= time(); ?>">
+   
+<link rel="stylesheet" href="../../assets/css/login.css">
 <head>
 <script src="https://www.google.com/recaptcha/api.js?render=6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon"></script>
-
 <title>DECAROLI - login</title>
 </head>
 

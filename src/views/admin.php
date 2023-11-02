@@ -1,12 +1,8 @@
-<?php require_once "common/head_admin.php";
-
-
-
+<?php require_once "common/head.php";
 
 // var_dump($_SESSION['nom']);
 // var_dump($_SESSION);
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 
 // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
 if (!isset($_SESSION['nom'])) {
@@ -63,7 +59,7 @@ $message = $_SESSION['message'] ?? '';
               <label id="titre-color" for="titre_color">Couleur du titre :</label>
               <input id="input-titre-color" type="text" name="titre_color" value="<?= $page->getTitreColor() ?>">
               <label id="titre_font_family" for="titre_font_family">Police du titre :</label>
-              <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $page->getTitreColor() ?>">
+              <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $page->getTitreFontFamily() ?>">
               <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version ordinateur :</label>
               <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $page->getTitreFontSizeGrandEcran() ?>">
               <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version tablette :</label>
@@ -134,14 +130,14 @@ $message = $_SESSION['message'] ?? '';
 </div>
 <!-- </div> -->
 <!-- <?php
-$idImageModifier = $_SESSION['idImageModifier'] ?? '';
-$nouveauNomImage = $_SESSION['nouveauNomImage'] ?? '';
-$nomUnique       = $_SESSION['nomUnique'] ?? '' ;
-$ancienNomImage  = $_SESSION['ancienNom'] ?? '' ;
-var_dump($idImageModifier);
-var_dump($nouveauNomImage);
-var_dump($nomUnique);
-var_dump($ancienNomImage);
+// $idImageModifier = $_SESSION['idImageModifier'] ?? '';
+// $nouveauNomImage = $_SESSION['nouveauNomImage'] ?? '';
+// $nomUnique       = $_SESSION['nomUnique'] ?? '' ;
+// $ancienNomImage  = $_SESSION['ancienNom'] ?? '' ;
+// var_dump($idImageModifier);
+// var_dump($nouveauNomImage);
+// var_dump($nomUnique);
+// var_dump($ancienNomImage);
 // Afficher les valeurs où vous le souhaitez dans votre code HTML
 echo "ID de l'image modifiée : " . $idImageModifier;?> </br> <?php
 echo "Nouveau nom de l'image : " . $nouveauNomImage;?> </br> <?php

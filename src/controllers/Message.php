@@ -18,6 +18,7 @@ class Message {
     public const INP_ERR_NOM_CHAR = "Le nom d'utilisateur doit contenir au moins 4 caractères.";
     public const INP_ERR_MDP_CHAR = "Le mot de passe doit contenir au moins 8 caractères.";
     public const INP_ERR_MDP_CHAR_SPE = "Le mot de passe doit contenir au moins 8 caractères.";
+    public const ERR_LOGIN_ACCES_PAGE = "Vous n'avez pas de droit d'accés sur cette page";
 
 }
 

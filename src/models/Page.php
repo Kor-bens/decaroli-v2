@@ -4,7 +4,6 @@ class Page
 {
     protected int       $id_page;
     protected string    $titre;
-    protected string    $titre_font_size;
     protected string    $titre_font_size_grand_ecran;
     protected string    $titre_font_size_moyen_ecran;
     protected string    $titre_font_size_petit_ecran;
@@ -13,17 +12,17 @@ class Page
     protected string    $bkgd_color;
     protected Admin     $id_admin;
 
-    public function __construct($id_page, $titre, $titre_font_size, $titre_font_size_grand_ecran, $titre_font_size_moyen_ecran, $titre_font_size_petit_ecran, $titre_font_family, $titre_color, $bkgd_color)
+    public function __construct($id_page, $titre, $titre_font_size_grand_ecran, $titre_font_size_moyen_ecran, $titre_font_size_petit_ecran, $titre_font_family, $titre_color, $bkgd_color)
     {
-        $this->$id_page                         = $id_page;
+        $this->id_page                          = $id_page;
         $this->titre                            = $titre;
-        $this->titre_font_size                  = $titre_font_size;
         $this->titre_font_size_grand_ecran      = $titre_font_size_grand_ecran;
         $this->titre_font_size_moyen_ecran      = $titre_font_size_moyen_ecran;
         $this->titre_font_size_petit_ecran      = $titre_font_size_petit_ecran;
         $this->titre_font_family                = $titre_font_family;
         $this->titre_color                      = $titre_color;
         $this->bkgd_color                       = $bkgd_color;
+                   
     }
 
     public function getTitre(): string
@@ -33,15 +32,6 @@ class Page
     public function setTitre(string $titre)
     {
         $this->titre = $titre;
-    }
-
- 
-
-    public function getTitreFontSize(): string {
-        return $this->titre_font_size;
-    }
-    public function setTitreFontSize(string $titre_font_size) {
-        $this->titre_font_size = $titre_font_size;
     }
 
     public function getTitreFontSizeGrandEcran(): string {

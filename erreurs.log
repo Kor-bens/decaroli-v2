@@ -531,3 +531,7 @@ Erreur dans DaoAppli : Erreur PDO dans getAdminByNom : SQLSTATE[42S22]: Column n
 31-10-2023 22:24:21 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
 31-10-2023 22:27:44 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
 01-11-2023 14:30:00 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+02-11-2023 09:34:34 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+02-11-2023 09:41:57 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+02-11-2023 09:50:13 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
+02-11-2023 09:53:50 C:\Users\TORTOSA\Desktop\decaroliMAJV2\src\dao\DaoAppli.php - Erreur dans DaoAppli : Échec de la connexion utilisateur : identifiants incorrects
