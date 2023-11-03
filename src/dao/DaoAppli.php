@@ -3,18 +3,14 @@ namespace DECAROLI\dao;
 use DECAROLI\controllers\Message;
 use DECAROLI\controllers\CntrlAppli;
 use DECAROLI\dao\Db;
+use DECAROLI\dao\Requete;
 use DECAROLI\models\Admin;
 use DECAROLI\models\Page;
 use DECAROLI\models\Image;
 use \PDO ; 
 use \PDOException;
 
-require_once 'src/controllers/Message.php';
-require_once 'src/dao/Db.php';
-require_once 'src/dao/Requete.php';
-require_once 'src/models/Admin.php';
-require_once 'src/models/Page.php';
-require_once 'src/models/Image.php';
+
 
 
 
@@ -199,7 +195,7 @@ class DaoAppli
 
     public function getNomFichierImageById($idImage)
     {
-        $requete = "SELECT url FROM image WHERE id_image = :id";
+        $requete = Requete::REQ_NOM_IMAGE_ID; 
 
         try {
             $stmt = $this->db->prepare($requete);
@@ -216,20 +212,5 @@ class DaoAppli
         }
     }
 
-    public function getUserByToken($token)
-    {
-        try {
-            $requete = "SELECT * FROM administrateur WHERE reset_token = :token";
-            $stmt = $this->db->prepare($requete);
-            $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-            $stmt->execute();
-
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            $errorMessage = 'Erreur PDO dans getUserByToken : ' . $e->getMessage();
-            $this->logError($errorMessage);
-            error_log($errorMessage);
-            return false;
-        }
-    }
+  
 }
