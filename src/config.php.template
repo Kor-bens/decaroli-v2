@@ -1,0 +1,13 @@
+<?php
+$config =  [
+    'db' => [
+        'HOST'                     => 'localhost',
+        'DBNAME'                   => '',
+        'NOM_UTILISATEUR'          => '',
+        'MDP'                      => "",
+        'URL'                      => 'mysql:host=<localhost>;dbname=<dbname>;charset=utf8'
+    ],
+    'recaptcha' => [
+        'CLE_API_SECRET_RECAPTCHA' => 'CLE API DE GOOGLE RECAPTCHA V3 COTE SERVEUR'
+    ],
+];
