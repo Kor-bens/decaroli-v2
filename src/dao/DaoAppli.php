@@ -1,7 +1,5 @@
 <?php
 namespace DECAROLI\dao;
-use DECAROLI\controllers\Message;
-use DECAROLI\controllers\CntrlAppli;
 use DECAROLI\dao\Db;
 use DECAROLI\dao\Requete;
 use DECAROLI\models\Admin;
@@ -20,7 +18,8 @@ class DaoAppli
     private PDO $db;
     public function __construct()
     {
-        $dbObjet  = new Db();
+        // $dbObjet  = new Db();
+        $dbObjet  =  new Db;
         $this->db = $dbObjet->getDb();  
         // Activez le mode d'erreur PDO
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
