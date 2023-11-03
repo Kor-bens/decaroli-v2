@@ -4,7 +4,7 @@ class Messages {
     
 private static $sessionKey = "flash_message";
 
- // Ajouter un message au tableau dans la session
+ // TODO Ajouter un message au tableau dans la session
  public static function addMessage($message) {
     if (!isset($_SESSION[self::$sessionKey])) {
         $_SESSION[self::$sessionKey] = [];
