@@ -1,5 +1,5 @@
-assets/ressources/images
 robots.txt
 .htaccess
 vendor/
 config.php
+erreurs.log
