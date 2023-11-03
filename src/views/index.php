@@ -47,8 +47,8 @@
 
 <body>
     <h1><?= $page->getTitre() ?></h1>
-    <?php echo $page->getTitreFontFamily();
-            var_dump($page); ?>
+    <!-- <?php echo $page->getTitreFontFamily();
+            var_dump($page); ?> -->
 
     <div id="contain-images">
         <?php
