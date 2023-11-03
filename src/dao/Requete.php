@@ -2,7 +2,7 @@
 namespace DECAROLI\dao;
 class Requete {
 
-    // Requête pour sélectionner le nom d'un administrateur par nom
+        // Requête pour sélectionner le nom d'un administrateur par nom
     const REQ_USER = "SELECT id_admin, nom, mail, mdp 
                             FROM administrateur
                             WHERE nom = :identifiant OR mail = :identifiant AND id_admin = 1";
@@ -54,4 +54,8 @@ class Requete {
     // Requête pour supprimer une image par ID d'image
     const REQ_SUPPR_IMAGE = "DELETE FROM image
                              WHERE id_image = :idImage";
+
+    const REQ_NOM_IMAGE_ID = 'SELECT url 
+                                FROM image  
+                                  WHERE id_image = :id';
 }
