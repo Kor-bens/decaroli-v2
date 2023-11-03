@@ -1,20 +1,13 @@
 <?php
+
 namespace DECAROLI\controllers;
 use       DECAROLI\dao\DaoAppli;
 use       DECAROLI\controllers\Messages;
-use       DECAROLI\models;
-use       \PDO;
 use       \PDOException;
 
-require_once 'src/controllers/Message.php';
-require_once 'src/dao/DaoAppli.php';
-require_once 'src/controllers/Message.php';
-require_once 'src/dao/Requete.php';
-require_once 'src/models/Page.php';
-require_once 'src/models/Image.php';
-require_once 'src/dao/Requete.php';
-
-
+ini_set('display_errors', 'Off');
+// ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 class CntrlAppli
 {
@@ -53,89 +46,6 @@ class CntrlAppli
         require_once 'src/views/admin.php';
     }
 
-    public function connexion()
-    {
-        require_once 'src/dao/DaoAppli.php';
-
-        // Réinitialisez les messages d'erreur à chaque nouvelle tentative de connexion
-        Messages::setErrorMessage([]);
- 
-        // Tableau pour stocker les messages d'erreur
-        $errorMessage = [];
-        $_SESSION['errorMessage'] = $errorMessage;
-        
-        // Message::setErrorMessage($errorMessage); 
-        $identifiant = $_POST['identifiant'] ?? null;
-        $mdp = $_POST['mdp'] ?? null;
-
-
-        try {
-            $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
-            $mdp = htmlspecialchars($mdp, ENT_QUOTES, 'UTF-8');
-            $mdp = hash('sha512', $mdp);
-
-            // recupération du nom et mail de l'utilisateur
-            $dao = new DaoAppli();
-            $adminPagePromotion = $dao->recuperationUser($identifiant);
-
-            if (!empty($_POST['nom']) && !empty($_POST['mdp'])) {
-                        // $secret = "6Lfkds8oAAAAACgUwWz39ekeIDucyKmPvKfuerP5";
-                        $response = htmlspecialchars($_POST['g-recaptcha-response']);
-                        $remoteip = $_SERVER['REMOTE_ADDR'];
-                        $request  = "https://www.google.com/recaptcha/api/siteverify?secret=" . $config['recaptcha']['CLE_API_SECRET_RECAPTCHA'] . "&response=$response&remoteip=$remoteip";
-                        
-                        $get  = file_get_contents($request);
-                        $decode = json_decode($get, true);
-                        var_dump($decode);
-                        // if ($decode['success'] && $decode['score'] == 0.9) {
-                        if (true) { 
-                            // Le score est supérieur ou égal à 0.7, la validation est réussie
-                            // Redirigez l'utilisateur vers la page admin
-                            $this->logError('Erreur SCORE  : ' . $decode);
-                            header('Location: /admin');
-                            // exit;
-                        }
-                        //  else {
-                        //     // Le score est inférieur à 0.7, la validation est rejetée
-                        //     $errorMessage[] = "Votre tentative de connexion a été rejetée en raison d'une activité suspecte détectée";
-                        //     var_dump($decode);
-                        //     $_SESSION['errorMessage'] = $errorMessage;  // Stockez les messages d'erreur dans la session
-                        //     header('Location: /login');
-                        // }
-                        // 
-
-                        require_once 'src/views/login.php';
-                    }
-
-            // if ($adminPagePromotion && $adminPagePromotion->getMdp() === $mdp) {
-            //     $_SESSION['nom'] = $adminPagePromotion->getNom();
-            //     $_SESSION['mail'] = $adminPagePromotion->getMail();
-            //     header('Location: /admin');
-            //     exit;
-            // }  else {
-            //      $errorMessage[] = Messages::ERR_LOGIN;
-            //     $this->logError('Échec de la connexion utilisateur : identifiants incorrects');
-            // }
-            
-        } catch (PDOException $e) {
-            $this->logError('Erreur PDO dans connexionUser  : ' . $e->getMessage());
-        }
-
-        if (empty($identifiant) || empty($mdp)) {
-            $errorMessage[] = Messages::INP_ERR_CHAMP_VIDE;
-            $_SESSION['errorMessage'] = $errorMessage;
-            header('Location: /login');
-        }
-
-       
-        
-
-        $_SESSION['errorMessage'] = $errorMessage;
-   
-        // Restez dans la même vue pour afficher les messages d'erreur
-        require_once 'src/views/login.php';
-    }
-
     public function deconnexion()
     {
         session_start();
@@ -144,6 +54,92 @@ class CntrlAppli
         // Redirige l'utilisateur vers une page appropriée
         header("Location: /login");
         exit();
+    }
+
+    public function connexion()
+    {
+        require_once 'src/dao/DaoAppli.php';
+        require_once 'src/views/login.php'; // Inclure au début pour pouvoir rediriger facilement
+
+        // Réinitialiser les messages d'erreur à chaque nouvelle tentative de connexion
+        Messages::clearMessages();
+
+
+        // Récupérer les identifiants depuis le formulaire
+        $identifiant = htmlspecialchars($_POST['identifiant']);
+        $mdp = htmlspecialchars($_POST['mdp']);
+
+        // Vérifier si l'identifiant et le mot de passe ne sont pas vides
+        if (empty($identifiant) || empty($mdp)) {
+            $errorMessage = Messages::INP_ERR_CHAMP_VIDE;
+            Messages::addMessage($errorMessage);
+            header('Location: /login');
+            exit();
+        }
+
+        // Vérification de reCAPTCHA
+        // if (!empty($_POST['g-recaptcha-response'])) {
+        //     $response = htmlspecialchars($_POST['g-recaptcha-response']);
+        //     $remoteip = $_SERVER['REMOTE_ADDR'];
+        //     include "src/config.php";
+        //     $request  = "https://www.google.com/recaptcha/api/siteverify?secret=" . $config['recaptcha']['CLE_API_SECRET_RECAPTCHA'] . "&response=$response&remoteip=$remoteip";
+
+        //     $get  = file_get_contents($request);
+        //     $decode = json_decode($get, true);
+
+        //     // echo '<pre>';
+        //     // var_dump($decode);
+        //     // echo '</pre>';
+            
+            
+        //     // Si la vérification reCAPTCHA échoue ou le score est  à 0,7, rejetez la tentative de connexion
+        //     if (!$decode['success'] || $decode['score'] < 0.7) {
+        //         $errorMessage = "Tentative de connexion rejetée en raison d'une activité suspecte détectée.";
+        //         Messages::addMessage($errorMessage);
+        //         header('Location: /login');
+        //         exit();
+        //     }
+        // } else {
+        //     // g-recaptcha-response est vide, rejet de la tentative de connexion
+        //     $errorMessage = "Le captcha n'a pas été validé.";
+        //     Messages::addMessage($errorMessage);
+        //     header('Location: /login');
+        //     exit();
+        // }
+
+        // Si le score est suffisant, poursuivre la vérification des identifiants
+        try {
+            // Continuez ici avec la vérification des identifiants
+            $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
+            $mdp = htmlspecialchars($mdp, ENT_QUOTES, 'UTF-8');
+            $mdp = hash('sha512', $mdp);
+
+            $dao = new DaoAppli();
+            $adminPagePromotion = $dao->recuperationUser($identifiant);
+            
+            if ($adminPagePromotion && $adminPagePromotion->getMdp() === $mdp) {
+                // Identifiants corrects, mise en place de la session et redirection
+                $_SESSION['nom'] = $adminPagePromotion->getNom();
+                $_SESSION['mail'] = $adminPagePromotion->getMail();
+                $errorMessage = "fazfzafzfa";
+                Messages::addMessage($errorMessage);
+                header('Location: /admin');
+                exit();
+            } else {
+                // Identifiants incorrects, ajout d'un message d'erreur
+                
+                Messages::addMessage(Messages::ERR_LOGIN);
+                header('Location: /login');
+                exit();
+            }
+        } catch (PDOException $e) {
+            // Gestion de l'erreur PDO
+            $this->logError('Erreur PDO dans connexionUser : ' . $e->getMessage());
+            Messages::addMessage(Messages::ERR_SYSTEM);
+
+            header('Location: /login');
+            exit();
+        }
     }
 
     public function getDetailPage()
@@ -226,7 +222,7 @@ class CntrlAppli
 
     public function traitementFormulaire()
     {
-        
+
         $nouveauTitre          = htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
         $nouveauBackground     = htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
         $nouvelleCouleurTitre  = htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
@@ -236,16 +232,16 @@ class CntrlAppli
         $nouvelleFontSizePetit = htmlspecialchars($_POST['titre_font_size_petit_ecran'], ENT_QUOTES, 'UTF-8');
 
         // Mettez à jour le fond d'écran de la page dans DaoAppli
-        $dao = new DaoAppli();  
+        $dao = new DaoAppli();
         $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre, $nouvelleFontFamily, $nouvelleFontSizeGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit);
         $pageMiseAJour = $dao->getDetailPage();
         if ($pageMiseAJour === null) {
             // Gérez l'erreur ici (par exemple, enregistrez un message d'erreur dans un journal, affichez un message à l'utilisateur, etc.)
             echo "Une erreur s'est produite lors de la mise à jour de la page.";
-        } 
+        }
         // $donneesOrigine = $this->getDetailPage();
 
-        
+
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $nomFichier = $_FILES['image']['name'];
