@@ -1,5 +1,10 @@
 <?php 
+// phpinfo();
 use DECAROLI\controllers\Messages;
+// ini_set('display_errors', "On");
+
+// error_reporting(E_ALL);
+
 require_once "common/head.php";
 ?>
 <?php if (isset($_SESSION['errorMessage'])) {
@@ -7,7 +12,6 @@ require_once "common/head.php";
    } ?>
 
 <link rel="stylesheet" href="../../assets/css/login.css">
-<head>
 <script src="https://www.google.com/recaptcha/api.js?render=6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon"></script>
 <title>DECAROLI - login</title>
 </head>
@@ -24,17 +28,14 @@ require_once "common/head.php";
 <?php
 $errorMessages = Messages::getMessages();
 
-if (!empty($errorMessages)) {
+if (isset($errorMessages) && !empty($errorMessages)) {
     // Afficher les messages d'erreur
     foreach ($errorMessages as $errorMessage) {
         echo '<div class="message-alert">' . $errorMessage . '</div>';
     }
 }
-//  var_dump($err);
 // var_dump($errorMessage) 
- 
 ?>
-
 
     <form id="loginForm" action="/connexion" method="post">
         <label for="nom">Identifiant :</label>
@@ -45,8 +46,6 @@ if (!empty($errorMessages)) {
        <p id="mdp-oublie">Mot de passe oublié</p>     
     </form>
 
-    
-     
     
     <form id="resetPassword" method="post" action="/reset-password">
     <label id="label_nom_mail" for="nom_mail">Adresse e-mail :</label>
