@@ -1,10 +1,5 @@
 <?php
 use DECAROLI\controllers\CntrlAppli;
-// Désactivez l'affichage des erreurs
-ini_set('display_errors', "On");
-// ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 // Configurez les paramètres de session avant de démarrer la session
 ini_set('session.cookie_secure', 0); // Désactivez l'utilisation de cookies de session uniquement via HTTPS
 ini_set('session.cookie_httponly', 1); // Empêchez l'accès aux cookies de session via JavaScript
