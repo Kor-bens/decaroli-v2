@@ -1,16 +1,19 @@
 <?php
+
 namespace DECAROLI\dao;
+
 use DECAROLI\dao\Db;
 use DECAROLI\dao\Requete;
-use DECAROLI\models\Admin;
+use DECAROLI\models\Utilisateur;
+use DECAROLI\models\Role;
 use DECAROLI\models\Page;
 use DECAROLI\models\Image;
-use \PDO ; 
+use \PDO;
 use \PDOException;
 
 
 
-
+$filename = 'erreurs.log';
 
 class DaoAppli
 {
@@ -20,7 +23,7 @@ class DaoAppli
     {
         // $dbObjet  = new Db();
         $dbObjet  =  new Db;
-        $this->db = $dbObjet->getDb();  
+        $this->db = $dbObjet->getDb();
         // Activez le mode d'erreur PDO
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -34,17 +37,18 @@ class DaoAppli
         $logEntry = "$timestamp $fichier - Erreur dans DaoAppli : $errorMessage"  . PHP_EOL;
         error_log($logEntry, 3, $filename, FILE_APPEND);
     }
-    public function recuperationUser(?string $identifiant): ?Admin 
+    public function recuperationUser(?string $identifiant): ?Utilisateur
     {
         try {
-            $requete = Requete::REQ_USER; 
+            $requete = Requete::REQ_USER;
             $stmt = $this->db->prepare($requete);
             $stmt->bindValue(':identifiant', $identifiant, PDO::PARAM_STR);
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
                 $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-                return new Admin($resultat['id_admin'], $resultat['nom'], $resultat['mail'], $resultat['mdp']);
+                $role = new Role($resultat['id_role'], $resultat['nom_role']);
+                return new Utilisateur($resultat['id_utilisateur'], $resultat['nom'], $resultat['mail'], $resultat['mdp'], $role);
             } else {
                 return null;
             }
@@ -53,9 +57,9 @@ class DaoAppli
             return null;
         }
     }
-    
-    
-    
+
+
+
     public function modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre, $nouvelleFontFamily, $nouvelleFontGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit)
     {
         $requete = Requete::REQ_MODIF_BACKGROUND;
@@ -83,7 +87,8 @@ class DaoAppli
             $stmt = $this->db->query($requete);
         } catch (PDOException $e) {
             $this->logError('Erreur PDO dans getDetailPage : ' . $e->getMessage());
-            return null;
+            throw ($e);
+            // return null;
         }
 
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -194,7 +199,7 @@ class DaoAppli
 
     public function getNomFichierImageById($idImage)
     {
-        $requete = Requete::REQ_NOM_IMAGE_ID; 
+        $requete = Requete::REQ_NOM_IMAGE_ID;
 
         try {
             $stmt = $this->db->prepare($requete);
@@ -210,6 +215,4 @@ class DaoAppli
             return null;
         }
     }
-
-  
 }

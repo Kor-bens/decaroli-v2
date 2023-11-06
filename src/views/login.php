@@ -1,9 +1,9 @@
 <?php 
 // phpinfo();
 use DECAROLI\controllers\Messages;
-// ini_set('display_errors', "On");
+ini_set('display_errors', "On");
 
-// error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 require_once "common/head.php";
 ?>
@@ -34,7 +34,12 @@ if (isset($errorMessages) && !empty($errorMessages)) {
         echo '<div class="message-alert">' . $errorMessage . '</div>';
     }
 }
-// var_dump($errorMessage) 
+var_dump($errorMessage);
+ if (isset($_SESSION['debug'])) {
+    $debug = $_SESSION['debug'];
+   } 
+var_dump($debug);
+
 ?>
 
     <form id="loginForm" action="/connexion" method="post">

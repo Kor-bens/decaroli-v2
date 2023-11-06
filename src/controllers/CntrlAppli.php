@@ -37,11 +37,11 @@ class CntrlAppli
     }
     public function afficherPageAdmin()
     {
-
+       
         // $dao = new DaoAppli();
-        $detailPage = $this->getDetailPage();
-        $page       = $detailPage['page'];
-        $images     = $detailPage['images'];
+        // $detailPage = $this->getDetailPage();
+        // $page       = $detailPage['page'];
+        // $images     = $detailPage['images'];
         // Redirigez l'utilisateur vers la page admin (ou une autre page appropriée) 
         require_once 'src/views/admin.php';
     }
@@ -60,7 +60,8 @@ class CntrlAppli
     {
         require_once 'src/dao/DaoAppli.php';
         require_once 'src/views/login.php'; // Inclure au début pour pouvoir rediriger facilement
-
+        $debug = 'AAAAA';
+        $_SESSION['debug'] = $debug;
         // Réinitialiser les messages d'erreur à chaque nouvelle tentative de connexion
         Messages::clearMessages();
 
@@ -108,6 +109,7 @@ class CntrlAppli
         // }
 
         // Si le score est suffisant, poursuivre la vérification des identifiants
+        
         try {
             // Continuez ici avec la vérification des identifiants
             $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
@@ -117,6 +119,7 @@ class CntrlAppli
             $dao = new DaoAppli();
             $adminPagePromotion = $dao->recuperationUser($identifiant);
             
+
             if ($adminPagePromotion && $adminPagePromotion->getMdp() === $mdp) {
                 // Identifiants corrects, mise en place de la session et redirection
                 $_SESSION['nom'] = $adminPagePromotion->getNom();
@@ -127,8 +130,8 @@ class CntrlAppli
                 exit();
             } else {
                 // Identifiants incorrects, ajout d'un message d'erreur
-                
-                Messages::addMessage(Messages::ERR_LOGIN);
+                $errorMessage = Messages::ERR_LOGIN;
+                Messages::addMessage($errorMessage);
                 header('Location: /login');
                 exit();
             }

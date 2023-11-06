@@ -1,28 +1,30 @@
 <?php
 namespace DECAROLI\models;
-class Admin
+class Utilisateur
 {
-    protected int       $id_admin;
+    protected int       $id_utilisateur;
     protected string    $nom;
     protected string    $mail;
     protected string    $mdp;
+    protected Role      $role;
 
-    public function __construct($id_admin, $nom, $mail, $mdp)
+    public function __construct($id_utilisateur, $nom, $mail, $mdp, $role)
     {
-        $this-> id_admin        = $id_admin;
+        $this-> id_utilisateur        = $id_utilisateur;
         $this-> nom             = $nom;
         $this-> mail            = $mail;
         $this-> mdp             = $mdp;
+        $this->role             = $role;
     }
 
 
-    public function getIdAdmin(): int
+    public function getIdUtilisateur(): int
     {
-        return $this->id_admin;
+        return $this->id_utilisateur;
     }
-    public function setIdAdmin(int $id_admin)
+    public function setIdUtilisateur(int $id_utilisateur)
     {
-        $this->id_admin = $id_admin;
+        $this->id_utilisateur = $id_utilisateur;
     }
 
     public function getNom(): string
@@ -46,4 +48,9 @@ class Admin
     public function setMail(string $mail) {
         $this->mail = $mail;
     }
+
+    public function getIdRole(): Role {
+        return $this->role; 
+    }
+  
 }
