@@ -1,0 +1,24 @@
+{
+    "name": "tortosa/decaroli-majv2",
+    "autoload": {
+        "psr-4": {
+            "DECAROLI\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tortosa",
+            "email": "tortosa.sofiane@hotmail.fr"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+        "testdao": "phpunit -v tests/dao/DaoAppliTest.php"
+    }
+ 
+}

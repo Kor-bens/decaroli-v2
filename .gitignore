@@ -1,0 +1,6 @@
+robots.txt
+.htaccess
+vendor/
+config.php
+erreurs.log
+back/
