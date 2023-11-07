@@ -1,26 +1,20 @@
 @font-face {
-    font-family: 'montserrat'; 
-    src: url('../ressources/font-family/montserrat/Montserrat-VariableFont_wght.ttf') format('truetype'); /
+    font-family: 'montserrat';
+    src: url('../ressources/font-family/montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');/
 }
 
-body{
-margin: 0;
-padding: 0;
-background: rgb(238,174,202);
-background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
-/* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
-overflow-x: hidden;
-display: flex;
-flex-direction: column;
-min-height: 100vh;
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
+
 /*titre page index*/
-h1{
+h1 {
     width: 100%;
-    margin: 3% auto;
+    margin: 3%;
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
@@ -28,36 +22,35 @@ h1{
     -webkit-font-smoothing: antialiased;
     color: transparent;
 }
+
 /*taille des images*/
-img{
- width: 58%;
+img {
+    width: 58%;
 }
+
 /*positionnement des colonnes du bloc qui contient les images généré*/
-#contain-images{
+#contain-images {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     width: 99%;
-    flex: 1; /* Remplit l'espace restant entre le haut et le bas */
 }
 
 /* positionnement des images avec animation */
 .image {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    animation: slideInFromTop 1s ease-in-out; /* Ajustez la durée selon vos préférences */
+    animation: slideInFromTop 1s ease-in-out;
 }
+
 /*positionnement de l'image par rapport a son id*/
 .flex-start {
-    display: flex !important;
-    justify-content: flex-start !important;
-    
+    display: flex;
+    justify-content: flex-start;
 }
+
 /*positionnement de l'image par rapport a son id*/
 .flex-end {
     display: flex;
-    justify-content: flex-end !important;
-   
+    justify-content: flex-end;
 }
 
 /*animation apparition des images du haut au positionnement defini*/
@@ -66,31 +59,35 @@ img{
         transform: translateY(-100%);
         opacity: 0;
     }
+
     100% {
         transform: translateY(0);
         opacity: 1;
     }
 }
 
-
-
 /* Animation de mouvement circulaire sur elle-même */
-@keyframes rotateCircular {
-    0%, 50% {
+@keyframes rotationCirculaire {
+
+    0%,
+    50% {
         transform: rotate(2deg);
     }
-    0%, 100% {
-        transform: rotate(-2deg); 
+
+    0%,
+    100% {
+        transform: rotate(-2deg);
     }
 }
 
 
 /* Applique l'animation aux images après l'apparition */
-.image.circular {
+.image.circulaire {
     width: auto;
     max-width: 100%;
-    animation: rotateCircular 10s linear infinite; 
+    animation: rotationCirculaire 10s linear infinite;
 }
+
 /*bloc footer bas de page*/
 #footer {
     background-color: black;
@@ -99,11 +96,12 @@ img{
     padding: 10px;
     margin-top: 3%;
     bottom: 0 !important;
-    
+
 }
+
 /*logo dans le footer*/
-#logo-decaroli{
-    margin:0 auto;
+#logo-decaroli {
+    margin: 0 auto;
     width: 13%;
     padding-top: 2%;
     padding-bottom: 2%;
@@ -111,7 +109,7 @@ img{
 
 
 /*fleche*/
-#fleche{
+#fleche {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     width: 40px;
@@ -121,17 +119,19 @@ img{
 
 #fleche.active {
     opacity: 1;
-    
 }
+
 /*animation de la fleche*/
 @keyframes bounce {
     0% {
         transform: translateY(10px);
     }
+
     100% {
-        transform: translateY(-10px); /* Ajustez la distance de l'animation selon vos préférences */
+        transform: translateY(-10px);
     }
 }
+
 /*cercle qui contient la fleche*/
 #cercle {
     display: none;
@@ -158,29 +158,29 @@ img{
     opacity: 0.5;
 }
 
-@media (max-width: 431px){
+@media (max-width: 431px) {
+
     /*positionnement des images en colonne*/
-    #contain-images{
+    #contain-images {
         display: grid;
-        grid-template-columns: repeat(1, 1fr); 
+        grid-template-columns: repeat(1, 1fr);
         /* gap: 10%; */
     }
-  
-    #logo-decaroli{
+
+    #logo-decaroli {
         width: 38%;
     }
+
     .flex-start {
         justify-content: center !important;
-        
     }
-    
+
     .flex-end {
         justify-content: center !important;
-       
     }
 }
 
-/* Styles pour les petits écrans (mobiles) */
+/* Styles pour grand mobile a tablette */
 @media (min-width: 431px) and (max-width: 767px) {
 
     #contain-images {
@@ -189,57 +189,41 @@ img{
         width: 99%;
         align-content: space-evenly;
     }
-    /* .image{
-        height: 50%;
-    } */
 
-    img{
+    img {
         width: 100%;
-       }
-       #logo-decaroli{
+    }
+
+    #logo-decaroli {
         width: 20%;
-       }
+    }
 
     .image.circular {
         width: auto;
         max-width: 100%;
-        animation: rotateCircular 4s linear infinite; 
+        animation: rotateCircular 4s linear infinite;
     }
-    #cercle{
+
+    #cercle {
         display: none;
     }
-
-   
-
 }
 
-/* Styles pour les écrans de taille moyenne (tablettes) */
+/* Styles pour grande tablette a pc portable */
 @media (min-width: 768px) and (max-width:1023px) {
- 
 
-  img{
-    width: 90%;
-   }
-   .image.circular {
-    width: auto;
-    max-width: 100%;
-    animation: rotateCircular 4s linear infinite; 
+    img {
+        width: 90%;
+    }
+
+    .image.circular {
+        width: auto;
+        max-width: 100%;
+        animation: rotateCircular 4s linear infinite;
+    }
+
+    #logo-decaroli {
+        width: 20%;
+    }
+
 }
-   #logo-decaroli{
-    width: 20%;
-   }
-   
-}
-
-
-/* Styles pour les grands écrans (ordinateurs de bureau) */
-@media (min-width: 1024px) {
-    /* Mettez ici vos styles spécifiques pour les grands écrans */
-
-  }
-
-
-
-
-
-

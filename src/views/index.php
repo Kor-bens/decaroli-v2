@@ -46,36 +46,28 @@
 </style>
 
 <body>
+      <!-- Afficher le titre grace a la methode de l'objet $page getTitre() qui récupere le titre en base de donnée   -->
     <h1><?= $page->getTitre() ?></h1>
-    <!-- <?php echo $page->getTitreFontFamily();
-            var_dump($page); ?> -->
-
+  
+     <!-- bloc qui contient les images de la base de donnée -->
     <div id="contain-images">
-        <?php
-        // Fonction de comparaison pour trier le tableau par ID croissant
-        function compareById($a, $b)
-        {
-            return $a->getIdImage() - $b->getIdImage();
-        }
+                <?php
+                // Initialise une variable pour suivre la position de l'image
+                $position = 0;
+                
+                foreach ($images as $image) :
+                    // Incrémente la position à chaque itération d'image
+                    $position++;
 
-        // Tri du tableau $donneesOrigine par ID croissant
-        usort($images, 'compareById');
+                    // Modulo pour affecter flex-start ou flex-end (pair ou impair) s'il y a un reste ou pas 
+                    $class = ($position % 2 === 0) ? 'flex-start' : 'flex-end';
+                ?>
 
-        // Initialisez une variable pour suivre la position de l'image
-        $position = 0;
-
-        foreach ($images as $image) :
-            // Incrémentez la position à chaque itération
-            $position++;
-
-            // Appliquez la classe CSS en fonction de la position
-            $class = ($position % 2 === 0) ? 'flex-start' : 'flex-end';
-        ?>
-            <div class="image <?= $class ?>">
-                <?php $nom_image_sans_extension = pathinfo($image->getNomImage(), PATHINFO_FILENAME); ?>
-                <img src="../../assets/ressources/images/<?= $image->getUrl() ?>" alt="<?= $nom_image_sans_extension ?>">
-            </div>
-        <?php endforeach; ?>
+                <div class="image <?= $class ?>">
+                    <?php $nom_image_sans_extension = pathinfo($image->getNomImage(), PATHINFO_FILENAME); ?>
+                    <img src="../../assets/ressources/images/<?= $image->getUrl() ?>" alt="<?= $nom_image_sans_extension ?>">
+                </div>
+             <?php endforeach; ?>
     </div>
 
     <div id="div-fleche" alt="fleche"></div>

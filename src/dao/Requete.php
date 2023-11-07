@@ -2,10 +2,11 @@
 namespace DECAROLI\dao;
 class Requete {
 
-        // Requête pour sélectionner le nom d'un administrateur par nom
-    const REQ_USER = "SELECT id_admin, nom, mail, mdp 
-                            FROM administrateur
-                            WHERE nom = :identifiant OR mail = :identifiant AND id_admin = 1";
+        //TODO(connexion pour tous les users) Requête pour sélectionner le nom d'un utilisateur par nom
+    const REQ_USER = "SELECT u.id_utilisateur, u.nom, u.mail, u.mdp, u.id_role, r.nom_role
+                            FROM utilisateur u
+                            JOIN role r ON u.id_role = r.id_role
+                            WHERE nom = :identifiant OR mail = :identifiant AND u.id_role = 2";
 
 
     // Requête pour modifier le titre d'une page par ID de page
@@ -35,7 +36,8 @@ class Requete {
 
     const REQ_PAGE_IMAGES      = "SELECT nom_image, url, id_image
                                     FROM image
-                                    WHERE id_page = 1";
+                                    WHERE id_page = 1
+                                    ORDER BY id_image ASC";
 
     // Requête pour ajouter une image avec son URL et son nom associé à une page
     const REQ_AJOUT_IMAGE = "INSERT INTO image (url, nom_image, id_page)

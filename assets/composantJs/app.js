@@ -1,22 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
-   
-           // Sélectionnez toutes les images 
+     // Sélectionnez toutes les images 
     const images = document.querySelectorAll(".image");
 
-    // Fonction pour faire apparaître une image avec une animation
-    function fadeInImage(image) {
+    // Fonction pour faire appliquer aux images une animation a partir d'un délai defini
+    function StartAnimationCirculaire(image) {
         setTimeout(function () {
-            image.style.display = "flex";
-            image.classList.add("circular");
-        }, 1000); // Ajustez la valeur 1000 (en millisecondes) pour ajuster le délai d'apparition
+            image.classList.add("circulaire");
+        }, 1000); 
     }
     
-
-    // Faites apparaître chaque image avec un délai
+    // Faire apparaître chaque image avec un délai
     images.forEach(function (image) {
-        fadeInImage(image);
+        StartAnimationCirculaire(image);
     });
 });
+
 /*selectionne l'id*/
 let divFleche = document.querySelector("#div-fleche");
 
@@ -72,8 +70,6 @@ function toggleScrollTop() {
         }
     }
 }
-
-
 
 window.addEventListener('scroll', function() {
     console.log(window.scrollY);

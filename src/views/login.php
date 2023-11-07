@@ -1,9 +1,9 @@
 <?php 
 // phpinfo();
 use DECAROLI\controllers\Messages;
-// ini_set('display_errors', "On");
+ini_set('display_errors', "On");
 
-// error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 require_once "common/head.php";
 ?>
@@ -17,7 +17,7 @@ require_once "common/head.php";
 </head>
 
 <body>
-
+<!-- <?php var_dump($errorMessage) ?> -->
 <div id="container-form">        
 <img src="../../assets/ressources/images/logoDecaroli.png" alt="logo-decaroli">
     <!-- <?php 
@@ -34,7 +34,7 @@ if (isset($errorMessages) && !empty($errorMessages)) {
         echo '<div class="message-alert">' . $errorMessage . '</div>';
     }
 }
-// var_dump($errorMessage) 
+
 ?>
 
     <form id="loginForm" action="/connexion" method="post">
