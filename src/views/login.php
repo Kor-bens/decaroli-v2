@@ -17,7 +17,7 @@ require_once "common/head.php";
 </head>
 
 <body>
-<!-- <?php var_dump($errorMessage) ?> -->
+
 <div id="container-form">        
 <img src="../../assets/ressources/images/logoDecaroli.png" alt="logo-decaroli">
     <!-- <?php 
