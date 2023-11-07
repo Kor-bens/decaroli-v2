@@ -6,44 +6,34 @@ use       DECAROLI\controllers\Messages;
 use       \PDOException;
 
 ini_set('display_errors', 'Off');
-// ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL); 
 
 class CntrlAppli
 {
 
-    private function logError($errorMessage)
-    {
-        global $filename;
-        // Spécifiez le fuseau horaire que vous souhaitez utiliser
-        date_default_timezone_set('Europe/Paris'); // Remplacez 'Europe/Paris' par le fuseau horaire de votre choix
-        $timestamp = date('d-m-Y H:i:s'); // Obtenez la date et l'heure actuelles au format "Y-m-d H:i:s"
-        $fichier   =  __FILE__;
-        $logEntry = "$timestamp $fichier - Erreur dans DaoAppli : $errorMessage"  . PHP_EOL;
-        error_log($logEntry, 3, $filename, FILE_APPEND);
-    }
+    
     public function afficherPagePromo()
     {
         $detailPage = $this->getDetailPage();
         $page =   $detailPage['page'];
         $images = $detailPage['images'];
-
         require_once 'src/views/index.php';
+      
     }
 
     public function afficherPageLogin()
     {
         require_once 'src/views/login.php';
     }
-    public function afficherPageAdmin()
+    public function afficherPageDashBoard()
     {
-
-        // $dao = new DaoAppli();
+       
+        $dao = new DaoAppli(); 
         $detailPage = $this->getDetailPage();
         $page       = $detailPage['page'];
         $images     = $detailPage['images'];
-        // Redirigez l'utilisateur vers la page admin (ou une autre page appropriée) 
-        require_once 'src/views/admin.php';
+        // Redirigez l'utilisateur vers la page DashBoard (ou une autre page appropriée) 
+        require_once 'src/views/dash_board.php';
     }
 
     public function deconnexion()
@@ -59,7 +49,7 @@ class CntrlAppli
     public function connexion()
     {
         require_once 'src/dao/DaoAppli.php';
-        require_once 'src/views/login.php'; // Inclure au début pour pouvoir rediriger facilement
+        require_once 'src/views/login.php'; 
 
         // Réinitialiser les messages d'erreur à chaque nouvelle tentative de connexion
         Messages::clearMessages();
@@ -78,36 +68,35 @@ class CntrlAppli
         }
 
         // Vérification de reCAPTCHA
-        // if (!empty($_POST['g-recaptcha-response'])) {
-        //     $response = htmlspecialchars($_POST['g-recaptcha-response']);
-        //     $remoteip = $_SERVER['REMOTE_ADDR'];
-        //     include "src/config.php";
-        //     $request  = "https://www.google.com/recaptcha/api/siteverify?secret=" . $config['recaptcha']['CLE_API_SECRET_RECAPTCHA'] . "&response=$response&remoteip=$remoteip";
+        if (!empty($_POST['g-recaptcha-response'])) {
+            $response = htmlspecialchars($_POST['g-recaptcha-response']);
+            $remoteip = $_SERVER['REMOTE_ADDR'];
+            include "src/config.php";
+            $request  = "https://www.google.com/recaptcha/api/siteverify?secret=" . $config['recaptcha']['CLE_API_SECRET_RECAPTCHA'] . "&response=$response&remoteip=$remoteip";
 
-        //     $get  = file_get_contents($request);
-        //     $decode = json_decode($get, true);
+            $get  = file_get_contents($request);
+            $decode = json_decode($get, true);
 
-        //     // echo '<pre>';
-        //     // var_dump($decode);
-        //     // echo '</pre>';
+           
             
             
-        //     // Si la vérification reCAPTCHA échoue ou le score est  à 0,7, rejetez la tentative de connexion
-        //     if (!$decode['success'] || $decode['score'] < 0.7) {
-        //         $errorMessage = "Tentative de connexion rejetée en raison d'une activité suspecte détectée.";
-        //         Messages::addMessage($errorMessage);
-        //         header('Location: /login');
-        //         exit();
-        //     }
-        // } else {
-        //     // g-recaptcha-response est vide, rejet de la tentative de connexion
-        //     $errorMessage = "Le captcha n'a pas été validé.";
-        //     Messages::addMessage($errorMessage);
-        //     header('Location: /login');
-        //     exit();
-        // }
+            // Si la vérification reCAPTCHA échoue ou le score est  à 0,7, rejetez la tentative de connexion
+            if (!$decode['success'] || $decode['score'] < 0.7) {
+                $errorMessage = "Tentative de connexion rejetée en raison d'une activité suspecte détectée.";
+                Messages::addMessage($errorMessage);
+                header('Location: /login');
+                exit();
+            }
+        } else {
+            // g-recaptcha-response est vide, rejet de la tentative de connexion
+            $errorMessage = "Le captcha n'a pas été validé.";
+            Messages::addMessage($errorMessage);
+            header('Location: /login');
+            exit();
+        }
 
         // Si le score est suffisant, poursuivre la vérification des identifiants
+        
         try {
             // Continuez ici avec la vérification des identifiants
             $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
@@ -115,28 +104,26 @@ class CntrlAppli
             $mdp = hash('sha512', $mdp);
 
             $dao = new DaoAppli();
-            $adminPagePromotion = $dao->recuperationUser($identifiant);
+            $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
             
-            if ($adminPagePromotion && $adminPagePromotion->getMdp() === $mdp) {
+
+            if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
                 // Identifiants corrects, mise en place de la session et redirection
-                $_SESSION['nom'] = $adminPagePromotion->getNom();
-                $_SESSION['mail'] = $adminPagePromotion->getMail();
-                $errorMessage = "fazfzafzfa";
+                $_SESSION['nom'] = $utilisateurPagePromotion->getNom();
+                $_SESSION['mail'] = $utilisateurPagePromotion->getMail();
                 Messages::addMessage($errorMessage);
-                header('Location: /admin');
+                header('Location: /dash-board');
                 exit();
             } else {
                 // Identifiants incorrects, ajout d'un message d'erreur
-                
-                Messages::addMessage(Messages::ERR_LOGIN);
+                $errorMessage = Messages::ERR_LOGIN;
+                Messages::addMessage($errorMessage);
                 header('Location: /login');
                 exit();
             }
         } catch (PDOException $e) {
             // Gestion de l'erreur PDO
-            $this->logError('Erreur PDO dans connexionUser : ' . $e->getMessage());
-            Messages::addMessage(Messages::ERR_SYSTEM);
-
+            echo "Erreur PDO : " . $e->getMessage();
             header('Location: /login');
             exit();
         }
@@ -252,7 +239,7 @@ class CntrlAppli
 
             if (!in_array($typeFichier, $extensionsAutorisées)) {
                 $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
-                header('Location: /admin');
+                header('Location: /dash-board');
                 exit();
             }
 
@@ -266,16 +253,16 @@ class CntrlAppli
 
             if ($typeFichier === 'image/jpeg') {
                 $imageSource = imagecreatefromjpeg($fichierTemporaire);
-                header('Location: /admin');
+                header('Location: /dash-board');
             } elseif ($typeFichier === 'image/png') {
                 $imageSource = imagecreatefrompng($fichierTemporaire);
-                header('Location: /admin');
+                header('Location: /dash-board');
             } elseif ($typeFichier === 'image/gif') {
                 $imageSource = imagecreatefromgif($fichierTemporaire);
-                header('Location: /admin');
+                header('Location: /dash-board');
             } else {
                 $_SESSION['messageImageError'] = "Type d'image non pris en charge.";
-                header('Location: /admin');
+                header('Location: /dash-board');
                 exit();
             }
             var_dump($typeFichier);
@@ -285,7 +272,7 @@ class CntrlAppli
             $dao->traitementImage($nomUnique, $nomFichier, $idPage);
             echo $nomFichier;
         }
-        header('Location: /admin');
+        header('Location: /dash-board');
     }
 
     public function supprimerImage()
@@ -337,7 +324,7 @@ class CntrlAppli
                 // Informations sur le fichier téléchargé
                 if (!isset($_FILES['nouvelleImage']['error']) || $_FILES['nouvelleImage']['error'] !== UPLOAD_ERR_OK) {
                     $_SESSION['messageImageError'] = "Erreur lors du téléchargement de la nouvelle image.";
-                    header('Location: /admin');
+                    header('Location: /dash-board');
                     exit;
                 }
 
@@ -347,7 +334,7 @@ class CntrlAppli
 
                 if (!in_array(strtolower($extensionFichier), $extensionsAutorisees)) {
                     $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
-                    header('Location: /admin');
+                    header('Location: /dash-board');
                     exit;
                 }
 
@@ -386,25 +373,25 @@ class CntrlAppli
                         $largeurMax = 800; // Remplacez par la largeur maximale souhaitée
                         $hauteurMax = 600; // Remplacez par la hauteur maximale souhaitée
                         $this->redimensionnerImage($cheminStockage, $cheminImageRedimensionnee, $largeurMax, $hauteurMax);
-                        // Redirigez l'utilisateur vers la page admin pour recharger la page
-                        header('Location: /admin');
+                        // Redirigez l'utilisateur vers la page dash-board pour recharger la page
+                        header('Location: /dash-board');
                         exit();
                     } else {
                         // La modification de l'image a échoué
                         // Gérez l'échec (par exemple, affichez un message d'erreur)
                         // Vous pouvez envoyer une réponse JSON si nécessaire
                         $_SESSION['messageImageError'] = "La modification de l'image a échoué.";
-                        header('Location: /admin?error=1'); // Vous pouvez utiliser un paramètre "error" pour indiquer l'erreur
+                        header('Location: /dash-board?error=1'); // Vous pouvez utiliser un paramètre "error" pour indiquer l'erreur
                     }
                 } else {
                     $_SESSION['messageImageError'] = "Erreur lors du déplacement du fichier.";
                 }
             }
-            header('Location: /admin');
+            header('Location: /dash-board');
             exit();
         }
         // Redirigez l'utilisateur vers la page d'origine ou une autre page
-        header('Location: /admin');
+        header('Location: /dash-board');
         exit();
         // Affichez la valeur de $idImageModifier à des fins de débogage
     }
