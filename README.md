@@ -1,5 +1,3 @@
-README pour decaroli-v2
-Description: 
 decaroli-v2 est une application web conçue pour afficher les promotions du mois de la pharmacie Decaroli. Les utilisateurs peuvent accéder aux promotions en scannant un QR code avec leur téléphone. 
 L'application comprend également une page de connexion pour l'administrateur, qui lui permet de se connecter a son back office et de modifier divers éléments de la page de promotions.
 
