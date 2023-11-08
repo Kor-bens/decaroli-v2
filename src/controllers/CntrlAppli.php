@@ -106,11 +106,15 @@ class CntrlAppli
             $dao = new DaoAppli();
             $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
             
-
+           // Vérifiez si le rôle de l'utilisateur est autorisé
+        $roleId = $utilisateurPagePromotion->getIdRole(); 
+        if($roleId == 1 || $roleId == 2) {   
+             // Vérifiez si le mot de passe correspond
             if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
                 // Identifiants corrects, mise en place de la session et redirection
                 $_SESSION['nom'] = $utilisateurPagePromotion->getNom();
                 $_SESSION['mail'] = $utilisateurPagePromotion->getMail();
+                $_SESSION['role'] = $role;
                 Messages::addMessage($errorMessage);
                 header('Location: /dash-board');
                 exit();
@@ -120,6 +124,14 @@ class CntrlAppli
                 Messages::addMessage($errorMessage);
                 header('Location: /login');
                 exit();
+            } 
+        }
+         else {
+             // Rôle non autorisé, ajout d'un message d'erreur
+            $errorMessage = "Vous n'etes pas autorisé a accéder a cette page";
+            Messages::addMessage($errorMessage);
+            header("Location: /login");
+            exit();
             }
         } catch (PDOException $e) {
             // Gestion de l'erreur PDO
