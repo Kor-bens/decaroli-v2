@@ -2,14 +2,14 @@ document.addEventListener("DOMContentLoaded", function () {
      // Sélectionnez toutes les images 
     const images = document.querySelectorAll(".image");
 
-    // Fonction pour faire appliquer aux images une animation a partir d'un délai defini
+    // Fonction pour ajouter une class pour animer l'image et l'appliquer a partir d'un délai 
     function StartAnimationCirculaire(image) {
         setTimeout(function () {
             image.classList.add("circulaire");
         }, 1000); 
     }
     
-    // Faire apparaître chaque image avec un délai
+    //  Applique StartAnimationCirculaire(image) pour chaque itération d'image
     images.forEach(function (image) {
         StartAnimationCirculaire(image);
     });
