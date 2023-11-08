@@ -19,7 +19,7 @@ $message = $_SESSION['message'] ?? '';
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=<?= $page->getTitrefontfamily() ?>">
 <link rel="stylesheet" href="../../assets/css/admin.css">
-<title>DECAROLI - ADMIN</title>
+<title>DECAROLI - Tableau de bord</title>
 </head>
 <style>
     #container-representation-page-index {
