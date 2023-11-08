@@ -13,7 +13,7 @@ use \PDOException;
 
 
 
-$filename = 'erreurs.log';
+
 
 class DaoAppli
 {
@@ -27,16 +27,7 @@ class DaoAppli
         // Activez le mode d'erreur PDO
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    private function logError($errorMessage)
-    {
-        global $filename;
-        // Spécifiez le fuseau horaire que vous souhaitez utiliser
-        date_default_timezone_set('Europe/Paris'); // Remplacez 'Europe/Paris' par le fuseau horaire de votre choix
-        $timestamp = date('d-m-Y H:i:s'); // Obtenez la date et l'heure actuelles au format "Y-m-d H:i:s"
-        $fichier   =  __FILE__;
-        $logEntry = "$timestamp $fichier - Erreur dans DaoAppli : $errorMessage"  . PHP_EOL;
-        error_log($logEntry, 3, $filename, FILE_APPEND);
-    }
+
     public function recuperationUser(?string $identifiant): ?Utilisateur 
     {
         try {
@@ -53,7 +44,7 @@ class DaoAppli
                 return null;
             }
         } catch (PDOException $e) {
-            $this->logError('Erreur PDO dans recuperationUser : ' . $e->getMessage());
+            echo'Erreur PDO dans recuperationUser : ' . $e->getMessage();
             return null;
         }
     }
@@ -76,7 +67,7 @@ class DaoAppli
             $stmt->execute();
         } catch (PDOException $e) {
             // En cas d'erreur PDO, enregistrez l'erreur dans le journal
-            $this->logError('Erreur PDO dans modifBackgroundTitre  : ' . $e->getMessage());
+            echo 'Erreur PDO dans modifBackgroundTitre  : ' . $e->getMessage();
         }
     }
 
@@ -86,7 +77,7 @@ class DaoAppli
         try {
             $stmt = $this->db->query($requete);
         } catch (PDOException $e) {
-            $this->logError('Erreur PDO dans getDetailPage : ' . $e->getMessage());
+            echo 'Erreur PDO dans getDetailPage : ' . $e->getMessage();
             throw ($e);
             // return null;
         }
@@ -117,7 +108,7 @@ class DaoAppli
         try {
             $stmt = $this->db->query($requete);
         } catch (PDOException $e) {
-            $this->logError('Erreur PDO dans getDetailPage : ' . $e->getMessage());
+            echo 'Erreur PDO dans getDetailPage : ' . $e->getMessage();
             return null;
         }
         $images = [];
@@ -153,8 +144,8 @@ class DaoAppli
 
             return $image;
         } catch (PDOException $e) {
-            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
-            $this->logError('Erreur PDO dans traitementImage  : ' . $e->getMessage());
+            // Erreur
+            echo 'Erreur PDO dans traitementImage  : ' . $e->getMessage();
             return null;
         }
     }
@@ -168,8 +159,8 @@ class DaoAppli
             $stmt->bindParam(':idImage', $idImage, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
-            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
-            $this->logError('Erreur PDO dans supprimerImage  :  ' . $e->getMessage());
+            // Erreur
+            echo 'Erreur PDO dans supprimerImage  :  ' . $e->getMessage();
         }
     }
 
@@ -191,8 +182,8 @@ class DaoAppli
                 return false;
             }
         } catch (PDOException $e) {
-            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
-            $this->logError('Erreur PDO dans modifierImage  : ' . $e->getMessage());
+            // Erreur
+            echo 'Erreur PDO dans modifierImage  : ' . $e->getMessage();
             return false;
         }
     }
@@ -210,8 +201,8 @@ class DaoAppli
 
             return isset($resultat['url']) ? $resultat['url'] : null;
         } catch (PDOException $e) {
-            // En cas d'erreur PDO lors de l'exécution de la requête, enregistrez l'erreur dans le journal
-            $this->logError('Erreur PDO dans getNomFichierImageById  : ' . $e->getMessage());
+            // Erreur
+            echo 'Erreur PDO dans getNomFichierImageById  : ' . $e->getMessage();
             return null;
         }
     }
