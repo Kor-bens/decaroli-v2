@@ -6,7 +6,7 @@ class Requete {
     const REQ_USER = "SELECT u.id_utilisateur, u.nom, u.mail, u.mdp, u.id_role, r.nom_role
                             FROM utilisateur u
                             JOIN role r ON u.id_role = r.id_role
-                            WHERE nom = :identifiant OR mail = :identifiant";
+                            WHERE nom = :identifiant OR mail = :identifiant"; 
 
 
     // Requête pour modifier le titre d'une page par ID de page
