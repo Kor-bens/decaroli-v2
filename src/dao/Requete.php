@@ -2,11 +2,11 @@
 namespace DECAROLI\dao;
 class Requete {
 
-        //TODO(connexion pour tous les users) Requête pour sélectionner le nom d'un utilisateur par nom
+        //Requête pour sélectionner le détail d'un utilisateur
     const REQ_USER = "SELECT u.id_utilisateur, u.nom, u.mail, u.mdp, u.id_role, r.nom_role
                             FROM utilisateur u
                             JOIN role r ON u.id_role = r.id_role
-                            WHERE (nom = :identifiant OR mail = :identifiant) AND (u.id_role = 1 OR u.id_role = 2)";
+                            WHERE nom = :identifiant OR mail = :identifiant";
 
 
     // Requête pour modifier le titre d'une page par ID de page
@@ -25,11 +25,6 @@ class Requete {
                                      titre_font_size_petit_ecran = :titre_font_size_petit_ecran 
                                  WHERE id_page = 1";
 
-    // Requête pour récupérer le titre, les couleurs et les images associées à une page
-    // const REQ_DETAIL_PAGE = "SELECT i.id_page, p.titre, p.titre_color, p.titre_font_family, titre_font_size, p.titre_font_size_grand_ecran, p.titre_font_size_moyen_ecran, p.titre_font_size_petit_ecran, p.bkgd_color, i.nom_image, i.url, i.id_image
-    //                                  FROM page p
-    //                                  LEFT JOIN image i ON p.id_page = i.id_page
-    //                                  WHERE p.id_page = 1";
     const REQ_DETAIL_PAGE_PROMOTION = "SELECT p.id_page, p.titre, p.titre_color, p.titre_font_family, p.titre_font_size_grand_ecran, p.titre_font_size_moyen_ecran, p.titre_font_size_petit_ecran, p.bkgd_color
                                      FROM page p  
                                      WHERE p.id_page = 1";
