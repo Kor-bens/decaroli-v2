@@ -4,7 +4,7 @@ use DECAROLI\controllers\Messages;
 ini_set('display_errors', "On");
 
 error_reporting(E_ALL);
-
+include "src/config.php";
 require_once "common/head.php";
 ?>
 <?php if (isset($_SESSION['errorMessage'])) {
@@ -12,7 +12,7 @@ require_once "common/head.php";
    } ?>
 
 <link rel="stylesheet" href="../../assets/css/login.css">
-<script src="https://www.google.com/recaptcha/api.js?render=6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $config['recaptcha']['CLE_API_CLIENT_RECAPTCHA']; ?>"></script>
 <title>DECAROLI - login</title>
 </head>
 
