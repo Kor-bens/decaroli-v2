@@ -37,7 +37,7 @@ class DaoAppli
         $logEntry = "$timestamp $fichier - Erreur dans DaoAppli : $errorMessage"  . PHP_EOL;
         error_log($logEntry, 3, $filename, FILE_APPEND);
     }
-    public function recuperationUser(?string $identifiant): ?Utilisateur
+    public function recuperationUser(?string $identifiant): ?Utilisateur 
     {
         try {
             $requete = Requete::REQ_USER;
