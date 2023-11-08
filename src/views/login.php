@@ -1,15 +1,10 @@
 <?php 
-// phpinfo();
 use DECAROLI\controllers\Messages;
-ini_set('display_errors', "On");
-
+ini_set('display_errors', "Off");
 error_reporting(E_ALL);
 include "src/config.php";
 require_once "common/head.php";
 ?>
-<?php if (isset($_SESSION['errorMessage'])) {
-    $errorMessage = $_SESSION['errorMessage'];
-   } ?>
 
 <link rel="stylesheet" href="../../assets/css/login.css">
 <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $config['recaptcha']['CLE_API_CLIENT_RECAPTCHA']; ?>"></script>
@@ -17,14 +12,13 @@ require_once "common/head.php";
 </head>
 
 <body>
-<!-- <?php var_dump($errorMessage) ?> -->
+
 <div id="container-form">        
 <img src="../../assets/ressources/images/logoDecaroli.png" alt="logo-decaroli">
     <!-- <?php 
      echo 'ID de session (récupéré via $_COOKIE) : ' . $_COOKIE['PHPSESSID'];
     ?> -->
 
- 
 <?php
 $errorMessages = Messages::getMessages();
 
