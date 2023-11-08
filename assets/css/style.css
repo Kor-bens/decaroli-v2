@@ -53,7 +53,7 @@ img {
     justify-content: flex-end;
 }
 
-/*animation apparition des images du haut au positionnement defini*/
+/*animation apparition des images du haut vers le positionnement defini*/
 @keyframes slideInFromTop {
     0% {
         transform: translateY(-100%);
@@ -81,7 +81,7 @@ img {
 }
 
 
-/* Applique l'animation aux images après l'apparition */
+/* Applique l'animation aux images une fois positionné a leurs place */
 .image.circulaire {
     width: auto;
     max-width: 100%;
