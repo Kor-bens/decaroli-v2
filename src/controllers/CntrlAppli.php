@@ -1,24 +1,24 @@
 <?php
 
 namespace DECAROLI\controllers;
+
 use       DECAROLI\dao\DaoAppli;
 use       DECAROLI\controllers\Messages;
 use       \PDOException;
 
 ini_set('display_errors', 'Off');
-error_reporting(E_ALL); 
+error_reporting(E_ALL);
 
 class CntrlAppli
 {
 
-    
+
     public function afficherPagePromo()
     {
         $detailPage = $this->getDetailPage();
         $page =   $detailPage['page'];
         $images = $detailPage['images'];
         require_once 'src/views/index.php';
-      
     }
 
     public function afficherPageLogin()
@@ -27,8 +27,8 @@ class CntrlAppli
     }
     public function afficherPageDashBoard()
     {
-       
-        $dao = new DaoAppli(); 
+
+        $dao = new DaoAppli();
         $detailPage = $this->getDetailPage();
         $page       = $detailPage['page'];
         $images     = $detailPage['images'];
@@ -48,10 +48,10 @@ class CntrlAppli
 
     public function connexion()
     {
-        require_once 'src/dao/DaoAppli.php';
-        require_once 'src/views/login.php'; 
+        //affichage de la page login 
+        CntrlAppli::afficherPageLogin();
 
-        // Réinitialiser les messages d'erreur à chaque nouvelle tentative de connexion
+        // Réinitialise les messages d'erreur à chaque nouvelle tentative de connexion
         Messages::clearMessages();
 
 
@@ -72,14 +72,13 @@ class CntrlAppli
             $response = htmlspecialchars($_POST['g-recaptcha-response']);
             $remoteip = $_SERVER['REMOTE_ADDR'];
             include "src/config.php";
-            $request  = "https://www.google.com/recaptcha/api/siteverify?secret=" . $config['recaptcha']['CLE_API_SECRET_RECAPTCHA'] . "&response=$response&remoteip=$remoteip";
+            $request  = "https://www.google.com/recaptcha/api/siteverify?secret="
+                . $config['recaptcha']['CLE_API_SECRET_RECAPTCHA']
+                . "&response=$response&remoteip=$remoteip";
 
             $get  = file_get_contents($request);
             $decode = json_decode($get, true);
 
-           
-            
-            
             // Si la vérification reCAPTCHA échoue ou le score est  à 0,7, rejetez la tentative de connexion
             if (!$decode['success'] || $decode['score'] < 0.7) {
                 $errorMessage = "Tentative de connexion rejetée en raison d'une activité suspecte détectée.";
@@ -96,7 +95,6 @@ class CntrlAppli
         }
 
         // Si le score est suffisant, poursuivre la vérification des identifiants
-        
         try {
             // Continuez ici avec la vérification des identifiants
             $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
@@ -105,33 +103,32 @@ class CntrlAppli
 
             $dao = new DaoAppli();
             $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
-            
-           // Vérifiez si le rôle de l'utilisateur est autorisé
-        $roleId = $utilisateurPagePromotion->getIdRole(); 
-        if($roleId == 1 || $roleId == 2) {   
-             // Vérifiez si le mot de passe correspond
-            if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
-                // Identifiants corrects, mise en place de la session et redirection
-                $_SESSION['nom'] = $utilisateurPagePromotion->getNom();
-                $_SESSION['mail'] = $utilisateurPagePromotion->getMail();
-                $_SESSION['role'] = $role;
-                Messages::addMessage($errorMessage);
-                header('Location: /dash-board');
-                exit();
+
+            // Vérifiez si le rôle de l'utilisateur est autorisé
+            $roleId = $utilisateurPagePromotion->getRole()->getIdRole();
+            if ($roleId == 1 || $roleId == 2) {
+                // Vérifiez si le mot de passe correspond
+                if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
+                    // Identifiants corrects, mise en place de la session et redirection
+                    $_SESSION['nom'] = $utilisateurPagePromotion->getNom();
+                    $_SESSION['mail'] = $utilisateurPagePromotion->getMail();
+                    $_SESSION['role'] = $role;
+                    Messages::addMessage($errorMessage);
+                    header('Location: /dash-board');
+                    exit();
+                } else {
+                    // Identifiants incorrects, ajout d'un message d'erreur
+                    $errorMessage = Messages::ERR_LOGIN;
+                    Messages::addMessage($errorMessage);
+                    header('Location: /login');
+                    exit();
+                }
             } else {
-                // Identifiants incorrects, ajout d'un message d'erreur
-                $errorMessage = Messages::ERR_LOGIN;
+                // Rôle non autorisé, ajout d'un message d'erreur
+                $errorMessage = "Vous n'etes pas autorisé a accéder a cette page";
                 Messages::addMessage($errorMessage);
-                header('Location: /login');
+                header("Location: /login");
                 exit();
-            } 
-        }
-         else {
-             // Rôle non autorisé, ajout d'un message d'erreur
-            $errorMessage = "Vous n'etes pas autorisé a accéder a cette page";
-            Messages::addMessage($errorMessage);
-            header("Location: /login");
-            exit();
             }
         } catch (PDOException $e) {
             // Gestion de l'erreur PDO
