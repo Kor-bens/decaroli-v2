@@ -1,5 +1,9 @@
 <?php 
 use DECAROLI\controllers\Messages;
+session_start();
+// Change l'id de session et supprime l'ancien
+session_regenerate_id(true); 
+ob_start();
 ini_set('display_errors', "Off");
 error_reporting(E_ALL);
 include "src/config.php";
