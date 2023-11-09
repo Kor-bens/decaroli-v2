@@ -87,7 +87,7 @@ class CntrlAppli
                 exit();
             }
         } else {
-            // g-recaptcha-response est vide, rejet de la tentative de connexion
+            // G-recaptcha-response est vide, rejet de la tentative de connexion
             $errorMessage = "Le captcha n'a pas été validé.";
             Messages::addMessage($errorMessage);
             header('Location: /login');
@@ -109,10 +109,8 @@ class CntrlAppli
             if ($roleId == 1 || $roleId == 2) {
                 // Vérifiez si le mot de passe correspond
                 if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
-                    // Identifiants corrects, mise en place de la session et redirection
-                    $_SESSION['nom'] = $utilisateurPagePromotion->getNom();
-                    $_SESSION['mail'] = $utilisateurPagePromotion->getMail();
-                    $_SESSION['role'] = $role;
+                    // Mise en place de la session et redirection
+                    $_SESSION['utilisateur'] = $utilisateurPagePromotion; 
                     Messages::addMessage($errorMessage);
                     header('Location: /dash-board');
                     exit();
@@ -138,6 +136,21 @@ class CntrlAppli
         }
     }
 
+    public function AjoutUtilisateurByAdmin($nomUser, $mdpUser, $mailUser, $id_roleUser)
+    {
+        // Vous devriez d'abord vérifier que l'utilisateur actuel a le rôle d'admin (id_role = 1)
+        // Cette vérification dépend de votre logique de session et d'authentification actuelle.
+        // Pseudocode :
+        if ($_SESSION['role'] != 1) {
+            echo "Action non autorisée.";
+            return;
+        }
+
+        // Hasher le mot de passe avant de l'insérer pour des raisons de sécurité.
+        $mdpUserHash = hash('sha512', $mdpUser);
+        $dao = new DaoAppli();
+        $ajoutUtilisateur = $dao->ajoutUtilisateur($nomUser, $mdpUserHash, $mailUser, $id_roleUser);
+    }
     public function getDetailPage()
     {
         $dao = new DaoAppli();
