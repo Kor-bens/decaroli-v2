@@ -1,11 +1,20 @@
-<?php require_once "common/head.php";
+<?php 
+session_start();
+// Change l'id de session et supprime l'ancien
+session_regenerate_id(true); 
+ob_start();
+use DECAROLI\models\Utilisateur;
+use DECAROLI\models\Role;
+
+require_once "common/head.php";
+
 
 // var_dump($_SESSION['nom']);
-// var_dump($_SESSION);
+var_dump($_SESSION['utilisateur']);
 
 
 // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
-if (!isset($_SESSION['nom'])) {
+if (!isset($_SESSION['utilisateur'])) {
     header("Location: /login");
     exit;
 }
@@ -38,12 +47,24 @@ $message = $_SESSION['message'] ?? '';
         <ul>
             <li><a href="/" target="_blank">Page promo</a></li>
             <?php
-            if (isset($_SESSION['nom'])) {
-                $nom = $_SESSION['nom'] ?? "";
-                echo "<li><a href='/deconnexion'>Se Déconnecter</a></li>";
-            } else {
-                echo 'Les variables de session ont été supprimées.';
+          if (isset($_SESSION['utilisateur'])) {
+              $utilisateur = $_SESSION['utilisateur'];
+            
+            echo "<li>Bonjour, " . htmlspecialchars($utilisateur->getNom(), ENT_QUOTES, 'UTF-8') . "</li>";
+            echo "<li>Bonjour, " . htmlspecialchars($utilisateur->getMail(), ENT_QUOTES, 'UTF-8') . "</li>";
+            echo "<li>Bonjour, " . htmlspecialchars($utilisateur->getRole()->getNomRole(), ENT_QUOTES, 'UTF-8') . "</li>";
+            
+            if ($utilisateur->getRole()->getNomRole() === 'administrateur') {
+                // Display the admin-specific element
+                echo "<li><a href='/admin'>Admin Panel</a></li>";
             }
+            
+            // Display the logout link for logged-in users
+            echo "<li><a href='/deconnexion'>Se Déconnecter</a></li>";
+        } else {
+            // Inform the user that session variables are no longer set (e.g., logged out or session expired)
+            echo 'Les variables de session ont été supprimées.';
+        }
             ?>
         </ul>
     </div>
