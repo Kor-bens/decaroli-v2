@@ -1,4 +1,6 @@
-<?php require_once "common/head.php";?>
+<?php
+
+require_once "common/head.php";?>
 
     <meta name="description" content="Découvrez les meilleures offres du mois sur les produits pharmaceutiques de Decaroli.
                                      Profitez de remises exclusives sur une large gamme d'articles, des soins pour bébés aux produits minceur. 
