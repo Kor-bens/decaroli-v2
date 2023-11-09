@@ -1,15 +1,14 @@
 <?php
-//namespace CntrlAppli
-use DECAROLI\controllers\CntrlAppli;
 // Configurez les paramètres de session avant de démarrer la session
 ini_set('session.cookie_secure', 0); // Activez l'utilisation de cookies de session uniquement via HTTPS
 ini_set('session.cookie_httponly', 1); // Empêchez l'accès aux cookies de session via JavaScript
 
-// Démarrez la session
-session_start();
-// Change l'id de session et supprime l'ancien
-session_regenerate_id(true);
 ob_start();
+//namespace CntrlAppli
+use DECAROLI\controllers\CntrlAppli;
+
+
+
 require_once 'vendor/autoload.php';
 
 
