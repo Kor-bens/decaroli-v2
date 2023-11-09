@@ -8,7 +8,10 @@ class Requete {
                             JOIN role r ON u.id_role = r.id_role
                             WHERE nom = :identifiant OR mail = :identifiant";
 
+    const REQ_ROLE = "SELECT * from role where nom_role = :nom";
 
+    const REQ_AJOUT_USER = "INSERT INTO utilisateur (nom, mdp, mail, id_role)
+                                            VALUES (:nom, :mdp, :mail, :id_role)";
     // Requête pour modifier le titre d'une page par ID de page
     const REQ_MODIF_TITRE = "UPDATE page 
                              SET titre = :titre 
