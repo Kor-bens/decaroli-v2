@@ -21,7 +21,6 @@ class DaoAppli
     private PDO $db;
     public function __construct()
     {
-        // $dbObjet  = new Db();
         $dbObjet  =  new Db;
         $this->db = $dbObjet->getDb();
         // Activez le mode d'erreur PDO
