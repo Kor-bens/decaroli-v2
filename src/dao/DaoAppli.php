@@ -11,10 +11,6 @@ use DECAROLI\models\Image;
 use \PDO;
 use \PDOException;
 
-
-
-
-
 class DaoAppli
 {
 
@@ -27,7 +23,7 @@ class DaoAppli
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function recuperationUser(?string $identifiant): ?Utilisateur 
+    public function recuperationUser(?string $identifiant): ?Utilisateur
     {
         try {
             $requete = Requete::REQ_USER;
@@ -43,9 +39,38 @@ class DaoAppli
                 return null;
             }
         } catch (PDOException $e) {
-            echo'Erreur PDO dans recuperationUser : ' . $e->getMessage();
+            echo 'Erreur PDO dans recuperationUser : ' . $e->getMessage();
             return null;
         }
+    }
+
+    public function ajoutUtilisateur(?string $nom, ?string $mdp, ?string $mail, ?int $id_role)
+    {
+        try {
+            
+            $requete = Requete::REQ_AJOUT_USER;
+            $stmt = $this->db->prepare($requete);
+            $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+            $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+            $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
+            $stmt->bindParam(':id_role', $id_role, PDO::PARAM_INT);
+            $stmt->execute();
+            $idDernierUtilisateur = $this->db->lastInsertId();
+            return $idDernierUtilisateur;
+        } catch (PDOException $e) {
+            echo 'Erreur PDO dans AjoutUtilisateur : ' . $e->getMessage();
+            return null;
+        }
+    }
+    public function recuperatioRole($nomRole)
+    {
+        $requete = Requete::REQ_ROLE;
+        $stmt = $this->db->prepare($requete);
+        $stmt->bindParam(':nom', $nomRole, PDO::PARAM_STR);
+        $stmt->execute();
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+        $role = new Role($resultat['id_role'], $resultat['nom_role']);
+        return $role;
     }
 
 
