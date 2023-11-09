@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../../src/dao/DaoAppli.php';
+use DECAROLI\dao\DaoAppli;
+use DECAROLI\dao\CntrlAppli; 
 use PHPUnit\Framework\TestCase;
 class DaoAppliTest extends TestCase
 {
@@ -15,7 +16,7 @@ class DaoAppliTest extends TestCase
     public function testGetAdminByNom()
     {
         // Ici, vous pouvez simuler une entrée et tester la sortie
-        $result = $this->daoAppli->recuperationUser('nom_test','dzadazd'); 
+        $result = $this->daoAppli->recuperationUser('nom_test');  
         $this->assertIsArray($result);
         // Autres assertions selon vos besoins...
     }
@@ -33,7 +34,7 @@ class DaoAppliTest extends TestCase
                  ->method('execute')
                  ->willReturn(true);
         
-        $daoAppliReflection = new ReflectionClass(DaoAppli::class);
+        $daoAppliReflection = new ReflectionClass(DaoAppli::class); 
         $dbProperty = $daoAppliReflection->getProperty('db');
         $dbProperty->setAccessible(true);
         $dbProperty->setValue($this->daoAppli, $pdoMock);
@@ -106,4 +107,5 @@ class DaoAppliTest extends TestCase
         // Libérez les ressources ou effectuez d'autres opérations de nettoyage si nécessaire.
         $this->daoAppli = null;
     }
+   
 }
