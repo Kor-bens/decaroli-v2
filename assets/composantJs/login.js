@@ -20,30 +20,32 @@ function initiateRecaptcha(resetPassword) {
         grecaptcha.execute('6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon', {action: 'submit'}).then(function(token) {
             // Ajouter le token à un champ caché
             var form = document.getElementById(resetPassword);
-            var hiddenField = document.createElement('input');
-            hiddenField.setAttribute('type', 'hidden');
-            hiddenField.setAttribute('name', 'g-recaptcha-response');
-            hiddenField.setAttribute('value', token);
-            form.appendChild(hiddenField);
+            var champRecaptcha = document.createElement('input');
+            champRecaptcha.setAttribute('type', 'hidden');
+            champRecaptcha.setAttribute('name', 'g-recaptcha-response');
+            champRecaptcha.setAttribute('value', token);
+            form.appendChild(champRecaptcha);
 
             // Soumettez le formulaire
             form.submit();
         });
     });
 }
-
-function initiateRecaptcha(formId) {
+//Fonction appeler au click du formulaire qui va charger la bibliothèque recaptcha
+function initiateRecaptcha(cleApi,formId) {
     grecaptcha.ready(function() {
-        grecaptcha.execute('6Lfkds8oAAAAAPRPPv2yTGlZAECdMaHA-jMqnkon', {action: 'submit'}).then(function(token) {
-            // Ajouter le token à un champ caché
+        alert('coucou');
+        //execution de la methode qui identifie la clé et contextualise la verification du recaptcha (soumission de formulaire)
+        grecaptcha.execute(cleApi, {action: 'submit'}).then(function(token) {
+            // Ajouter le token a un champ caché dans le formulaire
             var form = document.getElementById(formId);
-            var hiddenField = document.createElement('input');
-            hiddenField.setAttribute('type', 'hidden');
-            hiddenField.setAttribute('name', 'g-recaptcha-response');
-            hiddenField.setAttribute('value', token);
-            form.appendChild(hiddenField);
+            var champRecaptcha = document.createElement('input');
+            champRecaptcha.setAttribute('type', 'hidden');
+            champRecaptcha.setAttribute('name', 'g-recaptcha-response');
+            champRecaptcha.setAttribute('value', token);
+            form.appendChild(champRecaptcha);
 
-            // Soumettez le formulaire
+            // Soumission du formulaire, 
             form.submit();
         });
     });
