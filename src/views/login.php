@@ -11,6 +11,7 @@ require_once "common/head.php";
 ?>
 
 <link rel="stylesheet" href="../../assets/css/login.css">
+<script>var cleApi ="<?php echo $config['recaptcha']['CLE_API_CLIENT_RECAPTCHA'];?>";</script>
 <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $config['recaptcha']['CLE_API_CLIENT_RECAPTCHA']; ?>"></script>
 <title>DECAROLI - login</title>
 </head>
@@ -40,7 +41,7 @@ if (isset($errorMessages) && !empty($errorMessages)) {
         <input type="text" id="nom" name="identifiant" autocomplete="identifiant" >
         <label for="mdp" id="label-mdp">Mot de passe :</label>
         <input type="password" id="input-mdp" name="mdp" autocomplete="mdp" >
-        <input type="button" class="button" value="Se connecter" onclick="initiateRecaptcha('loginForm')">   
+        <input type="button" class="button" value="Se connecter" onclick="initiateRecaptcha(cleApi,'loginForm')">   
        <p id="mdp-oublie">Mot de passe oublié</p>     
     </form>
 
