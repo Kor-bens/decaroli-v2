@@ -1,6 +1,5 @@
 <?php
 namespace DECAROLI\dao;
-
 use \PDO;
 
 class Db
@@ -10,7 +9,7 @@ class Db
 
     public function __construct()
     {
-        // configurer l'objet PDO pour la gestions des erreurs
+        // configuration de l'objet PDO pour la gestions des erreurs
         $pdoOptions = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         ];
@@ -18,14 +17,14 @@ class Db
         try {
             // Connexion à la base de données MySQL
             include "src/config.php";
-            $this->db = new PDO($config['db']['URL'], $config['db']['NOM_UTILISATEUR'], $config['db']['MDP'], $pdoOptions);
-           
+            $this->db = new PDO($config['db']['URL'], $config['db']['NOM_UTILISATEUR'], $config['db']['MDP']);
+           //Capture l'extension 
         } catch (\PDOException $e) {
-            // Gestion des erreurs de connexion à la base de données
-            echo "- Erreur de connexion PDO : . " . $e->getMessage();
+            //Afficher le message d'erreur de connexion à la base de données
+            error_log($e->getMessage());
         }
     }
-
+    // Methode pour permettre la connexion a la base de données
     public function getDb()
     {
         // Retourne l'objet PDO représentant la connexion à la base de données

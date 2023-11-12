@@ -1,7 +1,5 @@
 <?php
-
 namespace DECAROLI\dao;
-
 use DECAROLI\dao\Db;
 use DECAROLI\dao\Requete;
 use DECAROLI\models\Utilisateur;
@@ -10,11 +8,11 @@ use DECAROLI\models\Page;
 use DECAROLI\models\Image;
 use \PDO;
 use \PDOException;
-
+// Class pour intéragir avec la base de donnée
 class DaoAppli
 {
-
     private PDO $db;
+    // Initialisation de la connexion à la base de données et configuration des attributs PDO.
     public function __construct()
     {
         $dbObjet  =  new Db;
@@ -22,7 +20,8 @@ class DaoAppli
         // Activez le mode d'erreur PDO
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-
+    //Récupération d'un utilisateur de la base de données en fonction de son identifiant (nom ou mail).
+    // Si un utilisateur est trouvé, un objet Role est crée et un objet Utilisateur est crée et retourné.
     public function recuperationUser(?string $identifiant): ?Utilisateur
     {
         try {
@@ -39,7 +38,7 @@ class DaoAppli
                 return null;
             }
         } catch (PDOException $e) {
-            echo 'Erreur PDO dans recuperationUser : ' . $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }
@@ -58,7 +57,7 @@ class DaoAppli
             $idDernierUtilisateur = $this->db->lastInsertId();
             return $idDernierUtilisateur;
         } catch (PDOException $e) {
-            echo 'Erreur PDO dans AjoutUtilisateur : ' . $e->getMessage();
+           error_log($e->getMessage());
             return null;
         }
     }
@@ -75,10 +74,10 @@ class DaoAppli
 
 
 
-    public function modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre, $nouvelleFontFamily, $nouvelleFontGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit)
+    public function modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre,
+          $nouvelleFontFamily, $nouvelleFontGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit)
     {
         $requete = Requete::REQ_MODIF_BACKGROUND;
-
         try {
             $stmt = $this->db->prepare($requete);
             $stmt->bindParam(':background', $nouveauBackground);
@@ -90,8 +89,7 @@ class DaoAppli
             $stmt->bindParam(':titre_font_size_petit_ecran', $nouvelleFontSizePetit);
             $stmt->execute();
         } catch (PDOException $e) {
-            // En cas d'erreur PDO, enregistrez l'erreur dans le journal
-            echo 'Erreur PDO dans modifBackgroundTitre  : ' . $e->getMessage();
+            error_log($e->getMessage());
         }
     }
 
@@ -101,16 +99,13 @@ class DaoAppli
         try {
             $stmt = $this->db->query($requete);
         } catch (PDOException $e) {
-            echo 'Erreur PDO dans getDetailPage : ' . $e->getMessage();
-            throw ($e);
-            // return null;
+           error_log($e->getMessage());
+            return null;
         }
-
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$resultat) {
-            return null; // ou gérer le cas où il n'y a pas de résultats
+            return null;
         }
-
         $page = new Page(
             $resultat['id_page'],
             $resultat['titre'],
@@ -132,7 +127,7 @@ class DaoAppli
         try {
             $stmt = $this->db->query($requete);
         } catch (PDOException $e) {
-            echo 'Erreur PDO dans getDetailPage : ' . $e->getMessage();
+           error_log($e->getMessage());
             return null;
         }
         $images = [];
@@ -149,27 +144,27 @@ class DaoAppli
         return ['page' => $page, 'images' => $images];
     }
 
-    public function traitementImage($nouvelleImage, $nomFichier, $idPage)
+    public function traitementImage($nomUnique, $nomFichier, $idPage)
     {
         $requete = Requete::REQ_AJOUT_IMAGE;
 
         try {
             $stmt = $this->db->prepare($requete);
-            $stmt->bindParam(':url', $nouvelleImage);
+            $stmt->bindParam(':url', $nomUnique);
             $stmt->bindParam(':nom_image', $nomFichier);
             $stmt->bindParam(':id_page', $idPage);
             $stmt->execute();
 
-            // Récupérez l'ID de l'image insérée
+            // Récupére l'ID de l'image insérée
             $idImage = $this->db->lastInsertId();
 
-            // Créez une nouvelle instance de la classe Image
-            $image = new Image($idImage, $nomFichier, $nouvelleImage);
+            // Création d'une nouvelle instance de la classe Image
+            $image = new Image($idImage, $nomFichier, $nomUnique);
 
             return $image;
         } catch (PDOException $e) {
             // Erreur
-            echo 'Erreur PDO dans traitementImage  : ' . $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }
@@ -184,7 +179,7 @@ class DaoAppli
             $stmt->execute();
         } catch (PDOException $e) {
             // Erreur
-            echo 'Erreur PDO dans supprimerImage  :  ' . $e->getMessage();
+            error_log($e->getMessage());
         }
     }
 
@@ -207,7 +202,7 @@ class DaoAppli
             }
         } catch (PDOException $e) {
             // Erreur
-            echo 'Erreur PDO dans modifierImage  : ' . $e->getMessage();
+            error_log($e->getMessage());
             return false;
         }
     }
@@ -226,7 +221,7 @@ class DaoAppli
             return isset($resultat['url']) ? $resultat['url'] : null;
         } catch (PDOException $e) {
             // Erreur
-            echo 'Erreur PDO dans getNomFichierImageById  : ' . $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }

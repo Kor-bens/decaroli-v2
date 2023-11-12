@@ -1,27 +1,13 @@
-<?php 
-session_start();
-// Change l'id de session et supprime l'ancien
-session_regenerate_id(true); 
-ob_start();
-use DECAROLI\models\Utilisateur;
-use DECAROLI\models\Role;
-
+<?php
+ session_start();
+use DECAROLI\controllers\Messages;
 require_once "common/head.php";
-
-
-// var_dump($_SESSION['nom']);
-var_dump($_SESSION['utilisateur']);
-
 
 // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
 if (!isset($_SESSION['utilisateur'])) {
     header("Location: /login");
     exit;
 }
-$messageImageError = $_SESSION['messageImageError'] ?? ''; // Récupérez le message d'erreur depuis la session
-unset($_SESSION['messageImageError']); // Action réussie, supprimez le message d'erreur de la variable de session
-$message = $_SESSION['message'] ?? '';
-
 ?>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,17 +36,13 @@ $message = $_SESSION['message'] ?? '';
           if (isset($_SESSION['utilisateur'])) {
               $utilisateur = $_SESSION['utilisateur'];
             
-            echo "<li>Bonjour, " . htmlspecialchars($utilisateur->getNom(), ENT_QUOTES, 'UTF-8') . "</li>";
-            echo "<li>Bonjour, " . htmlspecialchars($utilisateur->getMail(), ENT_QUOTES, 'UTF-8') . "</li>";
-            echo "<li>Bonjour, " . htmlspecialchars($utilisateur->getRole()->getNomRole(), ENT_QUOTES, 'UTF-8') . "</li>";
-            
             if ($utilisateur->getRole()->getNomRole() === 'administrateur') {
-                // Display the admin-specific element
-                echo "<li><a href='/admin'>Admin Panel</a></li>";
+                
+                echo "<li><a href='/admin'>Gestion utilisateur</a></li>";
             }
             
             // Display the logout link for logged-in users
-            echo "<li><a href='/deconnexion'>Se Déconnecter</a></li>";
+            echo "<li><a href='/deconnexion'>Se déconnecter</a></li>";
         } else {
             // Inform the user that session variables are no longer set (e.g., logged out or session expired)
             echo 'Les variables de session ont été supprimées.';
@@ -88,15 +70,17 @@ $message = $_SESSION['message'] ?? '';
             </div>
 
             <div id="container-image">
-                <div id="container-ajout-image">
                     <label for="image" id="label-ajouter-image">Ajouter des images</label>
                     <button type="button" id="bouton-ajouter-image">Sélectionner des images</button>
-                    <?php if (!empty($messageImageError)) { ?>
-                        <p id="message-alert-image"><?php echo $messageImageError; ?></p>
-
-                    <?php } ?>
+                    <?php
+                        $errorMessages = Messages::getMessages();
+                        if (isset($errorMessages) && !empty($errorMessages)) {
+                            // Afficher les messages d'erreur
+                            foreach ($errorMessages as $errorMessage) {
+                                echo '<div class="message-alert">' . $errorMessage . '</div>';
+                            }
+                    }?>
                     <input id="input-ajouter-image" type="file" name="image" accept="image/*" style="display: none;" multiple>
-                </div>
                 <!-- Ajoutez un élément img pour afficher l'image sélectionnée -->
                 <img id="image-selectionnee" src="" alt="Image sélectionnée" style="display: none;">
             </div>

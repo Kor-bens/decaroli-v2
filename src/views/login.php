@@ -5,6 +5,7 @@ session_start();
 session_regenerate_id(true); 
 ob_start();
 ini_set('display_errors', "Off");
+ini_set('log_errors', "On");
 error_reporting(E_ALL);
 include "src/config.php";
 require_once "common/head.php";
@@ -20,28 +21,25 @@ require_once "common/head.php";
 
 <div id="container-form">        
 <img src="../../assets/ressources/images/logoDecaroli.png" alt="logo-decaroli">
-    <!-- <?php 
+    <?php 
      echo 'ID de session (récupéré via $_COOKIE) : ' . $_COOKIE['PHPSESSID'];
-    ?> -->
+    ?>
 
-<?php
-$errorMessages = Messages::getMessages();
-
-if (isset($errorMessages) && !empty($errorMessages)) {
-    // Afficher les messages d'erreur
-    foreach ($errorMessages as $errorMessage) {
-        echo '<div class="message-alert">' . $errorMessage . '</div>';
-    }
-}
-
-?>
-
+    <?php
+    $errorMessages = Messages::getMessages();
+    if (isset($errorMessages) && !empty($errorMessages)) {
+        // Afficher les messages d'erreur
+        foreach ($errorMessages as $errorMessage) {
+            echo '<div class="message-alert">' . $errorMessage . '</div>';
+        }
+    }?>
+    
     <form id="loginForm" action="/connexion" method="post">
         <label for="nom">Identifiant :</label>
         <input type="text" id="nom" name="identifiant" autocomplete="identifiant" >
         <label for="mdp" id="label-mdp">Mot de passe :</label>
         <input type="password" id="input-mdp" name="mdp" autocomplete="mdp" >
-        <input type="button" class="button" value="Se connecter" onclick="initiateRecaptcha(cleApi,'loginForm')">   
+        <input type="button" class="button" value="Se connecter" onclick="initialisationRecaptcha(cleApi,'loginForm')">   
        <p id="mdp-oublie">Mot de passe oublié</p>     
     </form>
 

@@ -1,18 +1,12 @@
 <?php
-// Configurez les paramètres de session avant de démarrer la session
-ini_set('session.cookie_secure', 0); // Activez l'utilisation de cookies de session uniquement via HTTPS
-ini_set('session.cookie_httponly', 1); // Empêchez l'accès aux cookies de session via JavaScript
-
-ob_start();
 //namespace CntrlAppli
 use DECAROLI\controllers\CntrlAppli;
-
-
-
+// session_start();
 require_once 'vendor/autoload.php';
-
-
-
+ini_set('display_errors', "On");
+ini_set('log_errors', "On");
+error_reporting(E_ALL);
+ob_start();
 // Récupére la route dans l'url et la méthode HTTP de la demande
 $route = htmlspecialchars(explode("?", $_SERVER['REQUEST_URI'])[0]);
 // stocke la méthode HTTP utilisée pour la requête (GET, POST, etc.).
@@ -21,7 +15,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 // Création d'une instance du contrôleur CntrlAppli
 $cntrlAppli = new CntrlAppli();  
 
-// En fonction de la méthode HTTP et de la route, cela va appeler une methode du controleur
+// En fonction de la méthode http (GET, POST, PUT, DELETE) et de la route, cela va appeler une methode du controleur
 if     ($method == 'GET' && $route == '/index')                     {$cntrlAppli->afficherPagePromo();} 
 elseif ($method == 'GET' && $route == '/')                          {$cntrlAppli->afficherPagePromo();} 
 elseif ($method == 'GET' && $route == '/login')                     {$cntrlAppli->afficherPageLogin();} 

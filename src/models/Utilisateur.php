@@ -1,7 +1,5 @@
 <?php
-
 namespace DECAROLI\models;
-
 class Utilisateur
 {
     protected int       $id_utilisateur;
@@ -12,14 +10,12 @@ class Utilisateur
 
     public function __construct($id_utilisateur, $nom, $mail, $mdp, $role)
     {
-        $this->id_utilisateur        = $id_utilisateur;
+        $this->id_utilisateur  = $id_utilisateur;
         $this->nom             = $nom;
         $this->mail            = $mail;
         $this->mdp             = $mdp;
-        $this->role             = $role;
+        $this->role            = $role;
     }
-
-
     public function getIdUtilisateur(): int
     {
         return $this->id_utilisateur;
@@ -28,22 +24,18 @@ class Utilisateur
     {
         $this->id_utilisateur = $id_utilisateur;
     }
-
     public function getNom(): string
     {
         return $this->nom;
     }
-
     public function setNom(string $nom)
     {
         $this->nom = $nom;
     }
-
     public function getMdp(): string
     {
         return $this->mdp;
     }
-
     public function getMail(): string
     {
         return $this->mail;
@@ -52,9 +44,11 @@ class Utilisateur
     {
         $this->mail = $mail;
     }
-
     public function getRole(): Role
     {
         return $this->role;
+    }
+    public function setRole(Role $role) {
+        $this->role = $role;
     }
 }

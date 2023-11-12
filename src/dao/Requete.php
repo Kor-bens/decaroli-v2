@@ -1,8 +1,9 @@
 <?php
 namespace DECAROLI\dao;
+// Class qui contient les requetes SQL
 class Requete {
 
-        //Requête pour sélectionner le détail d'un utilisateur
+        //Requête pour récuperer les détail d'un utilisateur si le nom ou le mail correspond dans la base de données
     const REQ_USER = "SELECT u.id_utilisateur, u.nom, u.mail, u.mdp, u.id_role, r.nom_role
                             FROM utilisateur u
                             JOIN role r ON u.id_role = r.id_role
@@ -19,18 +20,20 @@ class Requete {
 
     // Requête pour modifier les paramètres de style de la page par ID de page
     const REQ_MODIF_BACKGROUND = "UPDATE page
-                                 SET bkgd_color = :background, 
-                                     titre = :titre, 
-                                     titre_color = :titre_color, 
-                                     titre_font_family = :titre_font_family, 
-                                     titre_font_size_grand_ecran = :titre_font_size_grand_ecran, 
-                                     titre_font_size_moyen_ecran = :titre_font_size_moyen_ecran, 
-                                     titre_font_size_petit_ecran = :titre_font_size_petit_ecran 
-                                 WHERE id_page = 1";
+                                    SET bkgd_color = :background, 
+                                       titre = :titre, 
+                                       titre_color = :titre_color, 
+                                       titre_font_family = :titre_font_family, 
+                                       titre_font_size_grand_ecran = :titre_font_size_grand_ecran, 
+                                       titre_font_size_moyen_ecran = :titre_font_size_moyen_ecran, 
+                                       titre_font_size_petit_ecran = :titre_font_size_petit_ecran 
+                                         WHERE id_page = 1";
 
-    const REQ_DETAIL_PAGE_PROMOTION = "SELECT p.id_page, p.titre, p.titre_color, p.titre_font_family, p.titre_font_size_grand_ecran, p.titre_font_size_moyen_ecran, p.titre_font_size_petit_ecran, p.bkgd_color
-                                     FROM page p  
-                                     WHERE p.id_page = 1";
+    const REQ_DETAIL_PAGE_PROMOTION = "SELECT p.id_page, p.titre, p.titre_color, p.titre_font_family,
+                                              p.titre_font_size_grand_ecran, p.titre_font_size_moyen_ecran,
+                                              p.titre_font_size_petit_ecran, p.bkgd_color
+                                                FROM page p  
+                                                  WHERE p.id_page = 1";
 
     const REQ_PAGE_IMAGES      = "SELECT nom_image, url, id_image
                                     FROM image
@@ -38,8 +41,8 @@ class Requete {
                                     ORDER BY id_image ASC";
 
     // Requête pour ajouter une image avec son URL et son nom associé à une page
-    const REQ_AJOUT_IMAGE = "INSERT INTO image (url, nom_image, id_page)
-                             VALUES (:url, :nom_image, :id_page)";
+    const REQ_AJOUT_IMAGE = "INSERT INTO image (nom_image, url, id_page)
+                             VALUES (:nom_image, :url, :id_page)";
 
     // Requête pour modifier le nom et l'URL d'une image par ID d'image
     const REQ_MODIF_IMAGE = "UPDATE image

@@ -8,11 +8,8 @@ use       \PDOException;
 
 ini_set('display_errors', 'Off');
 error_reporting(E_ALL);
-
 class CntrlAppli
 {
-
-
     public function afficherPagePromo()
     {
         $detailPage = $this->getDetailPage();
@@ -54,7 +51,6 @@ class CntrlAppli
         // Réinitialise les messages d'erreur à chaque nouvelle tentative de connexion
         Messages::clearMessages();
 
-
         // Récupérer les identifiants depuis le formulaire
         $identifiant = htmlspecialchars($_POST['identifiant']);
         $mdp = htmlspecialchars($_POST['mdp']);
@@ -67,11 +63,12 @@ class CntrlAppli
             exit();
         }
 
-        // Vérification de reCAPTCHA
+        // Vérification du token de l'API reCAPTCHA 
         if (!empty($_POST['g-recaptcha-response'])) {
             $response = htmlspecialchars($_POST['g-recaptcha-response']);
             $remoteip = $_SERVER['REMOTE_ADDR'];
             include "src/config.php";
+            //Appel de l'API reCAPTCHA pour vérifier le token et analyse de la réponse qui contient le score
             $request  = "https://www.google.com/recaptcha/api/siteverify?secret="
                 . $config['recaptcha']['CLE_API_SECRET_RECAPTCHA']
                 . "&response=$response&remoteip=$remoteip";
@@ -79,7 +76,7 @@ class CntrlAppli
             $get  = file_get_contents($request);
             $decode = json_decode($get, true);
 
-            // Si la vérification reCAPTCHA échoue ou le score est  à 0,7, rejetez la tentative de connexion
+            // Si la vérification reCAPTCHA est false ou le score est inférieur 0,7 on rejete la tentative de connexion
             if (!$decode['success'] || $decode['score'] < 0.7) {
                 $errorMessage = "Tentative de connexion rejetée en raison d'une activité suspecte détectée.";
                 Messages::addMessage($errorMessage);
@@ -96,21 +93,23 @@ class CntrlAppli
 
         // Si le score est suffisant, poursuivre la vérification des identifiants
         try {
-            // Continuez ici avec la vérification des identifiants
+            // Vérification des identifiants
             $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
             $mdp = htmlspecialchars($mdp, ENT_QUOTES, 'UTF-8');
             $mdp = hash('sha512', $mdp);
 
+            //objet qui récupère les données de l'utilisateur a partir de l'identifiant
             $dao = new DaoAppli();
             $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
 
-            // Vérifiez si le rôle de l'utilisateur est autorisé
+            //récupèration de l'id role de l'utilisateur
             $roleId = $utilisateurPagePromotion->getRole()->getIdRole();
+            // Vérifiez si le rôle de l'utilisateur est autorisé
             if ($roleId == 1 || $roleId == 2) {
                 // Vérifiez si le mot de passe correspond
                 if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
                     // Mise en place de la session et redirection
-                    $_SESSION['utilisateur'] = $utilisateurPagePromotion; 
+                    $_SESSION['utilisateur'] = $utilisateurPagePromotion;
                     Messages::addMessage($errorMessage);
                     header('Location: /dash-board');
                     exit();
@@ -158,11 +157,13 @@ class CntrlAppli
         return $detailPage;
     }
 
+    // Fonction pour redimensionner les images
     public  function redimensionnerImage($cheminSource, $cheminCible, $largeurMax, $hauteurMax)
-    {
+    {  //Vérification si le fichier image source existe
         if (file_exists($cheminSource)) {
+            //Utilisation de getimagesize pour obtenir les dimensions et le format de l'image
             list($largeurOrig, $hauteurOrig, $typeOrig) = getimagesize($cheminSource);
-
+            //En fonction du format de l'image, une image est crée a partir du fichier source
             switch ($typeOrig) {
                 case IMAGETYPE_JPEG:
                     $imageSource = imagecreatefromjpeg($cheminSource);
@@ -173,30 +174,25 @@ class CntrlAppli
                 case IMAGETYPE_GIF:
                     $imageSource = imagecreatefromgif($cheminSource);
                     break;
+                    //Si le format n'est pas pris en compte un message d'erreur avertit l'utilisateur
                 default:
                     echo "Type d'image non pris en charge : " . $typeOrig;
                     return;
             }
-
+            //Calcul le ratio pour redimensionner l'image tout en conservant ses proportions
             $ratio = min($largeurMax / $largeurOrig, $hauteurMax / $hauteurOrig);
+            //Calcul des nouvelles dimensions pour l'image
             $nouvelleLargeur = round($largeurOrig * $ratio);
             $nouvelleHauteur = round($hauteurOrig * $ratio);
-
+            //création de l'image 
             $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+            //
+            $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+            imagealphablending($nouvelleImage, false);
+            imagesavealpha($nouvelleImage, true);
+            $transparent = imagecolorallocatealpha($nouvelleImage, 255, 255, 255, 127);
+            imagefilledrectangle($nouvelleImage, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $transparent);
 
-            if ($typeOrig === IMAGETYPE_PNG) {
-                // Créez une image avec fond transparent
-                $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
-                imagealphablending($nouvelleImage, false);
-                imagesavealpha($nouvelleImage, true);
-                $transparent = imagecolorallocatealpha($nouvelleImage, 255, 255, 255, 127);
-                imagefilledrectangle($nouvelleImage, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $transparent);
-            } else {
-                // Créez une image avec fond blanc pour les autres formats
-                $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
-                $blanc = imagecolorallocate($nouvelleImage, 255, 255, 255);
-                imagefill($nouvelleImage, 0, 0, $blanc);
-            }
 
             imagecopyresampled($nouvelleImage, $imageSource, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $largeurOrig, $hauteurOrig);
 
@@ -231,7 +227,8 @@ class CntrlAppli
 
     public function traitementFormulaire()
     {
-
+        Messages::clearMessages();
+        //Les valeurs récupéré via $_POST sont nettoyées avec htmlspecialchars pour prévenir les attaques XSS
         $nouveauTitre          = htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
         $nouveauBackground     = htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
         $nouvelleCouleurTitre  = htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
@@ -240,39 +237,40 @@ class CntrlAppli
         $nouvelleFontSizeMoyen = htmlspecialchars($_POST['titre_font_size_moyen_ecran'], ENT_QUOTES, 'UTF-8');
         $nouvelleFontSizePetit = htmlspecialchars($_POST['titre_font_size_petit_ecran'], ENT_QUOTES, 'UTF-8');
 
-        // Mettez à jour le fond d'écran de la page dans DaoAppli
+        
+        // Création de l'objet afin d'intéragir avec la base de données
         $dao = new DaoAppli();
-        $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre, $nouvelleFontFamily, $nouvelleFontSizeGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit);
-        $pageMiseAJour = $dao->getDetailPage();
-        if ($pageMiseAJour === null) {
-            // Gérez l'erreur ici (par exemple, enregistrez un message d'erreur dans un journal, affichez un message à l'utilisateur, etc.)
-            echo "Une erreur s'est produite lors de la mise à jour de la page.";
-        }
-        // $donneesOrigine = $this->getDetailPage();
-
-
-
+        //Appel de la methode de l'objet afin de mettre a jour les données dans la base de données
+        $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre,
+         $nouvelleFontFamily, $nouvelleFontSizeGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit);
+        //
+         $dao->getDetailPage();
+        
+        //Vérifivation du téléchargement de l'image
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $nomFichier = $_FILES['image']['name'];
             $typeFichier = $_FILES['image']['type'];
+            //Stockage de l'image dans un emplacement temporaire sur le serveur
             $fichierTemporaire = $_FILES['image']['tmp_name'];
-
+            //Stockage du type de fichier et extension autorisé
             $extensionsAutorisées = array('image/jpeg', 'image/gif', 'image/png');
-
+            
             if (!in_array($typeFichier, $extensionsAutorisées)) {
-                $_SESSION['messageImageError'] = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
+                $errorMessage = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
+                Messages::addMessage($errorMessage);
                 header('Location: /dash-board');
                 exit();
             }
-
+            //Géneration d'un nom unique pour le fichier
             $nomUnique = uniqid() . '_' . $nomFichier;
+            //Le chemin ou l'image sera sauvegardé
             $cheminStockage = 'assets/ressources/images/' . $nomUnique;
 
-            // Ici, vous devriez utiliser $fichierTemporaire pour créer l'image plutôt que $cheminStockage
+           //dimension défini pour les images quand on appelera la methode redimensionnerImage
             $largeurMax = 800;
             $hauteurMax = 600;
 
-
+            //Création de l'image en fonction du type de fichier
             if ($typeFichier === 'image/jpeg') {
                 $imageSource = imagecreatefromjpeg($fichierTemporaire);
                 header('Location: /dash-board');
@@ -287,15 +285,17 @@ class CntrlAppli
                 header('Location: /dash-board');
                 exit();
             }
-            var_dump($typeFichier);
+            //redimensionnement de l'image et déplacement de l'image dans le chemin de stockage 
             $this->redimensionnerImage($fichierTemporaire, $cheminStockage, $largeurMax, $hauteurMax);
 
-            $idPage = 1; // Remplacez par l'ID de la page appropriée
+            //Id de la page 
+            $idPage = 1;
+            //Appel de la méthode pour envoyer les informations en base de donnée
             $dao->traitementImage($nomUnique, $nomFichier, $idPage);
-            echo $nomFichier;
         }
+        //Rechargement de la page
         header('Location: /dash-board');
-    }
+     }
 
     public function supprimerImage()
     {
@@ -304,7 +304,7 @@ class CntrlAppli
         if ($idImageASupprimer > 0) {
             $dao = new DaoAppli();
 
-            // Récupérez le nom du fichier image à partir de la base de données
+            // Récupére le nom du fichier image à partir de la base de données
             $nomFichierImage = $dao->getNomFichierImageById($idImageASupprimer);
 
             // Supprimez l'image de la base de données
@@ -318,10 +318,8 @@ class CntrlAppli
                 }
             }
         }
-
         // Répondez à la requête AJAX
-        http_response_code(200); // OK
-
+        http_response_code(200); 
         exit();
     }
 
