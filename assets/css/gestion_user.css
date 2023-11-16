@@ -38,6 +38,7 @@ a{
 #container{
   display: flex;
   flex-direction: row;
+  height: 100vh;
 }
 #container-form{
     display: flex;
@@ -98,6 +99,15 @@ input:hover {
     /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
 }
 
+select{
+    border-radius: 10px;
+    padding: 1%;
+}
+
+#bouton-form{
+    margin-top: 2.5%;
+}
+
 button{
     cursor: pointer;
     border-radius: 5px;
@@ -120,6 +130,9 @@ button:hover{
     background-color: rgb(227, 39, 39);
 }
 
+#container-liste-utilisateur-et-formulaire-modifier{
+    padding: 2.4%;
+}
 
 #container-modifier-utilisateur{
     display: flex;
@@ -138,4 +151,18 @@ width: auto;
 
 .input-modifier{
     margin: 0;
+}
+
+table {
+  border-collapse: collapse; /* Cette propriété assure que les bordures des cellules ne sont pas espacées */
+}
+
+th, td {
+    color: white;
+  border: 1px solid black; /* Ajoute une bordure solide noire de 1px autour de chaque cellule */
+  padding: 8px; /* Ajoute un peu d'espace entre le texte et la bordure de la cellule */
+}
+
+th {
+  background-color: #000000; /* Couleur de fond pour les en-têtes de tableau */
 }
