@@ -227,3 +227,16 @@ img {
     }
 
 }
+
+@media (min-width: 1920px) and (max-width:2000px) {
+ body{
+    background-color:black;
+    /* overflow: hidden;  */
+    /* height: 200vh; Hauteur pour permettre le défilement */
+    background-color: #f0f0f0;
+    text-align: center;
+    padding-top: 50px;
+ }
+
+}
+

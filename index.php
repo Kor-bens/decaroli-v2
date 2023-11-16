@@ -1,7 +1,8 @@
 <?php
 //namespace CntrlAppli
 use DECAROLI\controllers\CntrlAppli;
-// session_start();
+session_start();
+
 require_once 'vendor/autoload.php';
 ini_set('display_errors', "On");
 ini_set('log_errors', "On");
@@ -20,6 +21,10 @@ if     ($method == 'GET' && $route == '/index')                     {$cntrlAppli
 elseif ($method == 'GET' && $route == '/')                          {$cntrlAppli->afficherPagePromo();} 
 elseif ($method == 'GET' && $route == '/login')                     {$cntrlAppli->afficherPageLogin();} 
 elseif ($method == 'GET' && $route == '/dash-board')                {$cntrlAppli->afficherPageDashBoard();}  
+elseif ($method == 'GET' && $route == '/gestion-user')              {$cntrlAppli->afficherPageGestionUser();}     
+elseif ($method == 'POST' && $route == '/traitement-ajout-user')    {$cntrlAppli->traitementAjoutUser();}    
+elseif ($method == 'DELETE' && $route == '/traitement-supprimer-user'){$cntrlAppli->supprimerUser();}    
+elseif ($method == 'POST' && $route == '/traitement-modifier-user'){$cntrlAppli->modifierUser();}    
 elseif ($method == 'POST' && $route == '/connexion')                {$cntrlAppli->connexion();} 
 elseif ($method == 'GET' && $route == '/deconnexion')               {$cntrlAppli->deconnexion();} 
 elseif ($method == 'POST' && $route == '/traitement-formulaire')    {$cntrlAppli->traitementFormulaire();} 

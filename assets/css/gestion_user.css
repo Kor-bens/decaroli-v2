@@ -1,0 +1,141 @@
+@font-face {
+    font-family: 'montserrat'; 
+    src: url('../ressources/font-family/montserrat/Montserrat-VariableFont_wght.ttf') format('truetype'); /
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family:'montserrat';
+    background: #325070;
+}
+#navbar{
+    background-color: black;
+    height: 50px;
+    width: 100%;
+    display: flex; /* Utilisez flex pour centrer horizontalement */
+    align-items: center;
+}
+ul{
+    display: flex;
+    padding: 0;
+    white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
+    /* margin-left: 2%; */
+    width: 100%;
+}
+
+li{
+    list-style: none;
+    color: white;
+    margin-left: 5%; /* Espace entre les éléments li */
+    width: auto;
+}
+a{
+    font-size: 19px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+#container{
+  display: flex;
+  flex-direction: row;
+}
+#container-form{
+    display: flex;
+    justify-content: center;
+}
+#label-nom{
+    margin-top: 5%;
+}
+label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    font-size: 19px;
+}
+#form {
+        border-right: 2px solid #84A5D7; 
+        z-index: 2;
+        padding: 1%;
+        width: 20%;
+        opacity: 1;
+        max-height: 100%;
+        text-align: center;
+        transition: box-shadow 0.3s;
+    }
+#form:hover{
+    box-shadow: 5px 0 10px rgba(164, 187, 222, 0.5);
+}
+#container-ajout-user{
+    /* margin-top: 2%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+input{
+    border-radius: 5px;
+    margin-top: 2.5%;
+    margin-bottom: 10%;
+    color:rgb(136, 133, 133);
+    font-size: 14px;
+    padding: 6px;
+    font-family: 'montserrat';
+    outline: none;
+    box-shadow: none; /* Remove any shadow */
+    transition: border-color 0.3s;
+    /* background-color: transparent; */
+    border: 1px solid #a4bbde; /* Set the same color for all borders */
+}
+input:focus {
+    border-color:  #84A5D7 !important; /* Change la couleur de la bordure lorsqu'un champ de saisie est en focus */
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
+}
+input:hover {
+    border-color:  #84A5D7 !important; /* Change la couleur de la bordure lorsqu'un champ de saisie est en focus */
+    /* box-shadow: 5px 5px 10px rgba(164, 187, 222, 0.5); */
+}
+
+button{
+    cursor: pointer;
+    border-radius: 5px;
+    /* transition: box-shadow 0.3s; */
+    padding: 6px;
+    font-size: 14px;
+    border: none;
+    font-family: "montserrat";
+    transition: border-radius 0.3;
+
+}
+button:hover{
+    border-radius:5px;
+    background-color: rgb(83, 128, 192); /* Change la couleur de fond */
+     border-radius:8px;
+      color: white;
+      
+}
+.bouton-supprimer-utilisateur:hover{
+    background-color: rgb(227, 39, 39);
+}
+
+
+#container-modifier-utilisateur{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 5%;
+}
+#form-modification-utilisateur{
+    display: none;
+}
+.label-modifier{
+margin-right: 2%;
+width: auto;
+}
+
+.input-modifier{
+    margin: 0;
+}

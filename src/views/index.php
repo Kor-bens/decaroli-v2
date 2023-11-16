@@ -16,29 +16,25 @@ require_once "common/head.php";?>
     body {
         background: <?= $page->getBkgdColor() ?>;
     }
-
+    /*Titre promotions*/
     h1 {
         background-image: <?= $page->getTitreColor() ?>;
         color: <?= $page->getTitreColor() ?>;
         font-size: <?= $page->getTitreFontSizeGrandEcran() ?>;
         font-family: <?= $page->getTitrefontfamily() ?>;
     }
-
     /* Media query pour les grands écrans */
     @media (min-width: 768px) {
         h1 {
             font-size: <?= $page->getTitreFontSizeGrandEcran() ?>;
-            
         }
     }
-
     /* Media query pour les écrans de taille moyenne  */
     @media (min-width: 431px) and (max-width: 768px) {
         h1 {
             font-size: <?= $page->getTitreFontSizeMoyenEcran() ?>;
         }
     }
-
     /* Media query pour les petits écrans  */
     @media (max-width: 431px) {
         h1 {

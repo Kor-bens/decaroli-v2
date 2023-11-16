@@ -1,7 +1,7 @@
 <?php
 use DECAROLI\dao\DaoAppli;
-use DECAROLI\dao\CntrlAppli; 
 use PHPUnit\Framework\TestCase;
+use DECAROLI\models\Utilisateur;
 class DaoAppliTest extends TestCase
 {
     private $daoAppli;
@@ -16,7 +16,7 @@ class DaoAppliTest extends TestCase
     public function testGetAdminByNom()
     {
         // Ici, vous pouvez simuler une entrée et tester la sortie
-        $result = $this->daoAppli->recuperationUser('nom_test');  
+        $result = $this->daoAppli->recuperationUser('AAAAA');  
         $this->assertIsArray($result);
         // Autres assertions selon vos besoins...
     }

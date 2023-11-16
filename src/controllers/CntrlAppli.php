@@ -32,6 +32,13 @@ class CntrlAppli
         // Redirigez l'utilisateur vers la page DashBoard (ou une autre page appropriée) 
         require_once 'src/views/dash_board.php';
     }
+    public function afficherPageGestionUser()
+    {
+        $dao = new DaoAppli();
+        $roles = $dao->getRoles();
+        $users = $dao->getUserDashboard();
+        require_once 'src/views/gestion_user.php';
+    }
 
     public function deconnexion()
     {
@@ -47,9 +54,6 @@ class CntrlAppli
     {
         //affichage de la page login 
         CntrlAppli::afficherPageLogin();
-
-        // Réinitialise les messages d'erreur à chaque nouvelle tentative de connexion
-        Messages::clearMessages();
 
         // Récupérer les identifiants depuis le formulaire
         $identifiant = htmlspecialchars($_POST['identifiant']);
@@ -101,16 +105,17 @@ class CntrlAppli
             //objet qui récupère les données de l'utilisateur a partir de l'identifiant
             $dao = new DaoAppli();
             $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
-
+            $utilisateurPagePromotionId = $utilisateurPagePromotion->getIdUtilisateur();
             //récupèration de l'id role de l'utilisateur
             $roleId = $utilisateurPagePromotion->getRole()->getIdRole();
-            // Vérifiez si le rôle de l'utilisateur est autorisé
+
+            // Vérifie si le rôle de l'utilisateur est autorisé
             if ($roleId == 1 || $roleId == 2) {
                 // Vérifiez si le mot de passe correspond
                 if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
                     // Mise en place de la session et redirection
-                    $_SESSION['utilisateur'] = $utilisateurPagePromotion;
-                    Messages::addMessage($errorMessage);
+                    $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
+                    $_SESSION['roleUtilisateur'] = $roleId;
                     header('Location: /dash-board');
                     exit();
                 } else {
@@ -135,21 +140,6 @@ class CntrlAppli
         }
     }
 
-    public function AjoutUtilisateurByAdmin($nomUser, $mdpUser, $mailUser, $id_roleUser)
-    {
-        // Vous devriez d'abord vérifier que l'utilisateur actuel a le rôle d'admin (id_role = 1)
-        // Cette vérification dépend de votre logique de session et d'authentification actuelle.
-        // Pseudocode :
-        if ($_SESSION['role'] != 1) {
-            echo "Action non autorisée.";
-            return;
-        }
-
-        // Hasher le mot de passe avant de l'insérer pour des raisons de sécurité.
-        $mdpUserHash = hash('sha512', $mdpUser);
-        $dao = new DaoAppli();
-        $ajoutUtilisateur = $dao->ajoutUtilisateur($nomUser, $mdpUserHash, $mailUser, $id_roleUser);
-    }
     public function getDetailPage()
     {
         $dao = new DaoAppli();
@@ -157,160 +147,166 @@ class CntrlAppli
         return $detailPage;
     }
 
-    // Fonction pour redimensionner les images
-    public  function redimensionnerImage($cheminSource, $cheminCible, $largeurMax, $hauteurMax)
-    {  //Vérification si le fichier image source existe
-        if (file_exists($cheminSource)) {
-            //Utilisation de getimagesize pour obtenir les dimensions et le format de l'image
-            list($largeurOrig, $hauteurOrig, $typeOrig) = getimagesize($cheminSource);
-            //En fonction du format de l'image, une image est crée a partir du fichier source
-            switch ($typeOrig) {
-                case IMAGETYPE_JPEG:
-                    $imageSource = imagecreatefromjpeg($cheminSource);
-                    break;
-                case IMAGETYPE_PNG:
-                    $imageSource = imagecreatefrompng($cheminSource);
-                    break;
-                case IMAGETYPE_GIF:
-                    $imageSource = imagecreatefromgif($cheminSource);
-                    break;
-                    //Si le format n'est pas pris en compte un message d'erreur avertit l'utilisateur
-                default:
-                    echo "Type d'image non pris en charge : " . $typeOrig;
-                    return;
-            }
-            //Calcul le ratio pour redimensionner l'image tout en conservant ses proportions
-            $ratio = min($largeurMax / $largeurOrig, $hauteurMax / $hauteurOrig);
-            //Calcul des nouvelles dimensions pour l'image
-            $nouvelleLargeur = round($largeurOrig * $ratio);
-            $nouvelleHauteur = round($hauteurOrig * $ratio);
-            //création de l'image 
-            $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
-            //
-            $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
-            imagealphablending($nouvelleImage, false);
-            imagesavealpha($nouvelleImage, true);
-            $transparent = imagecolorallocatealpha($nouvelleImage, 255, 255, 255, 127);
-            imagefilledrectangle($nouvelleImage, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $transparent);
-
-
-            imagecopyresampled($nouvelleImage, $imageSource, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $largeurOrig, $hauteurOrig);
-
-            if ($typeOrig === IMAGETYPE_JPEG) {
-                imagejpeg($nouvelleImage, $cheminCible, 100);
-            } elseif ($typeOrig === IMAGETYPE_PNG) {
-                imagepng($nouvelleImage, $cheminCible);
-            } elseif ($typeOrig === IMAGETYPE_GIF) {
-                imagegif($nouvelleImage, $cheminCible);
-            }
-
-            imagejpeg($nouvelleImage, $cheminCible, 100);
-
-            switch ($typeOrig) {
-                case IMAGETYPE_JPEG:
-                    imagejpeg($nouvelleImage, $cheminCible, 100);
-                    break;
-                case IMAGETYPE_PNG:
-                    imagepng($nouvelleImage, $cheminCible);
-                    break;
-                case IMAGETYPE_GIF:
-                    imagegif($nouvelleImage, $cheminCible);
-                    break;
-            }
-
-            imagedestroy($nouvelleImage);
-            imagedestroy($imageSource);
-        } else {
-            echo "Le fichier source n'existe pas : " . $cheminSource;
-        }
-    }
-
+    //Méthode qui traite les données du formulaire et les images téléchargées
     public function traitementFormulaire()
     {
-        Messages::clearMessages();
-        //Les valeurs récupéré via $_POST sont nettoyées avec htmlspecialchars pour prévenir les attaques XSS
+        // Nettoyage des champs du formulaire avec htmlspecialchars 
         $nouveauTitre          = htmlspecialchars($_POST['titre'], ENT_QUOTES, 'UTF-8');
         $nouveauBackground     = htmlspecialchars($_POST['background'], ENT_QUOTES, 'UTF-8');
         $nouvelleCouleurTitre  = htmlspecialchars($_POST['titre_color'], ENT_QUOTES, 'UTF-8');
-        $nouvelleFontFamily    = htmlspecialchars($_POST['titre_font_family']);
+        $nouvelleFontFamily    = htmlspecialchars($_POST['titre_font_family'], ENT_QUOTES, 'UTF-8');
         $nouvelleFontSizeGrand = htmlspecialchars($_POST['titre_font_size_grand_ecran'], ENT_QUOTES, 'UTF-8');
         $nouvelleFontSizeMoyen = htmlspecialchars($_POST['titre_font_size_moyen_ecran'], ENT_QUOTES, 'UTF-8');
         $nouvelleFontSizePetit = htmlspecialchars($_POST['titre_font_size_petit_ecran'], ENT_QUOTES, 'UTF-8');
 
-        
         // Création de l'objet afin d'intéragir avec la base de données
         $dao = new DaoAppli();
-        //Appel de la methode de l'objet afin de mettre a jour les données dans la base de données
-        $dao->modifBackgroundTitre($nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre,
-         $nouvelleFontFamily, $nouvelleFontSizeGrand, $nouvelleFontSizeMoyen, $nouvelleFontSizePetit);
-        //
-         $dao->getDetailPage();
-        
-        //Vérifivation du téléchargement de l'image
+        //Appel de la methode de l'objet dao afin de mettre a jour les données dans la base de données
+        $dao->modifBackgroundTitre(
+            $nouveauTitre,
+            $nouveauBackground,
+            $nouvelleCouleurTitre,
+            $nouvelleFontFamily,
+            $nouvelleFontSizeGrand,
+            $nouvelleFontSizeMoyen,
+            $nouvelleFontSizePetit
+        );
+
+        //Vérifivation de l'image téléchargé
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $nomFichier = $_FILES['image']['name'];
+            //Stockage le type de l'image téléchargé
             $typeFichier = $_FILES['image']['type'];
-            //Stockage de l'image dans un emplacement temporaire sur le serveur
-            $fichierTemporaire = $_FILES['image']['tmp_name'];
-            //Stockage du type de fichier et extension autorisé
+            //Vérification du format de l'image 
             $extensionsAutorisées = array('image/jpeg', 'image/gif', 'image/png');
-            
+            //
             if (!in_array($typeFichier, $extensionsAutorisées)) {
-                $errorMessage = "Seules les images au format JPEG, PNG ou GIF sont autorisées.";
-                Messages::addMessage($errorMessage);
-                header('Location: /dash-board');
-                exit();
-            }
-            //Géneration d'un nom unique pour le fichier
-            $nomUnique = uniqid() . '_' . $nomFichier;
-            //Le chemin ou l'image sera sauvegardé
-            $cheminStockage = 'assets/ressources/images/' . $nomUnique;
-
-           //dimension défini pour les images quand on appelera la methode redimensionnerImage
-            $largeurMax = 800;
-            $hauteurMax = 600;
-
-            //Création de l'image en fonction du type de fichier
-            if ($typeFichier === 'image/jpeg') {
-                $imageSource = imagecreatefromjpeg($fichierTemporaire);
-                header('Location: /dash-board');
-            } elseif ($typeFichier === 'image/png') {
-                $imageSource = imagecreatefrompng($fichierTemporaire);
-                header('Location: /dash-board');
-            } elseif ($typeFichier === 'image/gif') {
-                $imageSource = imagecreatefromgif($fichierTemporaire);
-                header('Location: /dash-board');
+                Messages::addMessage("Seules les images au format JPEG, PNG ou GIF sont autorisées.");
             } else {
-                $_SESSION['messageImageError'] = "Type d'image non pris en charge.";
-                header('Location: /dash-board');
-                exit();
+                //Le format correspond a l'extension autorisé, on appel la methode en passant
+                //la variable superglobal en parametre pour acceder aux données du fichier   
+                $this->traiterImageTelecharge($_FILES['image']);
             }
-            //redimensionnement de l'image et déplacement de l'image dans le chemin de stockage 
-            $this->redimensionnerImage($fichierTemporaire, $cheminStockage, $largeurMax, $hauteurMax);
-
-            //Id de la page 
-            $idPage = 1;
-            //Appel de la méthode pour envoyer les informations en base de donnée
-            $dao->traitementImage($nomUnique, $nomFichier, $idPage);
         }
-        //Rechargement de la page
+
         header('Location: /dash-board');
-     }
+    }
+
+    //Méthode qui gère le traitement des images
+    private function traiterImageTelecharge($image)
+    {
+        //Récupèration du nom original du fichier et le chemin temporaire où l'image est stockée
+        $nomFichier = $image['name'];
+        $fichierTemporaire = $image['tmp_name'];
+        //Création d'un nom de fichier unique pour éviter les conflits de noms dans le repértoire
+        $nomUnique = uniqid() . '_' . $nomFichier;
+        //le chemin où l'image sera stockée
+        $cheminStockage = 'assets/ressources/images/' . $nomUnique;
+        //Si le redimentionnement est réussi l'image est enregistré et traité
+        if ($this->redimensionnerImage($fichierTemporaire, $cheminStockage, 600, 600)) {
+            //Création d'une instance de DaoAppli pour interagir avec la base de données
+            $dao = new DaoAppli();
+            //Appelle de la méthode de traitement de l'image dans DaoAppli 
+            $dao->traitementImage($nomUnique, $nomFichier, 1); // 1 = l'ID de la page
+        } else {
+            Messages::addMessage("Erreur lors du traitement de l'image.");
+        }
+    }
+
+    //Méthode qui redimentionne l'image, en paramètre : chemin temporaire ou l'image est stockée sur le serveur
+    //chemin de destination ou l'image redimensionnée sera sauvegardé, largeur max, hauteur max souhaitée                 
+    public function redimensionnerImage($cheminSource, $cheminCible, $largeurMax, $hauteurMax)
+    {
+        // Vérifie si le fichier image source existe
+        if (!file_exists($cheminSource)) {
+            Messages::addMessage("Le fichier source n'existe pas : " . $cheminSource);
+            return false;
+        }
+        // Obtention des dimensions et le type de l'image source avec getimagesize(largeur,hauteur,type)
+        list($largeurOrig, $hauteurOrig, $typeOrig) = getimagesize($cheminSource);
+
+        // Création d'un objet image à partir du fichier source en fonction du type 
+        $imageSource = $this->creerImageSource($cheminSource, $typeOrig);
+        if (!$imageSource) {
+            Messages::addMessage("Type d'image non pris en charge : " . $typeOrig);
+            return false;
+        }
+        // Calcule le ratio pour redimensionner l'image tout en conservant les proportions
+        $ratio = min($largeurMax / $largeurOrig, $hauteurMax / $hauteurOrig);
+        //nouvelle dimension arrondi 
+        $nouvelleLargeur = round($largeurOrig * $ratio);
+        $nouvelleHauteur = round($hauteurOrig * $ratio);
+        // Création d'une nouvelle image vide de couleur noire avec les nouvelles dimensions 
+        $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur);
+        // // Paramétrage pour conserver la transparence pour les images PNG et GIF
+        imagealphablending($nouvelleImage, false);
+        imagesavealpha($nouvelleImage, true);
+        // Copie et redimensionne l'ancienne image dans la nouvelle 
+        imagecopyresampled(
+            $nouvelleImage,
+            $imageSource,
+            0,
+            0,
+            0,
+            0,
+            $nouvelleLargeur,
+            $nouvelleHauteur,
+            $largeurOrig,
+            $hauteurOrig
+        );
+
+        // Sauvegarde la nouvelle image dans le chemin cible, selon son format
+        switch ($typeOrig) {
+            case IMAGETYPE_JPEG:
+                imagejpeg($nouvelleImage, $cheminCible);
+                break;
+            case IMAGETYPE_PNG:
+                imagepng($nouvelleImage, $cheminCible);
+                break;
+            case IMAGETYPE_GIF:
+                imagegif($nouvelleImage, $cheminCible);
+                break;
+        }
+        // Libère la mémoire associée aux images dans le serveur
+        imagedestroy($nouvelleImage);
+        imagedestroy($imageSource);
+        // Retourne true pour indiquer que le redimensionnement a réussi
+        return true;
+    }
+
+
+    private function creerImageSource($chemin, $type)
+    {
+        //Traitement des différents types d'images
+        switch ($type) {
+                // Pour les images JPEG, utilise la fonction imagecreatefromjpeg
+            case IMAGETYPE_JPEG:
+                return imagecreatefromjpeg($chemin);
+                // Pour les images PNG, utilise la fonction imagecreatefrompng
+            case IMAGETYPE_PNG:
+                return imagecreatefrompng($chemin);
+                // Pour les images GIF, utilise la fonction imagecreatefromgif
+            case IMAGETYPE_GIF:
+                return imagecreatefromgif($chemin);
+                // Si le type de l'image n'est pas pris en charge, retourne false
+            default:
+                return false;
+        }
+    }
 
     public function supprimerImage()
-    {
+    {   //Récuperation de l'id de l'image avec GET 
         $idImageASupprimer = isset($_GET['idImage']) ? intval($_GET['idImage']) : 0;
-
+        //Vérification de l'ID de l'image 
         if ($idImageASupprimer > 0) {
+            //Objet de la class DaoAppli est instancié 
             $dao = new DaoAppli();
-
             // Récupére le nom du fichier image à partir de la base de données
             $nomFichierImage = $dao->getNomFichierImageById($idImageASupprimer);
 
-            // Supprimez l'image de la base de données
+            // Supprime l'image de la base de données
             $dao->supprimerImage($idImageASupprimer);
 
-            // Supprimez le fichier image du répertoire de stockage
+            // Supprime le fichier image du répertoire de stockage
             if (!empty($nomFichierImage)) {
                 $cheminFichierImage = 'assets/ressources/images/' . $nomFichierImage;
                 if (file_exists($cheminFichierImage)) {
@@ -318,8 +314,8 @@ class CntrlAppli
                 }
             }
         }
-        // Répondez à la requête AJAX
-        http_response_code(200); 
+        //Réponse a la requete Ajax traité avec succés
+        http_response_code(200);
         exit();
     }
 
@@ -414,5 +410,50 @@ class CntrlAppli
         header('Location: /dash-board');
         exit();
         // Affichez la valeur de $idImageModifier à des fins de débogage
+    }
+
+    public function traitementAjoutUser()
+    {
+        $nom      = htmlspecialchars($_POST['nom'], ENT_QUOTES, 'UTF-8');
+        $mail     = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
+        $mdp      = htmlspecialchars($_POST['mdp'], ENT_QUOTES, 'UTF-8');
+        $mdpHasher      = hash('sha512', $mdp);
+        $role     = htmlspecialchars($_POST['role'], ENT_QUOTES, 'UTF-8');
+        $dao = new DaoAppli();
+        $ajoutUtilisateur = $dao->ajoutUtilisateur($nom, $mail, $mdpHasher, $role);
+
+        header('Location: /gestion-user');
+    }
+
+    public function supprimerUser()
+    { //Récuperation de l'id de l'utilisateur avec GET 
+        $idUtilisateurASupprimer = isset($_GET['idUser']) ? intval($_GET['idUser']) : 0;
+        //Vérification de l'ID de l'utilisateur 
+        if ($idUtilisateurASupprimer > 0) {
+            //Objet de la class DaoAppli est instancié 
+            $dao = new DaoAppli();
+            // Supprime l'image de la base de données
+            $dao->supprimerUser($idUtilisateurASupprimer);
+        }
+        //Réponse a la requete Ajax traité avec succés
+        http_response_code(200);
+        exit();
+    }
+
+    public function modifierUser()
+    {
+        $idUtilisateur = isset($_POST['idUtilisateur']) ? intval($_POST['idUtilisateur']) : 0;
+        if ($idUtilisateur > 0) {
+            $nom      = htmlspecialchars($_POST['nom'], ENT_QUOTES, 'UTF-8');
+            $mail     = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
+            $mdp      = htmlspecialchars($_POST['mdp'], ENT_QUOTES, 'UTF-8');
+            $mdpHasher      = hash('sha512', $mdp);
+            $role     = htmlspecialchars($_POST['role'], ENT_QUOTES, 'UTF-8');
+
+            $dao = new DaoAppli();
+            $modifierUser = $dao->modifierUserDao($nom, $mdpHasher, $mail, $role, $idUtilisateur);
+            header('Location: /gestion-user');
+        }
+        header('Location: /gestion-user');
     }
 }

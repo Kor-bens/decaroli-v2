@@ -1,11 +1,9 @@
 <?php 
 use DECAROLI\controllers\Messages;
-session_start();
+// session_start();
 // Change l'id de session et supprime l'ancien
 session_regenerate_id(true); 
 ob_start();
-ini_set('display_errors', "Off");
-ini_set('log_errors', "On");
 error_reporting(E_ALL);
 include "src/config.php";
 require_once "common/head.php";
@@ -22,7 +20,7 @@ require_once "common/head.php";
 <div id="container-form">        
 <img src="../../assets/ressources/images/logoDecaroli.png" alt="logo-decaroli">
     <?php 
-     echo 'ID de session (récupéré via $_COOKIE) : ' . $_COOKIE['PHPSESSID'];
+    //  echo 'ID de session (récupéré via $_COOKIE) : ' . $_COOKIE['PHPSESSID'];
     ?>
 
     <?php

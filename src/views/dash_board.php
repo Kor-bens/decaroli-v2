@@ -1,6 +1,6 @@
 <?php
- session_start();
 use DECAROLI\controllers\Messages;
+// session_start();
 require_once "common/head.php";
 
 // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
@@ -34,17 +34,14 @@ if (!isset($_SESSION['utilisateur'])) {
             <li><a href="/" target="_blank">Page promo</a></li>
             <?php
           if (isset($_SESSION['utilisateur'])) {
-              $utilisateur = $_SESSION['utilisateur'];
-            
-            if ($utilisateur->getRole()->getNomRole() === 'administrateur') {
-                
-                echo "<li><a href='/admin'>Gestion utilisateur</a></li>";
+             //role de l'utilisateur récupéré depuis le controlleur 
+              $utilisateurRole = $_SESSION['roleUtilisateur'];
+            //si l'utilisateur a le role 1 il aura accèes au gestionnaire d'utilsateur
+            if ($utilisateurRole === 1) {
+                echo "<li><a href='/gestion-user'>Gestion utilisateur</a></li>";
             }
-            
-            // Display the logout link for logged-in users
             echo "<li><a href='/deconnexion'>Se déconnecter</a></li>";
         } else {
-            // Inform the user that session variables are no longer set (e.g., logged out or session expired)
             echo 'Les variables de session ont été supprimées.';
         }
             ?>
@@ -96,28 +93,16 @@ if (!isset($_SESSION['utilisateur'])) {
             <h1><?= $page->getTitre() ?></h1>
             <div id="container-image-db">
                 <?php
-                // Fonction de comparaison pour trier le tableau par ID croissant
-                function compareById($a, $b)
-                {
-                    return $a->getIdImage() - $b->getIdImage();
-                }
-
-                // Tri du tableau $donneesOrigine par ID croissant
-                usort($images, 'compareById');
-
                 // Initialisez une variable pour suivre la position de l'image
                 $position = 0;
-
                 foreach ($images as $image) :
                     // Incrémentez la position à chaque itération
                     $position++;
-
-                    // Appliquez la classe CSS en fonction de la position
+                    // Modulo pour affecter flex-start ou flex-end (pair ou impair) s'il y a un reste ou pas 
                     $class = ($position % 2 === 0) ? 'flex-start' : 'flex-end';
-                ?>
+                  ?>
                     <div class="image <?= $class ?>">
                         <img src="../../assets/ressources/images/<?= $image->getUrl() ?>" alt="<?= $image->getNomImage() ?>">
-
                         <div class="container-button">
                             <button class="bouton-modifier-image" data-id="<?= $image->getIdImage() ?>">Modifier</button>
                             <!-- Champ de téléchargement de fichier pour la modification de l'image -->
@@ -125,7 +110,6 @@ if (!isset($_SESSION['utilisateur'])) {
                             <!-- Bouton "Modifier" avec l'attribut onclick -->
                             <button class="bouton-supprimer-image" data-id="<?= $image->getIdImage() ?>">Supprimer</button>
                         </div>
-
                     </div>
                 <?php endforeach; ?>
             </div>

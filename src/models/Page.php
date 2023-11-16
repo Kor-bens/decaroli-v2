@@ -1,7 +1,5 @@
 <?php
-
 namespace DECAROLI\models;
-
 use       DECAROLI\models\utilisateur;
 
 class Page
@@ -16,7 +14,8 @@ class Page
     protected string    $bkgd_color;
     protected utilisateur     $id_utilisateur;
 
-    public function __construct($id_page, $titre, $titre_font_size_grand_ecran, $titre_font_size_moyen_ecran, $titre_font_size_petit_ecran, $titre_font_family, $titre_color, $bkgd_color)
+    public function __construct($id_page, $titre, $titre_font_size_grand_ecran, $titre_font_size_moyen_ecran,
+                                $titre_font_size_petit_ecran, $titre_font_family, $titre_color, $bkgd_color)
     {
         $this->id_page                          = $id_page;
         $this->titre                            = $titre;
@@ -66,7 +65,6 @@ class Page
 
     public function getTitreFontFamily(): string
     {
-        // return isset($this->titre_font_family) ? $this->titre_font_family : 'Arial';
         return $this->titre_font_family;
     }
     public function setTitreFontFamily(string $titre_font_family)

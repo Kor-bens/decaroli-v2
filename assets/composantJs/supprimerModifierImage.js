@@ -1,20 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
+    //Séléction de tout les boutons pour supprimer
     const boutons = document.querySelectorAll(".bouton-supprimer-image");
-
+    //Executiuon de la fonction pour chaque bouton 
     boutons.forEach(function (bouton) {
+        //Au click on récupère l'id du bouton de l'image
         bouton.addEventListener("click", function () {
             const idImage = bouton.getAttribute("data-id");
-
-            // Envoyez une requête AJAX pour supprimer l'image
+            // Requete Ajax de l'url avec en paramètre l'id de l'image et la methode http
             fetch(`/supprimer-image?idImage=${idImage}`, {
+                //Methode pour supprimer
                 method: "DELETE",
             })
+            //Si la suppression a fonctionné la page est rechargé
             .then(function (response) {
                 if (response.ok) {
-                    // L'image a été supprimée avec succès, alerte l'utilisateur
-                    // alert("Image supprimée");
-                    // Mettez à jour l'affichage
-                    // bouton.parentElement.remove();
                     location.reload();
                 } else {
                     console.error("Erreur lors de la suppression de l'image.");

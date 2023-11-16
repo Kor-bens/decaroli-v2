@@ -30,6 +30,7 @@ cercle.addEventListener("click", scrollTop);
 let fleche = document.createElement("img");
 fleche.src = "../../assets/ressources/images/fleche.png";
 fleche.id ="fleche";
+fleche.setAttribute('alt', 'fleche');
 cercle.appendChild(fleche);
 
 /*ajout d'interaction defilement vers le haut sur la flèche au click*/
@@ -71,6 +72,3 @@ function toggleScrollTop() {
     }
 }
 
-window.addEventListener('scroll', function() {
-    console.log(window.scrollY);
-});

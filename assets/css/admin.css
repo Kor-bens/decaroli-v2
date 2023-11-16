@@ -110,10 +110,12 @@ label{
   margin: 1% auto;
   margin-top: 2.5%;
 }
-#message-alert-image{
+.message-alert{
     margin: 1%;
     color: rgb(224, 27, 27);
     text-align: center;
+    width: 60%;
+    font-size: 20px;
 }
 input{
     border-radius: 5px;
