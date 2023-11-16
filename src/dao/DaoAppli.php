@@ -23,8 +23,8 @@ class DaoAppli
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     //Récupération d'un utilisateur de la base de données en fonction de son identifiant (nom ou mail).
-    // Si un utilisateur est trouvé, un objet Role est crée et un objet Utilisateur est crée et retourné.
-    public function recuperationUser(?string $identifiant): ?Utilisateur
+    //Si un utilisateur est trouvé, un objet Role est crée et un objet Utilisateur est crée et retourné.
+    public function recuperationUser($identifiant): ?Utilisateur
     {
         try {
             $requete = Requete::REQ_USER;
@@ -47,7 +47,7 @@ class DaoAppli
 
 
 
-    public function ajoutUtilisateur(?string $nom, ?string $mail, ?string $mdp , ?int $id_role)
+    public function ajoutUtilisateur($nom, $mail, $mdp , $id_role)
     {
         try {
 

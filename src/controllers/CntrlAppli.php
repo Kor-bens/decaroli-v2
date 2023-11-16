@@ -419,7 +419,41 @@ class CntrlAppli
         $mdp      = htmlspecialchars($_POST['mdp'], ENT_QUOTES, 'UTF-8');
         $mdpHasher      = hash('sha512', $mdp);
         $role     = htmlspecialchars($_POST['role'], ENT_QUOTES, 'UTF-8');
+        
         $dao = new DaoAppli();
+        $user = $dao->recuperationUser($nom);
+        
+        if (empty($nom) || empty($mail) || empty($mdp) || empty($role)) {
+            $errorMessage = Messages::INP_ERR_CHAMP_VIDE;
+            Messages::addMessage($errorMessage);
+            header('Location: /gestion-user');
+            exit();
+        }
+
+        if($user && $user->getNom() == $nom ){
+            $errorMessage = "Nom existe déja, veuillez en choisir un autre";
+            Messages::addMessage($errorMessage);
+            header("Location: /gestion-user");
+            exit();
+        }
+
+        if($user && $user->getMail() == $mail){
+            $errorMessage = "L'email existe déja, veuillez en choisir un autre";
+            Messages::addMessage($errorMessage);
+            header("Location: /gestion-user");
+            exit();
+        }
+        
+         // Validation du mot de passe
+    $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%]).{8,20}$/';
+    if (!preg_match($pattern, $mdp)) {
+        $errorMessage = "Le mot de passe doit contenir au moins un chiffre, une lettre majuscule, une lettre minuscule et un caractère spécial, et doit être de 8 à 20 caractères de long.";
+        Messages::addMessage($errorMessage);
+        header('Location: /gestion-user');
+        exit();
+    }
+        
+        
         $ajoutUtilisateur = $dao->ajoutUtilisateur($nom, $mail, $mdpHasher, $role);
 
         header('Location: /gestion-user');
