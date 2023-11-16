@@ -27,10 +27,6 @@ class Requete
   const REQ_SUPPR_USER = "DELETE FROM utilisateur
                                 WHERE id_utilisateur = :idUtilisateur";
 
-  // Requête pour modifier le titre d'une page par ID de page
-  const REQ_MODIF_TITRE = "UPDATE page 
-                             SET titre = :titre 
-                             WHERE id_page = 1";
 
   // Requête pour modifier les paramètres de style de la page par ID de page
   const REQ_MODIF_BACKGROUND = "UPDATE page
@@ -63,10 +59,6 @@ class Requete
                              SET nom_image = :nom_image, url = :url 
                              WHERE id_image = :id_image";
 
-  // Requête pour obtenir l'ID, l'URL et le nom d'une image associée à une page
-  const REQ_ID_URL_NOM_IMAGE = "SELECT id_image, nom_image, url 
-                                FROM image 
-                                WHERE id_page = 1";
 
   // Requête pour supprimer une image par ID d'image
   const REQ_SUPPR_IMAGE = "DELETE FROM image
