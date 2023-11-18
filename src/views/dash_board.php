@@ -4,7 +4,7 @@ use DECAROLI\controllers\Messages;
 require_once "common/head.php";
 
 // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
-if (!isset($_SESSION['utilisateur'])) {
+if ($_SESSION['roleUtilisateur'] !== 2) {
     header("Location: /login");
     exit;
 }
@@ -32,19 +32,7 @@ if (!isset($_SESSION['utilisateur'])) {
     <div id="navbar">
         <ul>
             <li><a href="/" target="_blank">Page promo</a></li>
-            <?php
-          if (isset($_SESSION['utilisateur'])) {
-             //role de l'utilisateur récupéré depuis le controlleur 
-              $utilisateurRole = $_SESSION['roleUtilisateur'];
-            //si l'utilisateur a le role 1 il aura accèes au gestionnaire d'utilsateur
-            if ($utilisateurRole === 1) {
-                echo "<li><a href='/gestion-user'>Gestion utilisateur</a></li>";
-            }
-            echo "<li><a href='/deconnexion'>Se déconnecter</a></li>";
-        } else {
-            echo 'Les variables de session ont été supprimées.';
-        }
-            ?>
+            <li><a href='/deconnexion'>Se déconnecter</a>
         </ul>
     </div>
 

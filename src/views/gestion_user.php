@@ -21,21 +21,7 @@ if ($_SESSION['roleUtilisateur'] !== 1) {
     <div id="navbar">
         <ul>
             <li><a href="/" target="_blank">Page promo</a></li>
-            <?php
-            if (isset($_SESSION['utilisateur'])) {
-                $utilisateur = $_SESSION['utilisateur'];
-
-                if ($utilisateur) {
-
-                    echo "<li><a href='/dash-board'>Gestion page promotion</a></li>";
-                }
-
-                echo "<li><a href='/deconnexion'>Se déconnecter</a></li>";
-            } else {
-                // Inform the user that session variables are no longer set (e.g., logged out or session expired)
-                echo 'Les variables de session ont été supprimées.';
-            }
-            ?>
+            <li><a href='/deconnexion'>Se déconnecter</a></li>
         </ul>
     </div>
 
@@ -49,8 +35,8 @@ if ($_SESSION['roleUtilisateur'] !== 1) {
                 <input id="input-mail" type="mail" name="mail" placeholder="Entrez le mail du nouvelle utilisateur">
                 <label id="label-mdp" for="mdp">Mot de passe :</label>
                 <input id="input-mdp" type="text" name="mdp" placeholder="*********">
-                <select name="role" id="" >
-                    <option value="">Sélectionner un role</option>        
+                <select name="role">
+                    <option value="">Sélectionner un role</option>
                     <?php foreach ($roles as $role) { ?>
                         <option value="<?= $role->getIdRole() ?>"><?= $role->getNomRole() ?></option>
                     <?php }  ?>
@@ -84,8 +70,7 @@ if ($_SESSION['roleUtilisateur'] !== 1) {
                             <td><?php echo htmlspecialchars($user->getRole()->getNomRole()); ?></td>
                             <td>
                                 <!-- Données de l'utilisateur stockés dans des attributs -->
-                                <button class="bouton-modifier-utilisateur" data-id="<?= $user->getIdUtilisateur() ?>" 
-                                data-nom="<?= htmlspecialchars($user->getNom()) ?>" data-mail="<?= htmlspecialchars($user->getMail()) ?>
+                                <button class="bouton-modifier-utilisateur" data-id="<?= $user->getIdUtilisateur() ?>" data-nom="<?= htmlspecialchars($user->getNom()) ?>" data-mail="<?= htmlspecialchars($user->getMail()) ?>
                                 " data-role="<?= $user->getRole()->getIdRole() ?>">Modifier</button>
                                 <button class="bouton-supprimer-utilisateur" data-id="<?= $user->getIdUtilisateur() ?>">Supprimer</button>
                             </td>

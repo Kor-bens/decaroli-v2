@@ -15,7 +15,7 @@ class Requete
                                   FROM utilisateur u 
                                   JOIN role r ON u.id_role = r.id_role
                                   WHERE r.id_role != 3 ";
-  const REQ_ROLE = "SELECT * from role where nom_role = :nom";
+  const REQ_ROLE = "SELECT id_role, nom_role from role where nom_role = :nom";
   const REQ_NOM_ROLE = "SELECT id_role, nom_role 
                             FROM role 
                               WHERE id_role <> 3";

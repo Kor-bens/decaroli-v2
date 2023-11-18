@@ -101,19 +101,25 @@ class CntrlAppli
             $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
             $mdp = htmlspecialchars($mdp, ENT_QUOTES, 'UTF-8');
             $mdp = hash('sha512', $mdp);
-
-            //objet qui récupère les données de l'utilisateur a partir de l'identifiant
+        
+            // Objet qui récupère les données de l'utilisateur à partir de l'identifiant
             $dao = new DaoAppli();
             $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
             $utilisateurPagePromotionId = $utilisateurPagePromotion->getIdUtilisateur();
-            //récupèration de l'id role de l'utilisateur
+            // Récupération de l'id_role de l'utilisateur
             $roleId = $utilisateurPagePromotion->getRole()->getIdRole();
-
-            // Vérifie si le rôle de l'utilisateur est autorisé
-            if ($roleId == 1 || $roleId == 2) {
+        
+            // Vérifie si le rôle est administrateur
+            if ($roleId == 1) {
+                // Si l'utilisateur a le rôle 1, j'initialise la session et redirection vers la page de gestion des utilisateurs
+                $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
+                $_SESSION['roleUtilisateur'] = $roleId;
+                header('Location: /gestion-user');
+                exit();
+            } elseif ($roleId == 2) {
                 // Vérifiez si le mot de passe correspond
                 if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
-                    // Mise en place de la session et redirection
+                    // Mise en place de la session et redirection vers le tableau de bord
                     $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
                     $_SESSION['roleUtilisateur'] = $roleId;
                     header('Location: /dash-board');
@@ -127,7 +133,7 @@ class CntrlAppli
                 }
             } else {
                 // Rôle non autorisé, ajout d'un message d'erreur
-                $errorMessage = "Vous n'etes pas autorisé a accéder a cette page";
+                $errorMessage = "Vous n'êtes pas autorisé à accéder à cette page";
                 Messages::addMessage($errorMessage);
                 header("Location: /login");
                 exit();
