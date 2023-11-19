@@ -1,7 +1,7 @@
 <?php
-
+//en tete commun pour toutes les pages
 require_once "common/head.php"; ?>
-
+<!-- en tete pour la page promotion -->
 <meta name="description" content="Découvrez les meilleures offres du mois sur les produits pharmaceutiques de Decaroli.
                                      Profitez de remises exclusives sur une large gamme d'articles, des soins pour bébés aux produits minceur. 
                                      Économisez sur des essentiels de santé et de bien-être. Ne manquez pas nos offres exceptionnelles ce mois-ci !" />

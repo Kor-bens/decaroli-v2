@@ -86,7 +86,7 @@ if ($_SESSION['roleUtilisateur'] !== 1) {
                     <input id="input-mail-modifier" class="input-modifier" type="email" name="mail">
                     <label class="label-modifier" for="mdp">Nouveau mot de passe :</label>
                     <input id="input-mdp-modifier" class="input-modifier" type="text" name="mdp">
-                    <select name="role">
+                    <select id="select-modifier" name="role">
                         <?php foreach ($roles as $role) { ?>
                             <option value="<?= $role->getIdRole() ?>"><?= $role->getNomRole() ?></option>
                         <?php }  ?>

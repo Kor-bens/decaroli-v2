@@ -2,12 +2,13 @@
 namespace DECAROLI\models;
 class Utilisateur
 {
+    //propriétés qui stock les informations 
     protected int       $id_utilisateur;
     protected string    $nom;
     protected string    $mail;
     protected string    $mdp;
     protected Role      $role;
-
+    //methode pour initialiser un nouvel objet Utilisateur avec ses propriété
     public function __construct($id_utilisateur, $nom, $mail, $mdp, $role)
     {
         $this->id_utilisateur  = $id_utilisateur;
@@ -16,6 +17,7 @@ class Utilisateur
         $this->mdp             = $mdp;
         $this->role            = $role;
     }
+    //Methodes get pour récupéré les données et set de définir
     public function getIdUtilisateur(): int
     {
         return $this->id_utilisateur;

@@ -44,6 +44,9 @@ a{
     display: flex;
     justify-content: center;
 }
+h3{
+    color: white;
+}
 #label-nom{
     margin-top: 5%;
 }
@@ -144,13 +147,9 @@ button:hover{
 #form-modification-utilisateur{
     display: none;
 }
-.label-modifier{
-margin-right: 2%;
-width: auto;
-}
 
 .input-modifier{
-    margin: 0;
+    margin: 10px;
 }
 
 table {
@@ -165,4 +164,10 @@ th, td {
 
 th {
   background-color: #000000; /* Couleur de fond pour les en-têtes de tableau */
+}
+
+#select-modifier{
+    padding: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
 }

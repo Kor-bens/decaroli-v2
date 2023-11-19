@@ -1,7 +1,5 @@
 <?php
-
 namespace DECAROLI\dao;
-
 use DECAROLI\dao\Db;
 use DECAROLI\dao\Requete;
 use DECAROLI\models\Utilisateur;
@@ -11,34 +9,26 @@ use DECAROLI\models\Image;
 use \PDO;
 use \PDOException;
 // Class pour intéragir avec la base de donnée
-class DaoAppli
+class DaoAppli extends Db
 {
-    private PDO $db;
-    // Initialisation de la connexion à la base de données et configuration des attributs PDO.
-    public function __construct()
-    {
-        $dbObjet  =  new Db;
-        $this->db = $dbObjet->getDb();
-        // Activez le mode d'erreur PDO
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    //Récupération d'un utilisateur de la base de données en fonction de son identifiant (nom ou mail).
-    //Si un utilisateur est trouvé, un objet Role est crée et un objet Utilisateur est crée et retourné.
-    public function recuperationUser($identifiant): ?Utilisateur
-    {
-        try {
-            $requete = Requete::REQ_USER;
-            $stmt = $this->db->prepare($requete);
-            $stmt->bindValue(':identifiant', $identifiant, PDO::PARAM_STR);
-            $stmt->execute();
 
+    public function recuperationUser($identifiant)
+    {
+        try {//requete pour identifier un utilisateur
+            $requete = Requete::REQ_USER; 
+            $stmt = $this->getDb()->prepare($requete);
+            $stmt->bindParam(':identifiant', $identifiant, PDO::PARAM_STR);
+            $stmt->execute();
+            //Retourne le nombre de ligne 
             if ($stmt->rowCount() > 0) {
+                //Récuperation de la ligne 
                 $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
                 $role = new Role($resultat['id_role'], $resultat['nom_role']);
                 return new Utilisateur($resultat['id_utilisateur'], $resultat['nom'], $resultat['mail'], $resultat['mdp'], $role);
             } else {
+                //terminer l'execution et retourner une valeur null 
                 return null;
-            }
+            }//L'objet d'exception est stocké dans la variable $e
         } catch (PDOException $e) {
             error_log($e->getMessage());
             return null;
@@ -52,13 +42,13 @@ class DaoAppli
         try {
 
             $requete = Requete::REQ_AJOUT_USER;
-            $stmt = $this->db->prepare($requete);
+            $stmt = $this->getDb()->prepare($requete);
             $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
             $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
             $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
             $stmt->bindParam(':id_role', $id_role, PDO::PARAM_INT);
             $stmt->execute();
-            $idDernierUtilisateur = $this->db->lastInsertId();
+            $idDernierUtilisateur = $this->getDb()->lastInsertId();
             return $idDernierUtilisateur;
         } catch (PDOException $e) {
             error_log($e->getMessage());
@@ -66,9 +56,9 @@ class DaoAppli
         }
     }
     public function recuperatioRole($nomRole)
-    {
+    {  
         $requete = Requete::REQ_ROLE;
-        $stmt = $this->db->prepare($requete);
+        $stmt = $this->getDb()->prepare($requete);
         $stmt->bindParam(':nom', $nomRole, PDO::PARAM_STR);
         $stmt->execute();
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -78,18 +68,12 @@ class DaoAppli
 
 
 
-    public function modifBackgroundTitre(
-        $nouveauTitre,
-        $nouveauBackground,
-        $nouvelleCouleurTitre,
-        $nouvelleFontFamily,
-        $nouvelleFontGrand,
-        $nouvelleFontSizeMoyen,
-        $nouvelleFontSizePetit
-    ) {
+    public function modifBackgroundTitre( $nouveauTitre, $nouveauBackground, $nouvelleCouleurTitre,
+        $nouvelleFontFamily, $nouvelleFontGrand,$nouvelleFontSizeMoyen, $nouvelleFontSizePetit
+    ) {//requete pour modifier les données de la page
         $requete = Requete::REQ_MODIF_BACKGROUND;
-        try {
-            $stmt = $this->db->prepare($requete);
+        try {//preparation de la requete, liaison des parametres et execution
+            $stmt = $this->getDb()->prepare($requete);
             $stmt->bindParam(':background', $nouveauBackground);
             $stmt->bindParam(':titre', $nouveauTitre);
             $stmt->bindParam(':titre_color', $nouvelleCouleurTitre);
@@ -104,10 +88,10 @@ class DaoAppli
     }
 
     public function getDetailPage()
-    {
+    {   //Requete qui récupère les données de la page 
         $requete = Requete::REQ_DETAIL_PAGE_PROMOTION;
-        try {
-            $stmt = $this->db->query($requete);
+        try {//Execution de la requete avec query 
+            $stmt = $this->getDb()->query($requete);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             return null;
@@ -137,7 +121,7 @@ class DaoAppli
 
         $requete = Requete::REQ_PAGE_IMAGES;
         try {
-            $stmt = $this->db->query($requete);
+            $stmt = $this->getDb()->query($requete);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             return null;
@@ -156,24 +140,22 @@ class DaoAppli
         return ['page' => $page, 'images' => $images];
     }
 
+    //Méthode pour ajouter de nouvelle image
     public function traitementImage($nomUnique, $nomFichier, $idPage)
-    {
+    {   //Constante de la classe Requete qui contient le sql pour
+        //inserer des données
         $requete = Requete::REQ_AJOUT_IMAGE;
-
+        
         try {
-            $stmt = $this->db->prepare($requete);
+            //Préparation de la requete 
+            $stmt = $this->getDb()->prepare($requete);
+            //Liaison des paramètres aux variables avec typage attendu 
             $stmt->bindParam(':url', $nomUnique, PDO::PARAM_STR);
             $stmt->bindParam(':nom_image', $nomFichier, PDO::PARAM_STR);
             $stmt->bindParam(':id_page', $idPage, PDO::PARAM_INT);
+            //execution de la requete preparé
             $stmt->execute();
-
-            // Récupére l'ID de l'image insérée
-            $idImage = $this->db->lastInsertId();
-
-            // Création d'une nouvelle instance de la classe Image
-            $image = new Image($idImage, $nomFichier, $nomUnique);
-
-            return $image;
+        //Récuperation de l'exception 
         } catch (PDOException $e) {
             // Erreur
             error_log($e->getMessage());
@@ -182,11 +164,11 @@ class DaoAppli
     }
 
     public function supprimerImage($idImage)
-    {
+    {   //requete qui permet la suppression d'image
         $requete = Requete::REQ_SUPPR_IMAGE;
 
-        try {
-            $stmt = $this->db->prepare($requete);
+        try {//preparation de la requete 
+            $stmt = $this->getDb()->prepare($requete);
             $stmt->bindParam(':idImage', $idImage, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
@@ -199,7 +181,7 @@ class DaoAppli
     {
         $requete = Requete::REQ_MODIF_IMAGE;
         try {
-            $stmt = $this->db->prepare($requete);
+            $stmt = $this->getDb()->prepare($requete);
             $stmt->bindParam(':nom_image', $nouveauNomImage, PDO::PARAM_STR);
             $stmt->bindParam(':url', $nouvelleUrl, PDO::PARAM_STR);
             $stmt->bindParam(':id_image', $idImageModifier, PDO::PARAM_INT);
@@ -215,7 +197,7 @@ class DaoAppli
     {
         $requete = Requete::REQ_NOM_IMAGE_ID;
         try {
-            $stmt = $this->db->prepare($requete);
+            $stmt = $this->getDb()->prepare($requete);
             $stmt->bindParam(':id', $idImage, PDO::PARAM_INT);
             $stmt->execute();
             $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -231,7 +213,7 @@ class DaoAppli
     {
         $requete = Requete::REQ_NOM_ROLE;
         try {
-            $stmt = $this->db->query($requete);
+            $stmt = $this->getDb()->query($requete);
             $stmt->execute();
             $roles = array();
             while ($resultat = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -250,7 +232,7 @@ class DaoAppli
     public function getUserDashboard(){
         $requete = Requete::REQ_USER_DASHBOARD;
         try {
-            $stmt = $this->db->query($requete);
+            $stmt = $this->getDb()->query($requete);
             $stmt->execute();
             $users = array();
             while ($resultat = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -272,7 +254,7 @@ class DaoAppli
         $requete = Requete::REQ_SUPPR_USER;
 
         try {
-            $stmt = $this->db->prepare($requete);
+            $stmt = $this->getDb()->prepare($requete);
             $stmt->bindParam(':idUtilisateur', $idUtilisateur, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
@@ -285,7 +267,7 @@ class DaoAppli
     {
         $requete = Requete::REQ_MODIF_USER;
         try {
-            $stmt = $this->db->prepare($requete);
+            $stmt = $this->getDb()->prepare($requete);
             $stmt->bindParam(':nom', $nouveauNom, PDO::PARAM_STR);
             $stmt->bindParam(':mdp', $nouveauMdp, PDO::PARAM_STR);
             $stmt->bindParam(':mail', $nouveauMail, PDO::PARAM_STR);

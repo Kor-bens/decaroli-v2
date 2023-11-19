@@ -3,7 +3,7 @@ use DECAROLI\controllers\Messages;
 // session_start();
 require_once "common/head.php";
 
-// L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion(retour navigateur)
+// L'utilisateur n'est pas connecté et n'est pas un editeur, il sera redirigé vers la page de connexion(retour navigateur)
 if ($_SESSION['roleUtilisateur'] !== 2) {
     header("Location: /login");
     exit;
@@ -36,7 +36,7 @@ if ($_SESSION['roleUtilisateur'] !== 2) {
         </ul>
     </div>
 
-
+    <!-- Formulaire qui permet de gerer la page promotion -->
     <div id="container-form">
         <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">
             <div id="container-titre">
@@ -60,13 +60,13 @@ if ($_SESSION['roleUtilisateur'] !== 2) {
                     <?php
                         $errorMessages = Messages::getMessages();
                         if (isset($errorMessages) && !empty($errorMessages)) {
-                            // Afficher les messages d'erreur
+                            // Affiche les messages d'erreur
                             foreach ($errorMessages as $errorMessage) {
                                 echo '<div class="message-alert">' . $errorMessage . '</div>';
                             }
                     }?>
                     <input id="input-ajouter-image" type="file" name="image" accept="image/*" style="display: none;" multiple>
-                <!-- Ajoutez un élément img pour afficher l'image sélectionnée -->
+                <!-- Ajoute img pour afficher l'image sélectionnée -->
                 <img id="image-selectionnee" src="" alt="Image sélectionnée" style="display: none;">
             </div>
 

@@ -56,8 +56,8 @@ class CntrlAppli
         CntrlAppli::afficherPageLogin();
 
         // Récupérer les identifiants depuis le formulaire
-        $identifiant = htmlspecialchars($_POST['identifiant']);
-        $mdp = htmlspecialchars($_POST['mdp']);
+        $identifiant = htmlspecialchars($_POST['identifiant'], ENT_QUOTES, 'UTF-8');
+        $mdp = htmlspecialchars($_POST['mdp'], ENT_QUOTES, 'UTF-8');
 
         // Vérifier si l'identifiant et le mot de passe ne sont pas vides
         if (empty($identifiant) || empty($mdp)) {
@@ -97,42 +97,46 @@ class CntrlAppli
 
         // Si le score est suffisant, poursuivre la vérification des identifiants
         try {
-            // Vérification des identifiants
+            // Nettoyage des entrées
             $identifiant = htmlspecialchars($identifiant, ENT_QUOTES, 'UTF-8');
             $mdp = htmlspecialchars($mdp, ENT_QUOTES, 'UTF-8');
-            $mdp = hash('sha512', $mdp);
+            $mdpHash = hash('sha512', $mdp);
         
-            // Objet qui récupère les données de l'utilisateur à partir de l'identifiant
+            // Récupération des données de l'utilisateur par identifiant
             $dao = new DaoAppli();
             $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
-            $utilisateurPagePromotionId = $utilisateurPagePromotion->getIdUtilisateur();
-            // Récupération de l'id_role de l'utilisateur
-            $roleId = $utilisateurPagePromotion->getRole()->getIdRole();
         
-            // Vérifie si le rôle est administrateur
+            // Vérifie si l'utilisateur existe
+            if (!$utilisateurPagePromotion) {
+                $errorMessage = "Identifiant incorrect";
+                Messages::addMessage($errorMessage);
+                header("Location: /login");
+                exit();
+            }
+            $utilisateurPagePromotionId = $utilisateurPagePromotion->getIdUtilisateur();
+            $roleId = $utilisateurPagePromotion->getRole()->getIdRole();
+            // Vérification si le mot de passe correspond
+            if ($utilisateurPagePromotion->getMdp() !== $mdpHash) {
+                $errorMessage = "identifiant incorrect";
+                Messages::addMessage($errorMessage);
+                header("Location: /login");
+                exit();
+            }
+            // Si l'utilisateur a le rôle 1, initialisation de la session et redirection vers la page de gestion des utilisateurs
             if ($roleId == 1) {
-                // Si l'utilisateur a le rôle 1, j'initialise la session et redirection vers la page de gestion des utilisateurs
                 $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
                 $_SESSION['roleUtilisateur'] = $roleId;
                 header('Location: /gestion-user');
                 exit();
-            } elseif ($roleId == 2) {
-                // Vérifiez si le mot de passe correspond
-                if ($utilisateurPagePromotion && $utilisateurPagePromotion->getMdp() === $mdp) {
-                    // Mise en place de la session et redirection vers le tableau de bord
-                    $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
-                    $_SESSION['roleUtilisateur'] = $roleId;
-                    header('Location: /dash-board');
-                    exit();
-                } else {
-                    // Identifiants incorrects, ajout d'un message d'erreur
-                    $errorMessage = Messages::ERR_LOGIN;
-                    Messages::addMessage($errorMessage);
-                    header('Location: /login');
-                    exit();
-                }
+            } 
+            // Si l'utilisateur a le rôle 2, initialisation de la session et redirection vers le tableau de bord
+            elseif ($roleId == 2) {
+                $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
+                $_SESSION['roleUtilisateur'] = $roleId;
+                header('Location: /dash-board');
+                exit();
             } else {
-                // Rôle non autorisé, ajout d'un message d'erreur
+                // Gestion des rôles non reconnus avec un message d'erreur
                 $errorMessage = "Vous n'êtes pas autorisé à accéder à cette page";
                 Messages::addMessage($errorMessage);
                 header("Location: /login");
@@ -183,10 +187,10 @@ class CntrlAppli
             //Stockage le type de l'image téléchargé
             $typeFichier = $_FILES['image']['type'];
             //Vérification du format de l'image 
-            $extensionsAutorisées = array('image/jpeg', 'image/gif', 'image/png');
-            //
+            $extensionsAutorisées = array('image/png');
+            //verifie si le type du fichier et pas présent dans les extensions autorisé
             if (!in_array($typeFichier, $extensionsAutorisées)) {
-                Messages::addMessage("Seules les images au format JPEG, PNG ou GIF sont autorisées.");
+                Messages::addMessage("Seules les images au format PNG sont autorisées.");
             } else {
                 //Le format correspond a l'extension autorisé, on appel la methode en passant
                 //la variable superglobal en parametre pour acceder aux données du fichier   
@@ -261,16 +265,11 @@ class CntrlAppli
         );
 
         // Sauvegarde la nouvelle image dans le chemin cible, selon son format
-        switch ($typeOrig) {
-            case IMAGETYPE_JPEG:
-                imagejpeg($nouvelleImage, $cheminCible);
-                break;
-            case IMAGETYPE_PNG:
-                imagepng($nouvelleImage, $cheminCible);
-                break;
-            case IMAGETYPE_GIF:
-                imagegif($nouvelleImage, $cheminCible);
-                break;
+        if ($typeOrig == IMAGETYPE_PNG) {
+            imagepng($nouvelleImage, $cheminCible);
+        } else {
+            Messages::addMessage("Erreur : type de fichier non pris en charge pour la sauvegarde.");
+            return false;
         }
         // Libère la mémoire associée aux images dans le serveur
         imagedestroy($nouvelleImage);
@@ -282,20 +281,11 @@ class CntrlAppli
 
     private function creerImageSource($chemin, $type)
     {
-        //Traitement des différents types d'images
-        switch ($type) {
-                // Pour les images JPEG, utilise la fonction imagecreatefromjpeg
-            case IMAGETYPE_JPEG:
-                return imagecreatefromjpeg($chemin);
-                // Pour les images PNG, utilise la fonction imagecreatefrompng
-            case IMAGETYPE_PNG:
-                return imagecreatefrompng($chemin);
-                // Pour les images GIF, utilise la fonction imagecreatefromgif
-            case IMAGETYPE_GIF:
-                return imagecreatefromgif($chemin);
-                // Si le type de l'image n'est pas pris en charge, retourne false
-            default:
-                return false;
+        // Traitement uniquement pour les images PNG
+        if ($type == IMAGETYPE_PNG) {
+            return imagecreatefrompng($chemin);
+        } else {
+            return false;
         }
     }
 
@@ -425,10 +415,10 @@ class CntrlAppli
         $mdp      = htmlspecialchars($_POST['mdp'], ENT_QUOTES, 'UTF-8');
         $mdpHasher      = hash('sha512', $mdp);
         $role     = htmlspecialchars($_POST['role'], ENT_QUOTES, 'UTF-8');
-        
+
         $dao = new DaoAppli();
         $user = $dao->recuperationUser($nom);
-        
+
         if (empty($nom) || empty($mail) || empty($mdp) || empty($role)) {
             $errorMessage = Messages::INP_ERR_CHAMP_VIDE;
             Messages::addMessage($errorMessage);
@@ -436,30 +426,30 @@ class CntrlAppli
             exit();
         }
 
-        if($user && $user->getNom() == $nom ){
+        if ($user && $user->getNom() == $nom) {
             $errorMessage = "Nom existe déja, veuillez en choisir un autre";
             Messages::addMessage($errorMessage);
             header("Location: /gestion-user");
             exit();
         }
 
-        if($user && $user->getMail() == $mail){
+        if ($user && $user->getMail() == $mail) {
             $errorMessage = "L'email existe déja, veuillez en choisir un autre";
             Messages::addMessage($errorMessage);
             header("Location: /gestion-user");
             exit();
         }
-        
-         // Validation du mot de passe
-    $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%]).{8,20}$/';
-    if (!preg_match($pattern, $mdp)) {
-        $errorMessage = "Le mot de passe doit contenir au moins un chiffre, une lettre majuscule, une lettre minuscule et un caractère spécial, et doit être de 8 à 20 caractères de long.";
-        Messages::addMessage($errorMessage);
-        header('Location: /gestion-user');
-        exit();
-    }
-        
-        
+
+        // Validation du mot de passe
+        $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%]).{8,20}$/';
+        if (!preg_match($pattern, $mdp)) {
+            $errorMessage = "Le mot de passe doit contenir au moins un chiffre, une lettre majuscule, une lettre minuscule et un caractère spécial, et doit être de 8 à 20 caractères de long.";
+            Messages::addMessage($errorMessage);
+            header('Location: /gestion-user');
+            exit();
+        }
+
+
         $ajoutUtilisateur = $dao->ajoutUtilisateur($nom, $mail, $mdpHasher, $role);
 
         header('Location: /gestion-user');

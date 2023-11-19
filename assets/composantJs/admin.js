@@ -6,24 +6,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const imageSelectionnee = document.getElementById("image-selectionnee");
     
     if (labelAjouterImage && boutonAjouterImage && inputAjouterImage && imageSelectionnee) {
-        // Lorsque le bouton est cliqué, déclenchez le champ de fichier
+        // Lorsque le bouton est cliqué, déclenche le champ de fichier
         boutonAjouterImage.addEventListener("click", function () {
             inputAjouterImage.click();
         });
         
-        // Lorsque l'utilisateur a sélectionné un fichier, lisez-le et affichez-le
+        // Lorsque l'utilisateur a sélectionné un fichier, lis et affiche le fichier
         inputAjouterImage.addEventListener("change", function () {
             const files = inputAjouterImage.files;
             if (files.length > 0) {
-                // Lisez le fichier en tant qu'objet Blob
+                // Lis le fichier en tant qu'objet Blob
                 const blob = URL.createObjectURL(files[0]);
                 
-                // Mettez à jour l'élément img avec l'URL de l'image
+                // Met à jour l'élément img avec l'URL de l'image
                 imageSelectionnee.src = blob;
-                imageSelectionnee.style.display = "flex"; // Affichez l'image
+                imageSelectionnee.style.display = "flex"; 
                 imageSelectionnee.style.margin= "0 auto";
             } else {
-                // Cachez l'image si aucun fichier n'est sélectionné
+                // Cache l'image si aucun fichier n'est sélectionné
                 imageSelectionnee.src = "";
                 imageSelectionnee.style.display = "none";
             }

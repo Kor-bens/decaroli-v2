@@ -4,7 +4,7 @@ class Messages {
     
 private static $sessionKey = "flash_message";
 
- // TODO Ajouter un message au tableau dans la session
+
  public static function addMessage($message) {
     if (!isset($_SESSION[self::$sessionKey])) {
         $_SESSION[self::$sessionKey] = [];
@@ -12,17 +12,14 @@ private static $sessionKey = "flash_message";
     $_SESSION[self::$sessionKey][] = $message;
 }
 
-// Récupérer tous les messages et les effacer de la session après les avoir récupérés
+// Récupére tous les messages et les effacer de la session après les avoir récupérés
 public static function getMessages() {
     $messages = $_SESSION[self::$sessionKey] ?? [];
     unset($_SESSION[self::$sessionKey]); // Efface les messages après les avoir récupérés
     return $messages;
 }
 
-// Effacer tous les messages de la session
-public static function clearMessages() {
-    unset($_SESSION[self::$sessionKey]);
-}
+
 
 // Constantes pour les messages
     public const INP_ERR_CHAMP_VIDE = "Veuillez remplir tous les champs";

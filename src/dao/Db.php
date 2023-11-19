@@ -5,7 +5,7 @@ use \PDO;
 class Db
 {
     // Déclaration d'une propriété privée pour l'objet PDO
-    private PDO $db; 
+    protected PDO $db; 
 
     public function __construct()
     {
