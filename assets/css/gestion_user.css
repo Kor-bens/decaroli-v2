@@ -59,6 +59,9 @@ label{
     font-size: 19px;
 }
 #form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         border-right: 2px solid #84A5D7; 
         z-index: 2;
         padding: 1%;
@@ -78,7 +81,6 @@ label{
     align-items: center;
     flex-direction: column;
 }
-
 input{
     border-radius: 5px;
     margin-top: 2.5%;
@@ -170,4 +172,13 @@ th {
     padding: 5px;
     margin-right: 5px;
     margin-left: 5px;
+}
+
+.message-alert{
+    display: flex;
+    color: red;
+    font-family: 'montserrat';
+    font-size: 19px;;
+    padding: 10%;
+    
 }

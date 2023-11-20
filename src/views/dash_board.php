@@ -45,7 +45,7 @@ if ($_SESSION['roleUtilisateur'] !== 2) {
                 <label id="titre-color" for="titre_color">Couleur du titre :</label>
                 <input id="input-titre-color" type="text" name="titre_color" value="<?= $page->getTitreColor() ?>">
                 <label id="titre_font_family" for="titre_font_family">Police du titre :</label>
-                <input id="input-titre-font-family" type="text" name="titre_font_family" value="<?= $page->getTitreFontFamily() ?>">
+                <input id="input-titre-font-family" type="text" name="titre_font_family" required value="<?= $page->getTitreFontFamily() ?>">
                 <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version ordinateur :</label>
                 <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $page->getTitreFontSizeGrandEcran() ?>">
                 <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version tablette :</label>

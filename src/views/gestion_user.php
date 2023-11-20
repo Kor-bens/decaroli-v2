@@ -31,8 +31,8 @@ if ($_SESSION['roleUtilisateur'] !== 1) {
                 <h3>Ajouter un utilisateur</h3>
                 <label id="label-nom" for="nom">Nom :</label>
                 <input id="input-nom" type="text" name="nom" placeholder="Nom du nouvelle utilisateur">
-                <label id="label-mail" for="mail">Mail :</label>
-                <input id="input-mail" type="mail" name="mail" placeholder="Entrez le mail du nouvelle utilisateur">
+                <label id="label-mail" for="email">Mail :</label>
+                <input id="input-mail" type="email" name="mail" placeholder="Entrez le mail du nouvelle utilisateur">
                 <label id="label-mdp" for="mdp">Mot de passe :</label>
                 <input id="input-mdp" type="text" name="mdp" placeholder="*********">
                 <select name="role">

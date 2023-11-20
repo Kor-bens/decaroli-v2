@@ -4,7 +4,7 @@ use DECAROLI\controllers\CntrlAppli;
 session_start();
 
 require_once 'vendor/autoload.php';
-ini_set('display_errors', "On");
+ini_set('display_errors', "Off");
 ini_set('log_errors', "On");
 error_reporting(E_ALL);
 ob_start();

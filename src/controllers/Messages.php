@@ -12,7 +12,7 @@ private static $sessionKey = "flash_message";
     $_SESSION[self::$sessionKey][] = $message;
 }
 
-// Récupére tous les messages et les effacer de la session après les avoir récupérés
+// Récupére tous les messages et les efface de la session après les avoir récupérés
 public static function getMessages() {
     $messages = $_SESSION[self::$sessionKey] ?? [];
     unset($_SESSION[self::$sessionKey]); // Efface les messages après les avoir récupérés

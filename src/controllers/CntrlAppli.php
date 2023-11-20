@@ -104,19 +104,29 @@ class CntrlAppli
         
             // Récupération des données de l'utilisateur par identifiant
             $dao = new DaoAppli();
-            $utilisateurPagePromotion = $dao->recuperationUser($identifiant);
+            $utilisateurPage = $dao->recuperationUser($identifiant);
         
             // Vérifie si l'utilisateur existe
-            if (!$utilisateurPagePromotion) {
+            if (!$utilisateurPage) {
                 $errorMessage = "Identifiant incorrect";
                 Messages::addMessage($errorMessage);
                 header("Location: /login");
                 exit();
             }
-            $utilisateurPagePromotionId = $utilisateurPagePromotion->getIdUtilisateur();
-            $roleId = $utilisateurPagePromotion->getRole()->getIdRole();
+            //récupération de l'id de l'utilisateur et de son role
+            $utilisateurPageId = $utilisateurPage->getIdUtilisateur();
+            $roleId = $utilisateurPage->getRole()->getIdRole();
+            
+            //format pour le mot de passe
+            $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%?!.]).{8,20}$/';
+            if (!preg_match($pattern, $mdp)) {
+                $errorMessage = "Le mot de passe doit respecter le format requis";
+                Messages::addMessage($errorMessage);
+                header("Location: /login");
+                exit();
+            }
             // Vérification si le mot de passe correspond
-            if ($utilisateurPagePromotion->getMdp() !== $mdpHash) {
+            if ($utilisateurPage->getMdp() !== $mdpHash) {
                 $errorMessage = "identifiant incorrect";
                 Messages::addMessage($errorMessage);
                 header("Location: /login");
@@ -124,14 +134,14 @@ class CntrlAppli
             }
             // Si l'utilisateur a le rôle 1, initialisation de la session et redirection vers la page de gestion des utilisateurs
             if ($roleId == 1) {
-                $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
+                $_SESSION['utilisateur'] = $utilisateurPageId;
                 $_SESSION['roleUtilisateur'] = $roleId;
                 header('Location: /gestion-user');
                 exit();
             } 
             // Si l'utilisateur a le rôle 2, initialisation de la session et redirection vers le tableau de bord
             elseif ($roleId == 2) {
-                $_SESSION['utilisateur'] = $utilisateurPagePromotionId;
+                $_SESSION['utilisateur'] = $utilisateurPageId;
                 $_SESSION['roleUtilisateur'] = $roleId;
                 header('Location: /dash-board');
                 exit();
@@ -413,7 +423,7 @@ class CntrlAppli
         $nom      = htmlspecialchars($_POST['nom'], ENT_QUOTES, 'UTF-8');
         $mail     = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
         $mdp      = htmlspecialchars($_POST['mdp'], ENT_QUOTES, 'UTF-8');
-        $mdpHasher      = hash('sha512', $mdp);
+        $mdpHasher= hash('sha512', $mdp);
         $role     = htmlspecialchars($_POST['role'], ENT_QUOTES, 'UTF-8');
 
         $dao = new DaoAppli();
@@ -441,18 +451,24 @@ class CntrlAppli
         }
 
         // Validation du mot de passe
-        $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%]).{8,20}$/';
-        if (!preg_match($pattern, $mdp)) {
-            $errorMessage = "Le mot de passe doit contenir au moins un chiffre, une lettre majuscule, une lettre minuscule et un caractère spécial, et doit être de 8 à 20 caractères de long.";
+        $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%?!.]).{8,20}$/';
+        if (preg_match($pattern, $mdp)) {
+        $ajoutUtilisateur = $dao->ajoutUtilisateur($nom, $mail, $mdpHasher, $role); 
+         $message = "Utilisateur créer";
+         Messages::addMessage($message);
+            header('Location: /gestion-user');
+            exit();
+        }else{
+            $errorMessage = "Le mot de passe doit contenir au moins un chiffre, une lettre majuscule,
+             une lettre minuscule et un caractère spécial, et doit être de 8 à 20 caractères de long.";
             Messages::addMessage($errorMessage);
             header('Location: /gestion-user');
             exit();
         }
 
+        
 
-        $ajoutUtilisateur = $dao->ajoutUtilisateur($nom, $mail, $mdpHasher, $role);
-
-        header('Location: /gestion-user');
+        // header('Location: /gestion-user');
     }
 
     public function supprimerUser()
