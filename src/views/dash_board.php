@@ -41,17 +41,17 @@ if ($_SESSION['roleUtilisateur'] !== 2) {
         <form id="form" action="/traitement-formulaire" method="POST" enctype="multipart/form-data">
             <div id="container-titre">
                 <label id="label-titre" for="titre">Titre :</label>
-                <input id="input-titre" type="text" name="titre" value="<?= $page->getTitre() ?>">
+                <input id="input-titre" type="text" name="titre" required value="<?= $page->getTitre() ?>">
                 <label id="titre-color" for="titre_color">Couleur du titre :</label>
-                <input id="input-titre-color" type="text" name="titre_color" value="<?= $page->getTitreColor() ?>">
+                <input id="input-titre-color" type="text" name="titre_color" required value="<?= $page->getTitreColor() ?>">
                 <label id="titre_font_family" for="titre_font_family">Police du titre :</label>
                 <input id="input-titre-font-family" type="text" name="titre_font_family" required value="<?= $page->getTitreFontFamily() ?>">
                 <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version ordinateur :</label>
-                <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" value="<?= $page->getTitreFontSizeGrandEcran() ?>">
+                <input id="input-titre-font-size_grand_ecran" type="text" name="titre_font_size_grand_ecran" required value="<?= $page->getTitreFontSizeGrandEcran() ?>">
                 <label id="titre_font_size_grand_ecran" for="titre_font_size_grand_ecran">Taille du titre pour version tablette :</label>
-                <input id="input-titre_font_size_moyen_ecran" type="text" name="titre_font_size_moyen_ecran" value="<?= $page->getTitreFontSizeMoyenEcran() ?>">
+                <input id="input-titre_font_size_moyen_ecran" type="text" name="titre_font_size_moyen_ecran" required value="<?= $page->getTitreFontSizeMoyenEcran() ?>">
                 <label id="titre_font_size_petit_ecran" for="titre_font_size_petit_ecran">Taille du titre pour version mobile :</label>
-                <input id="input-titre_font_size_petit_ecran" type="text" name="titre_font_size_petit_ecran" value="<?= $page->getTitreFontSizePetitEcran() ?>">
+                <input id="input-titre_font_size_petit_ecran" type="text" name="titre_font_size_petit_ecran" required value="<?= $page->getTitreFontSizePetitEcran() ?>">
             </div>
 
             <div id="container-image">

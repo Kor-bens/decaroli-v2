@@ -128,7 +128,6 @@ class DaoAppli extends Db
         }
         $images = [];
         while ($resultat_image = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // var_dump($resultat_image);
             $image = new Image(
                 $resultat_image['id_image'],
                 $resultat_image['nom_image'],

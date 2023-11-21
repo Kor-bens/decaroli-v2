@@ -11,7 +11,7 @@ error_reporting(E_ALL);
 class CntrlAppli
 {
     public function afficherPagePromo()
-    {
+    {   //methode qui contient les données de la page
         $detailPage = $this->getDetailPage();
         $page =   $detailPage['page'];
         $images = $detailPage['images'];
@@ -24,7 +24,6 @@ class CntrlAppli
     }
     public function afficherPageDashBoard()
     {
-
         $dao = new DaoAppli();
         $detailPage = $this->getDetailPage();
         $page       = $detailPage['page'];
@@ -161,9 +160,10 @@ class CntrlAppli
     }
 
     public function getDetailPage()
-    {
+    {   //appel de la methode pour récuperer détails page
         $dao = new DaoAppli();
         $detailPage = $dao->getDetailPageEtImages();
+        //retourne les données
         return $detailPage;
     }
 
